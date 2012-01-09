@@ -9,14 +9,7 @@ var latte = {
     write: function() {
         var out = _latte.the_term;
 
-        var n = arguments.length;
-        var i = 0;
-
-        for (; i < n - 1; i++) {
-            out.value += String(arguments[i]);
-            out.value += " ";
-        }
-        for (; i < n; i++) {
+        for (var i = 0; i < arguments.length; i++) {
             out.value += String(arguments[i]);
         }
     },
@@ -47,7 +40,7 @@ function on_test_button_clicked(widget) {
     x += 1;
     latte.clear_output();
     latte.write(">>> ");
-    latte.print("iteration", "number", x);
+    latte.print("iteration ", "number ", x);
     latte.write("You said \"");
     latte.write(_latte.the_code.value);
     latte.print("\"");
