@@ -35,7 +35,7 @@ h1,
 h1 *,
 h2 {
     text-align: center;
-    font-size: 34pt;
+    font-size: 30pt;
     color: #888;
 
     padding-top:     0px;
@@ -60,7 +60,7 @@ h2 {
     color:            #eee;
     background:       #181818;
 
-    border: 0px solid rgba(255, 255, 255, 0.05);
+    border: 0px solid #222;
     border-left-width:  6px;
     border-right-width: 6px;
 
@@ -76,9 +76,19 @@ h2 {
     -webkit-box-sizing: border-box;
     -moz-box-sizing:    border-box;
 
-    border-radius: 9px;
-
     box-shadow: 0px 0px 8px 1px rgba(255, 255, 255, 0.05);
+}
+
+#the_code:hover,
+#the_input:hover,
+#the_term:hover {
+    border-color: #282828;
+}
+
+#the_code:focus,
+#the_input:focus,
+#the_term:focus {
+    outline: 0px solid transparent;
 }
 
 .button {
@@ -91,7 +101,7 @@ h2 {
     border-width: 0px;
     border-style: solid;
     background:   #888;
-    border-color: rgba(0, 0, 0, 0.30);
+    border-color: #666;
     border-bottom-width: 4px;
 
     font-size: 11pt;
@@ -108,15 +118,14 @@ h2 {
 
     color: #222;
 
-    border-radius: 9px;
-
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
 
     box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
 }
 
 .button:hover {
-    border-bottom-color: rgba(0, 0, 0, 0.40);
+    background:   #999;
+    border-color: #666;
 }
 
 #the_code,
@@ -163,8 +172,6 @@ h2 {
     box-sizing:         border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing:    border-box;
-
-    border-radius: 9px;
 
     box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
 }
