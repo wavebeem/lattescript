@@ -64,7 +64,7 @@
      id="layer1"
      transform="translate(0,-1020.3622)">
     <rect
-       style="color:#000000;fill:#f5f1e1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect10908"
        width="32"
        height="32"
@@ -74,7 +74,7 @@
        ry="0" />
     <path
        sodipodi:type="arc"
-       style="opacity:0.03;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="opacity:0.05;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="path10937"
        sodipodi:cx="9.5"
        sodipodi:cy="11.5"
@@ -90,7 +90,7 @@
        sodipodi:cy="11.5"
        sodipodi:cx="9.5"
        id="path10941"
-       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;opacity:0.03"
+       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;opacity:0.05"
        sodipodi:type="arc" />
   </g>
 </svg>

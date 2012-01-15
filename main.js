@@ -54,3 +54,8 @@ function on_run_button_clicked(widget) {
     latte.clear_output();
     eval(_latte.the_code.value);
 }
+
+function on_input_submitted(widget) {
+    latte.print("You submitted my input!");
+    alert("You submitted my input!");
+}
