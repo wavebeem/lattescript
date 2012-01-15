@@ -16,11 +16,8 @@ body {
 
 body {
     color:      #000;
-    background: url(bg/box.gif);
-    background: url(bg/pkmn-1.png);
-    background: url(bg/animals.jpg);
-    background: #eee;
-    background: url(bg/bg.png);
+    background: #333;
+    background: url(bg.png);
 
     font-family: sans-serif;
     font-size: 10.5pt;
