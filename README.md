@@ -1,1 +1,1 @@
-# Please go to [http://lattescript.github.com](http://lattescript.github.com) to use the LatteScript Café.
+# Please go to [http://saikobee.github.com/lattescript](http://saikobee.github.com/lattescript) to use the LatteScript Café.
