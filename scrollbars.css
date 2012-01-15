@@ -1,38 +1,4 @@
-body::-webkit-scrollbar-track {
-    background:   #111 !important;
-    border-width: 0px !important;
-}
-
-body::-webkit-scrollbar-track:vertical {
-    border-left-width: 1px !important;
-}
-
-body::-webkit-scrollbar-track:horizontal {
-    border-top-width: 1px !important;
-}
-
-body::-webkit-scrollbar-thumb {
-    background:    rgba(255, 255, 255, 0.30) !important;
-    border-color:  #111 !important;
-    border-width:  0px !important;
-    border-radius: 0px !important;
-}
-
-body::-webkit-scrollbar-thumb:vertical {
-    border-width:       1px !important;
-    border-right-width: 0px !important;
-}
-
-body::-webkit-scrollbar-thumb:horizontal {
-    border-width:        1px !important;
-    border-bottom-width: 0px !important;
-}
-
-body::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.40) !important;
-}
-
-::-webkit-scrollbar {
+body *::-webkit-scrollbar {
     width:  10px;
     height: 10px;
 
@@ -51,19 +17,19 @@ body::-webkit-scrollbar-thumb:hover {
 }
 */
 
-::-webkit-scrollbar-corner,
-::-webkit-scrollbar-track {
+body *::-webkit-scrollbar-corner,
+body *::-webkit-scrollbar-track {
     margin:       0px;
     padding:      0px;
     border-width: 0px;
 }
 
 
-::-webkit-scrollbar-corner {
+body *::-webkit-scrollbar-corner {
     background: transparent;
 }
 
-::-webkit-scrollbar-thumb {
+body *::-webkit-scrollbar-thumb {
     border-width: 2px;
 
     border-radius: 4px;
@@ -74,25 +40,17 @@ body::-webkit-scrollbar-thumb:hover {
     background:   rgba(255, 255, 255, 0.30);
 }
 
-body::-webkit-scrollbar-thumb {
-}
-
-::-webkit-scrollbar-thumb:hover {
+body *::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.40);
 }
 
-body::-webkit-scrollbar-track:vertical,
-body::-webkit-scrollbar-track:horizontal {
-    border-color: #888;
-}
-
-::-webkit-scrollbar-track:horizontal,
-::-webkit-scrollbar-track:vertical {
+body *::-webkit-scrollbar-track:horizontal,
+body *::-webkit-scrollbar-track:vertical {
     background: transparent;
 }
 
-::-webkit-scrollbar-thumb:vertical {
+body *::-webkit-scrollbar-thumb:vertical {
 }
 
-::-webkit-scrollbar-thumb:horizontal {
+body *::-webkit-scrollbar-thumb:horizontal {
 }
