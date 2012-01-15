@@ -9,42 +9,26 @@
 
 <body>
 
-<div id="the_overlay">
-    <div id="the_bar">
-        <span>Navbar</span>
-        <span>|</span>
-        <span>LatteScript v1.0</span>
-    </div>
-
-    <div id="the_page">
-    <p>
-    There is some text here to be read.
-    There is some text here to be read.
-    There is some text here to be read.
-    There is some text here to be read.
-    There is some text here to be read.
-    There is some text here to be read.
-    There is some text here to be read.
-    There is some text here to be read.
-    There is some text here to be read.
-    There is some text here to be read.
-    </p>
-
-    <h2>Code</h2>
-    <textarea id="the_code"></textarea>
-
-    <button class="button" onclick="on_run_button_clicked(this);">Run</button>
-    <button class="button" onclick="on_test_button_clicked(this);">Test</button>
-    <button class="button" onclick="on_save_button_clicked(this);">Save</button>
-
-    <h2>Output</h2>
-    <textarea id="the_term" readonly="readonly"></textarea>
-
-    <h2>Input</h2>
-    <input type="text" id="the_input">
-
-    </div>
+<div id="the_navbar">
+    <a href="." class="button">Home</a>
+    <a href="." class="button">Code</a>
+    <a href="." class="button">Help</a>
 </div>
+
+<h2>Code</h2>
+<textarea id="the_code"></textarea>
+
+<button class="button" onclick="on_run_button_clicked(this);">Run</button>
+<button class="button" onclick="on_test_button_clicked(this);">Test</button>
+<button class="button" onclick="on_save_button_clicked(this);">Save</button>
+
+<h2>Output</h2>
+<textarea id="the_term" readonly="readonly"></textarea>
+
+<h2>Input</h2>
+<input type="text" id="the_input">
+<button class="button" onclick="on_run_button_clicked(this);">Submit</button>
+
 </body>
 <script type="text/javascript" src="main.js"></script>
 </html>

@@ -12,61 +12,26 @@ p {
 
 html,
 body {
-    height: 100%;
 }
 
 body {
     color:      #000;
-    background: #d3caa9;
     background: url(bg/box.gif);
     background: url(bg/pkmn-1.png);
     background: url(bg/animals.jpg);
-
-    margin:       0px;
-    padding:      0px;
+    background: #eee;
+    background: url(bg/bg.png);
 
     font-family: sans-serif;
     font-size: 10.5pt;
-}
 
-#the_overlay {
-    padding: 0px;
 
-    background: rgba(255, 255, 255, 0.90);
-
-    min-height: 100%;
-}
-
-#the_page {
+    margin:   0px;
     padding: 20px;
-
-    text-shadow: 1px 1px 1px white;
 }
 
-#the_bar {
-    width: 100%;
-
-    padding: 0px;
-    padding-top:    10px;
-    padding-bottom: 10px;
-
-    margin: 0px;
-
-    color: #fff;
-
-    font-weight: bold;
-
-
-    border-width: 0px;
-    border-style: solid;
-    background:   rgba(  0,   0,   0, 0.75);
-    border-color: rgba(  0,   0,   0, 0.75);
-    border-bottom-width: 1px;
-}
-
-#the_bar * {
-    padding-left:  10px;
-    padding-right: 10px;
+#the_navbar {
+    text-align: center;
 }
 
 h1 {
@@ -86,41 +51,54 @@ h2 {
     margin-top: 20px;
 }
 
-.button,
 #the_code,
 #the_input,
 #the_term {
-    color:            #000;
-    background:       rgba(255, 255, 255, 1.00);
-    border: 1px solid rgba(  0,   0,   0, 0.25);
+    color:            #333;
+    background:       #d1cec0;
+    border:      0px solid rgba(0, 0, 0, 0.25);
+    border-left: 6px solid rgba(0, 0, 0, 0.25);
 
     font-family: "Mono", monospace;
     font-size: 10pt;
 
-    padding: 1px;
+    padding: 9px;
 
     margin: 0px !important;
     margin-top: 10px !important;
 
     box-sizing: border-box;
+
+    border-radius: 9px;
 }
 
 .button {
-    color: #fff;
-
-    background:   rgba(  0,   0,   0, 0.60);
-    border-color: rgba(  0,   0,   0, 0.25);
-
     font-weight: bold;
     padding-left:  20px;
     padding-right: 20px;
     padding-top:    4px;
     padding-bottom: 4px;
+
+    border-width: 0px;
+    border-style: solid;
+    background:   #b7b4a8;
+    border-color: rgba(0, 0, 0, 0.15);
+    border-bottom-width: 4px;
+
+    margin: 2px !important;
+    margin-top: 10px !important;
+
+    box-sizing: border-box;
+
+    text-decoration: none;
+
+    color: #333;
+
+    border-radius: 9px;
 }
 
 .button:hover {
-    background:   rgba(  0,   0,   0, 0.70);
-    border-color: rgba(  0,   0,   0, 0.25);
+    border-bottom-color: rgba(0, 0, 0, 0.60);
 }
 
 #the_code,

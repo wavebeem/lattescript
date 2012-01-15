@@ -1,7 +1,6 @@
 body::-webkit-scrollbar-track {
-    background:   white !important;
-    border-color: black !important;
-    border-style: solid !important;
+    background:   #eee !important;
+    border-width: 0px !important;
 }
 
 body::-webkit-scrollbar-track:vertical {
@@ -14,18 +13,18 @@ body::-webkit-scrollbar-track:horizontal {
 
 body::-webkit-scrollbar-thumb {
     background:    rgba(0, 0, 0, 0.30) !important;
-    border-color:  rgba(0, 0, 0, 0.30) !important;
+    border-color:  rgba(0, 0, 0, 0.15) !important;
     border-width:  0px !important;
 }
 
 body::-webkit-scrollbar-thumb:vertical {
-    border-top-width:    1px !important;
-    border-bottom-width: 1px !important;
+    border-width:       1px !important;
+    border-right-width: 0px !important;
 }
 
 body::-webkit-scrollbar-thumb:horizontal {
-    border-left-width:  1px !important;
-    border-right-width: 1px !important;
+    border-width:        1px !important;
+    border-bottom-width: 0px !important;
 }
 
 body::-webkit-scrollbar-thumb:hover {
