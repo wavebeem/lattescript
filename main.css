@@ -161,12 +161,14 @@ h2 {
     border-left-width:  6px;
     border-right-width: 6px;
 
+    max-width: 1024px;
+
     font-size: 12pt;
 
     padding:     9px;
     padding-top: 1px;
 
-    margin: 0px;
+    margin: auto;
     margin-top: 40px;
 
     box-sizing:         border-box;
