@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>LatteScript Café | Code</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+<link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="scrollbars.css">
+</head>
+
+<body>
+
+<h1><a href="index.html">LatteScript Café</a></h1>
+<div id="the_navbar">
+    <a href="index.html" class="button">Home</a>
+    <a href="code.html"  class="button">Code</a>
+    <a href="help.html"  class="button">Help</a>
+</div>
+
+<h2>Code</h2>
+<textarea id="the_code"></textarea>
+
+<button class="button" onclick="on_run_button_clicked(this);">Run</button>
+<button class="button" onclick="on_test_button_clicked(this);">Test</button>
+<button class="button" onclick="on_save_button_clicked(this);">Save</button>
+
+<h2>Output</h2>
+<textarea id="the_term" readonly="readonly"></textarea>
+
+<h2>Input</h2>
+<input type="text" id="the_input">
+<button class="button" onclick="on_run_button_clicked(this);">Submit</button>
+
+</body>
+<script type="text/javascript" src="main.js"></script>
+</html>
