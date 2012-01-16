@@ -17,19 +17,34 @@
     <a href="help.html"  class="button">Help</a>
 </div>
 
-<h2>Code</h2>
-<textarea id="the_code" spellcheck="false"></textarea>
+<div id="the_workspace">
 
-<button class="button" onclick="on_run_button_clicked(this);">Run</button>
-<button class="button" onclick="on_test_button_clicked(this);">Test</button>
-<button class="button" onclick="on_save_button_clicked(this);">Save</button>
+    <h2 class="label">Code</h2>
+    <textarea id="the_code" spellcheck="false"></textarea>
 
-<h2>Output</h2>
-<textarea id="the_term" readonly="readonly" spellcheck="false"></textarea>
+    <div class="toolbar">
+        <button class="button" onclick="on_run_button_clicked(this);">Run</button>
+        <button class="button" onclick="on_test_button_clicked(this);">Test</button>
+        <button class="button" onclick="on_save_button_clicked(this);">Save</button>
+    </div>
 
-<h2>Input</h2>
-<input type="text" id="the_input" spellcheck="false">
-<button class="button" onclick="on_run_button_clicked(this);">Submit</button>
+    <h2 class="label">Output</h2>
+    <textarea id="the_term" readonly="readonly" spellcheck="false"></textarea>
+    <div class="toolbar">
+        <button class="button" onclick="on_clear_button_clicked(this);">Clear</button>
+    </div>
+
+    <h2 class="label">Input</h2>
+    <input type="text" id="the_input" spellcheck="false">
+    <div class="toolbar">
+        <button id="the_submit" class="button" onclick="on_run_button_clicked(this);">Submit</button>
+    </div>
+
+</div>
+
+<div id="the_footer">
+Copyright &copy; Brian Mock 2011&ndash;2012
+</div>
 
 </body>
 <script type="text/javascript" src="main.js"></script>

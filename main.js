@@ -59,3 +59,7 @@ function on_input_submitted(widget) {
     latte.print("You submitted my input!");
     alert("You submitted my input!");
 }
+
+function on_clear_button_clicked(widget) {
+    latte.clear_output();
+}
