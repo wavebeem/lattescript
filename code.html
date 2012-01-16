@@ -42,8 +42,26 @@
 
 </div>
 
-<div id="the_footer">
-Copyright &copy; Brian Mock 2011&ndash;2012
+<div class="footer">
+    <table id="the_options" class="invisible">
+    <tr>
+        <th>Code size:</th>
+        <td><span class="option" onclick="set_code_size('s');">Small</a></td>
+        <td><span class="option" onclick="set_code_size('m');">Medium</a></td>
+        <td><span class="option" onclick="set_code_size('l');">Large</a></td>
+        <td><span class="option" onclick="set_code_size('xl');">Huge</a></td>
+    </tr>
+
+    <tr>
+        <th>Output size:</th>
+        <td><span class="option" onclick="set_term_size('s');">Small</a></td>
+        <td><span class="option" onclick="set_term_size('m');">Medium</a></td>
+        <td><span class="option" onclick="set_term_size('l');">Large</a></td>
+        <td><span class="option" onclick="set_term_size('xl');">Huge</a></td>
+    </tr>
+    </table>
+
+    <div id="the_copyright">Copyright &copy; Brian Mock 2011&ndash;2012</div>
 </div>
 
 </body>

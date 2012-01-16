@@ -63,3 +63,25 @@ function on_input_submitted(widget) {
 function on_clear_button_clicked(widget) {
     latte.clear_output();
 }
+
+function set_code_size(size) {
+    var mapping = {
+        s:  "10em",
+        m:  "15em",
+        l:  "24em",
+        xl: "30em"
+    }
+
+    the_code.style.height = mapping[size];
+}
+
+function set_term_size(size) {
+    var mapping = {
+        s:  "10em",
+        m:  "15em",
+        l:  "24em",
+        xl: "30em"
+    }
+
+    the_term.style.height = mapping[size];
+}
