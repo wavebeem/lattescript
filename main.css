@@ -243,3 +243,7 @@ table.invisible th {
     color: #fff;
     cursor: pointer;
 }
+
+#the_copyright {
+    margin-top: 20px;
+}
