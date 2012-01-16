@@ -3,6 +3,7 @@ var _latte = {
     the_code: document.getElementById("the_code"),
     DEBUG: true,
     DEBUG_PREFIX: "DEBUG: ",
+    autoscroll: null
 };
 
 var latte = {
@@ -12,6 +13,12 @@ var latte = {
         for (var i = 0; i < arguments.length; i++) {
             out.value += String(arguments[i]);
         }
+
+        function scrollDown() {
+            out.scrollTop = out.scrollHeight;
+        }
+        clearTimeout(_latte.autoscroll);
+        _latte.autoscroll = setTimeout(scrollDown, 100);
     },
 
     print: function() {

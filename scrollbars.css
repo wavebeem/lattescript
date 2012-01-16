@@ -27,7 +27,7 @@ body *::-webkit-scrollbar-thumb {
 }
 
 body *::-webkit-scrollbar-thumb:hover {
-    background: #4a4a4a;
+    background: #666666;
 }
 
 body *::-webkit-scrollbar-track:horizontal,
