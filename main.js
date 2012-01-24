@@ -3,7 +3,13 @@ var _latte = {
     the_code: document.getElementById("the_code"),
     DEBUG: true,
     DEBUG_PREFIX: "DEBUG: ",
-    autoscroll: null
+    autoscroll: null,
+    size_mapping: {
+        s:  "10em",
+        m:  "15em",
+        l:  "24em",
+        xl: "30em"
+    }
 };
 
 var latte = {
@@ -72,23 +78,9 @@ function on_clear_button_clicked(widget) {
 }
 
 function set_code_size(size) {
-    var mapping = {
-        s:  "10em",
-        m:  "15em",
-        l:  "24em",
-        xl: "30em"
-    }
-
-    _latte.the_code.style.height = mapping[size];
+    _latte.the_code.style.height = _latte.size_mapping[size];
 }
 
 function set_term_size(size) {
-    var mapping = {
-        s:  "10em",
-        m:  "15em",
-        l:  "24em",
-        xl: "30em"
-    }
-
-    _latte.the_term.style.height = mapping[size];
+    _latte.the_term.style.height = _latte.size_mapping[size];
 }
