@@ -79,7 +79,7 @@ function set_code_size(size) {
         xl: "30em"
     }
 
-    the_code.style.height = mapping[size];
+    _latte.the_code.style.height = mapping[size];
 }
 
 function set_term_size(size) {
@@ -90,5 +90,5 @@ function set_term_size(size) {
         xl: "30em"
     }
 
-    the_term.style.height = mapping[size];
+    _latte.the_term.style.height = mapping[size];
 }
