@@ -2,23 +2,29 @@
 var il = (function(){
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"program":3,"statement":4,"EOF":5,"indent":6,"twice":7,"hello":8,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",6:"indent",7:"twice",8:"hello"},
-productions_: [0,[3,2],[4,2],[4,2],[4,1]],
+symbols_: {"error":2,"program":3,"block":4,"EOF":5,"NEWLINE":6,"statement":7,"twice":8,"SPACE+":9,"hello":10,"newline":11,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",6:"NEWLINE",8:"twice",9:"SPACE+",10:"hello",11:"newline"},
+productions_: [0,[3,2],[4,3],[4,1],[7,3],[7,1],[7,1]],
 performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
 
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1: return $$[$0-1]; 
 break;
-case 3: this.$ = {type: "twice", body: $$[$0]}; 
+case 2: this.$.statements.push($$[$0]); 
 break;
-case 4: this.$ = {type: "hello"}; 
+case 3: this.$ = {type: "block", statements: [$$[$0]]}; 
+break;
+case 4: this.$ = {type: "twice", body: $$[$0]}; 
+break;
+case 5: this.$ = {type: "hello"}; 
+break;
+case 6: this.$ = {type: "newline"}; 
 break;
 }
 },
-table: [{3:1,4:2,6:[1,3],7:[1,4],8:[1,5]},{1:[3]},{5:[1,6]},{4:7,6:[1,3],7:[1,4],8:[1,5]},{4:8,6:[1,3],7:[1,4],8:[1,5]},{5:[2,4]},{1:[2,1]},{5:[2,2]},{5:[2,3]}],
-defaultActions: {5:[2,4],6:[2,1],7:[2,2],8:[2,3]},
+table: [{3:1,4:2,7:3,8:[1,4],10:[1,5],11:[1,6]},{1:[3]},{5:[1,7],6:[1,8]},{5:[2,3],6:[2,3]},{9:[1,9]},{5:[2,5],6:[2,5]},{5:[2,6],6:[2,6]},{1:[2,1]},{7:10,8:[1,4],10:[1,5],11:[1,6]},{7:11,8:[1,4],10:[1,5],11:[1,6]},{5:[2,2],6:[2,2]},{5:[2,4],6:[2,4]}],
+defaultActions: {7:[2,1]},
 parseError: function parseError(str, hash) {
     throw new Error(str);
 },
@@ -337,22 +343,24 @@ lexer.performAction = function anonymous(yy,yy_,$avoiding_name_collisions,YY_STA
 
 var YYSTATE=YY_START
 switch($avoiding_name_collisions) {
-case 0:/* skip whitespace */
+case 0: return 6; 
 break;
-case 1:return 7
+case 1: return 9 
 break;
-case 2:return 6
+case 2: return 8 
 break;
-case 3:return 8
+case 3: return 10 
 break;
-case 4:return 5
+case 4: return 11 
 break;
-case 5:return 'INVALID'
+case 5: return 5 
+break;
+case 6: return 'INVALID' 
 break;
 }
 };
-lexer.rules = [/^\s+/,/^twice\b/,/^  /,/^hello\b/,/^$/,/^./];
-lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5],"inclusive":true}};
+lexer.rules = [/^\n\b/,/^\s+/,/^twice\b/,/^hello\b/,/^newline\b/,/^$/,/^./];
+lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5,6],"inclusive":true}};
 return lexer;})()
 parser.lexer = lexer;
 return parser;
