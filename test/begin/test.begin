@@ -1,0 +1,18 @@
+twice begin
+    count
+    count
+
+    skip
+
+    twice begin
+        twice begin
+            count
+        end
+    end
+end
+
+skip
+
+twice begin twice begin skip end end
+
+count
