@@ -1,21 +1,21 @@
 /* Jison generated parser */
-var il = (function(){
+var parser = (function(){
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"program":3,"block":4,"EOF":5,"NEWLINE":6,"statement":7,"TWICE":8,"COUNT":9,"SKIP":10,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",6:"NEWLINE",8:"TWICE",9:"COUNT",10:"SKIP"},
-productions_: [0,[3,2],[4,3],[4,1],[7,2],[7,1],[7,1]],
+symbols_: {"error":2,"program":3,"block":4,"EOF":5,"TWICE":6,"BEGIN":7,"END":8,"statement":9,"COUNT":10,"SKIP":11,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",6:"TWICE",7:"BEGIN",8:"END",10:"COUNT",11:"SKIP"},
+productions_: [0,[3,2],[4,4],[4,2],[4,1],[9,1],[9,1]],
 performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
 
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1: return $$[$0-1]; 
 break;
-case 2: this.$.statements.push($$[$0]); 
+case 2: this.$ = {type: "TWICE", body: $$[$0-1]}; 
 break;
-case 3: this.$ = {type: "BLOCK", statements: [$$[$0]]}; 
+case 3: this.$.statements.push($$[$01]); 
 break;
-case 4: this.$ = {type: "TWICE", body: $$[$0]}; 
+case 4: this.$ = {type: "BLOCK", statements: [$$[$0]]}; 
 break;
 case 5: this.$ = {type: "COUNT"}; 
 break;
@@ -23,7 +23,7 @@ case 6: this.$ = {type: "SKIP"};
 break;
 }
 },
-table: [{3:1,4:2,7:3,8:[1,4],9:[1,5],10:[1,6]},{1:[3]},{5:[1,7],6:[1,8]},{5:[2,3],6:[2,3]},{7:9,8:[1,4],9:[1,5],10:[1,6]},{5:[2,5],6:[2,5]},{5:[2,6],6:[2,6]},{1:[2,1]},{7:10,8:[1,4],9:[1,5],10:[1,6]},{5:[2,4],6:[2,4]},{5:[2,2],6:[2,2]}],
+table: [{3:1,4:2,6:[1,3],9:4,10:[1,5],11:[1,6]},{1:[3]},{5:[1,7],9:8,10:[1,5],11:[1,6]},{7:[1,9]},{5:[2,4],8:[2,4],10:[2,4],11:[2,4]},{5:[2,5],8:[2,5],10:[2,5],11:[2,5]},{5:[2,6],8:[2,6],10:[2,6],11:[2,6]},{1:[2,1]},{5:[2,3],8:[2,3],10:[2,3],11:[2,3]},{4:10,6:[1,3],9:4,10:[1,5],11:[1,6]},{8:[1,11],9:8,10:[1,5],11:[1,6]},{5:[2,2],8:[2,2],10:[2,2],11:[2,2]}],
 defaultActions: {7:[2,1]},
 parseError: function parseError(str, hash) {
     throw new Error(str);
@@ -213,7 +213,6 @@ parse: function parse(input) {
     return true;
 }};
 
-var indentation_stack = [0];
 /* Jison generated lexer */
 var lexer = (function(){
 var lexer = ({EOF:1,
@@ -345,37 +344,33 @@ lexer.performAction = function anonymous(yy,yy_,$avoiding_name_collisions,YY_STA
 
 var YYSTATE=YY_START
 switch($avoiding_name_collisions) {
-case 0: return 6; 
+case 0: 
 break;
-case 1:
-    //console.log("MAGIC:" + yy.magic);
-    //console.log("TEST:" + TEST);
-    indentation_stack.push(yy_.yytext.length);
-    console.log("Indentation stack: " + indentation_stack);
-    return 'INDENT';
-
+case 1: return 6; 
 break;
-case 2: return 8 
+case 2: return 'COUNT;' 
 break;
-case 3: return 9 
+case 3: return 11; 
 break;
-case 4: return 10 
+case 4: return 7; 
 break;
-case 5: return 5 
+case 5: return 8; 
 break;
-case 6: return 'INVALID' 
+case 6: return 5; 
+break;
+case 7: return 'INVALID'; 
 break;
 }
 };
-lexer.rules = [/^\n */,/^[ ]+/,/^twice\s+/,/^count\b/,/^skip\b/,/^$/,/^./];
-lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5,6],"inclusive":true}};
+lexer.rules = [/^\s+/,/^twice\b/,/^count\b/,/^skip\b/,/^begin\b/,/^end\b/,/^$/,/^./];
+lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5,6,7],"inclusive":true}};
 return lexer;})()
 parser.lexer = lexer;
 return parser;
 })();
 if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
-exports.parser = il;
-exports.parse = function () { return il.parse.apply(il, arguments); }
+exports.parser = parser;
+exports.parse = function () { return parser.parse.apply(parser, arguments); }
 exports.main = function commonjsMain(args) {
     if (!args[1])
         throw new Error('Usage: '+args[0]+' FILE');

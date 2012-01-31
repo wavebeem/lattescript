@@ -1,14 +1,7 @@
-var parser = require("./il").parser;
-var util = require("util");
+var fs     = require("fs");
+var parser = require("./parser").parser;
 
-var code = (
-// "twice twice hello"
-"twice twice twice count\n" +
-"skip\n" +
-"twice count\n" +
-"skip\n" +
-"count"
-);
+var code = fs.readFileSync("test.begin", "utf8");
 
 parser.yy = {
     magic: "MAGIC!"

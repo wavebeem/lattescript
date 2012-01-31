@@ -1,11 +1,17 @@
 %lex
 %%
 
-\n                      { return 'NEWLINE'; };
-\s+                     { return 'SPACE+' };
-"twice"                 { return 'twice' };
-"hello"                 { return 'hello' };
-"newline"               { return 'newline' };
+\n\ *                   { return 'NEWLINE'; };
+[ ]+ {
+    //console.log("MAGIC:" + yy.magic);
+    //console.log("TEST:" + TEST);
+    indentation_stack.push(yytext.length);
+    console.log("Indentation stack: " + indentation_stack);
+    return 'INDENT';
+};
+"twice"\s+              { return 'TWICE' };
+"count"                 { return 'COUNT' };
+"skip"                  { return 'SKIP' };
 <<EOF>>                 { return 'EOF' };
 .                       { return 'INVALID' };
 
@@ -15,23 +21,22 @@
 
 %%
 
-program
-    : block EOF
-    {{ return $1; }}
-    ;
+program: block 'EOF' {{ return $block; }};
 
 block
     : block 'NEWLINE' statement
     {{ $$.statements.push($3); }}
     | statement
-    {{ $$ = {type: "block", statements: [$1]}; }}
+    {{ $$ = {type: "BLOCK", statements: [$statement]}; }}
     ;
 
 statement
-    : 'twice' 'SPACE+' statement
-    {{ $$ = {type: "twice", body: $3}; }}
-    | 'hello'
-    {{ $$ = {type: "hello"}; }}
-    | 'newline'
-    {{ $$ = {type: "newline"}; }}
+    : 'TWICE' statement
+    {{ $$ = {type: "TWICE", body: $statement}; }}
+    | 'COUNT'
+    {{ $$ = {type: "COUNT"}; }}
+    | 'SKIP'
+    {{ $$ = {type: "SKIP"}; }}
     ;
+%%
+var indentation_stack = [0];
