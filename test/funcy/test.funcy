@@ -13,7 +13,6 @@ procedure baz
 end
 
 procedure quux
-    pass
 end
 
 procedure main

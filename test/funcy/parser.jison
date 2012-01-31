@@ -46,8 +46,8 @@ func_def
 block
     : block statement
     {{ $$.statements.push($statement); }}
-    | statement
-    {{ $$ = {type: "BLOCK", statements: [$statement]}; }}
+    |
+    {{ $$ = {type: "BLOCK", statements: []}; }}
     ;
 
 statement
