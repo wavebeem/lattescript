@@ -2,9 +2,9 @@
 var parser = (function(){
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"program":3,"sub_defs":4,"EOF":5,"sub_def":6,"proc_def":7,"func_def":8,"PROC":9,"id":10,"block":11,"END":12,"FUNC":13,"statement":14,"ID":15,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",9:"PROC",12:"END",13:"FUNC",15:"ID"},
-productions_: [0,[3,2],[4,2],[4,1],[6,1],[6,1],[7,4],[8,4],[11,2],[11,1],[14,1],[10,1]],
+symbols_: {"error":2,"program":3,"sub_defs":4,"EOF":5,"sub_def":6,"proc_def":7,"func_def":8,"PROC":9,"id":10,"block":11,"END":12,"FUNC":13,"statement":14,"noop":15,"ID":16,"NOOP":17,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",9:"PROC",12:"END",13:"FUNC",16:"ID",17:"NOOP"},
+productions_: [0,[3,2],[4,2],[4,1],[6,1],[6,1],[7,4],[8,4],[11,2],[11,1],[14,1],[14,1],[10,1],[15,1]],
 performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
 
 var $0 = $$.length - 1;
@@ -25,11 +25,13 @@ case 9: this.$ = {type: "BLOCK", statements: [$$[$0]]};
 break;
 case 10: this.$ = {type: "PROC_CALL", name: $$[$0]}; 
 break;
-case 11: this.$ = $$[$0] 
+case 12: this.$ = $$[$0] 
+break;
+case 13: this.$ = {type: "NOOP"}; 
 break;
 }
 },
-table: [{3:1,4:2,6:3,7:4,8:5,9:[1,6],13:[1,7]},{1:[3]},{5:[1,8],6:9,7:4,8:5,9:[1,6],13:[1,7]},{5:[2,3],9:[2,3],13:[2,3]},{5:[2,4],9:[2,4],13:[2,4]},{5:[2,5],9:[2,5],13:[2,5]},{10:10,15:[1,11]},{10:12,15:[1,11]},{1:[2,1]},{5:[2,2],9:[2,2],13:[2,2]},{10:15,11:13,14:14,15:[1,11]},{12:[2,11],15:[2,11]},{10:15,11:16,14:14,15:[1,11]},{10:15,12:[1,17],14:18,15:[1,11]},{12:[2,9],15:[2,9]},{12:[2,10],15:[2,10]},{10:15,12:[1,19],14:18,15:[1,11]},{5:[2,6],9:[2,6],13:[2,6]},{12:[2,8],15:[2,8]},{5:[2,7],9:[2,7],13:[2,7]}],
+table: [{3:1,4:2,6:3,7:4,8:5,9:[1,6],13:[1,7]},{1:[3]},{5:[1,8],6:9,7:4,8:5,9:[1,6],13:[1,7]},{5:[2,3],9:[2,3],13:[2,3]},{5:[2,4],9:[2,4],13:[2,4]},{5:[2,5],9:[2,5],13:[2,5]},{10:10,16:[1,11]},{10:12,16:[1,11]},{1:[2,1]},{5:[2,2],9:[2,2],13:[2,2]},{10:15,11:13,14:14,15:16,16:[1,11],17:[1,17]},{12:[2,12],16:[2,12],17:[2,12]},{10:15,11:18,14:14,15:16,16:[1,11],17:[1,17]},{10:15,12:[1,19],14:20,15:16,16:[1,11],17:[1,17]},{12:[2,9],16:[2,9],17:[2,9]},{12:[2,10],16:[2,10],17:[2,10]},{12:[2,11],16:[2,11],17:[2,11]},{12:[2,13],16:[2,13],17:[2,13]},{10:15,12:[1,21],14:20,15:16,16:[1,11],17:[1,17]},{5:[2,6],9:[2,6],13:[2,6]},{12:[2,8],16:[2,8],17:[2,8]},{5:[2,7],9:[2,7],13:[2,7]}],
 defaultActions: {8:[2,1]},
 parseError: function parseError(str, hash) {
     throw new Error(str);
@@ -358,16 +360,18 @@ case 2: return 9;
 break;
 case 3: return 12; 
 break;
-case 4: return 15; 
+case 4: return 17; 
 break;
-case 5: return 5; 
+case 5: return 16; 
 break;
-case 6: return 'INVALID'; 
+case 6: return 5; 
+break;
+case 7: return 'INVALID'; 
 break;
 }
 };
-lexer.rules = [/^\s+/,/^function\b/,/^procedure\b/,/^end\b/,/^[a-z_]+/,/^$/,/^./];
-lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5,6],"inclusive":true}};
+lexer.rules = [/^\s+/,/^function\b/,/^procedure\b/,/^end\b/,/^pass\b/,/^[a-z_]+/,/^$/,/^./];
+lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5,6,7],"inclusive":true}};
 return lexer;})()
 parser.lexer = lexer;
 return parser;

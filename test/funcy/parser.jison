@@ -5,6 +5,7 @@
 "function"              { return 'FUNC'; };
 "procedure"             { return 'PROC'; };
 "end"                   { return 'END'; };
+"pass"                  { return 'NOOP'; };
 [a-z_]+                 { return 'ID'; };
 <<EOF>>                 { return 'EOF'; };
 .                       { return 'INVALID'; };
@@ -52,7 +53,9 @@ block
 statement
     : id
     {{ $$ = {type: "PROC_CALL", name: $id}; }}
+    | noop
     ;
 
 id: 'ID' {{ $$ = $1 }};
+noop: 'NOOP' {{ $$ = {type: "NOOP"}; }};
 %%

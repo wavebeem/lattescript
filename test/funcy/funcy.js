@@ -12,8 +12,6 @@ var ast = parser.parse(code);
 
 console.log("[Abstract Syntax Tree]");
 console.log(JSON.stringify(ast, null, 4));
-console.log();
-console.log("[Program Execution]");
 
 var funcs = {};
 var procs = {};
@@ -26,14 +24,17 @@ var dispatch = {
     },
 
     PROC_CALL: function(node) {
-        console.log("Calling", node.name);
+        console.log("Calling procedure:", node.name);
+        run(procs[node.name]);
     },
 
     PROC_DEF: function(node) {
+        console.log("Defining procedure:", node.name);
         procs[node.name] = node.body;
     },
 
     FUNC_DEF: function(node) {
+        console.log("Defining function:", node.name);
         funcs[node.name] = node.body;
     },
 
@@ -43,21 +44,28 @@ var dispatch = {
         }
     },
 
-    PROC_CALL: function(node) {
-        console.log("Calling", node.name);
+    NOOP: function(node) {
     }
 };
 
 function run(node) {
-    if (dispatch[node.type]) {
+    if (node && dispatch[node.type]) {
         dispatch[node.type](node);
     }
     else {
-        console.log("No rule defined to run", node);
+        console.log("No rule defined to run:", node);
     }
 }
 
 run(ast);
+
+//console.log("[Functions]");
+//console.log(funcs);
+
+//console.log("[Procedures]");
+//console.log(procs);
+
+console.log("[Program Execution]");
 if (procs.main) {
     run(procs.main);
 }

@@ -8,6 +8,14 @@ procedure bar
     quux
 end
 
+procedure baz
+    pass
+end
+
+procedure quux
+    pass
+end
+
 procedure main
     bar
 end
