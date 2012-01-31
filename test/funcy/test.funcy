@@ -1,0 +1,13 @@
+function foo
+    goo
+    zoo
+end
+
+procedure bar
+    baz
+    quux
+end
+
+procedure main
+    bar
+end
