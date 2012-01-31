@@ -2,20 +2,20 @@
 var parser = (function(){
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"program":3,"block":4,"EOF":5,"TWICE":6,"BEGIN":7,"END":8,"statement":9,"COUNT":10,"SKIP":11,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",6:"TWICE",7:"BEGIN",8:"END",10:"COUNT",11:"SKIP"},
-productions_: [0,[3,2],[4,4],[4,2],[4,1],[9,1],[9,1]],
+symbols_: {"error":2,"program":3,"block":4,"EOF":5,"statement":6,"TWICE":7,"BEGIN":8,"END":9,"COUNT":10,"SKIP":11,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",7:"TWICE",8:"BEGIN",9:"END",10:"COUNT",11:"SKIP"},
+productions_: [0,[3,2],[4,2],[4,1],[6,4],[6,1],[6,1]],
 performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
 
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1: return $$[$0-1]; 
 break;
-case 2: this.$ = {type: "TWICE", body: $$[$0-1]}; 
+case 2: this.$.statements.push($$[$0]); 
 break;
-case 3: this.$.statements.push($$[$01]); 
+case 3: this.$ = {type: "BLOCK", statements: [$$[$0]]}; 
 break;
-case 4: this.$ = {type: "BLOCK", statements: [$$[$0]]}; 
+case 4: this.$ = {type: "TWICE", body: $$[$0-1]}; 
 break;
 case 5: this.$ = {type: "COUNT"}; 
 break;
@@ -23,7 +23,7 @@ case 6: this.$ = {type: "SKIP"};
 break;
 }
 },
-table: [{3:1,4:2,6:[1,3],9:4,10:[1,5],11:[1,6]},{1:[3]},{5:[1,7],9:8,10:[1,5],11:[1,6]},{7:[1,9]},{5:[2,4],8:[2,4],10:[2,4],11:[2,4]},{5:[2,5],8:[2,5],10:[2,5],11:[2,5]},{5:[2,6],8:[2,6],10:[2,6],11:[2,6]},{1:[2,1]},{5:[2,3],8:[2,3],10:[2,3],11:[2,3]},{4:10,6:[1,3],9:4,10:[1,5],11:[1,6]},{8:[1,11],9:8,10:[1,5],11:[1,6]},{5:[2,2],8:[2,2],10:[2,2],11:[2,2]}],
+table: [{3:1,4:2,6:3,7:[1,4],10:[1,5],11:[1,6]},{1:[3]},{5:[1,7],6:8,7:[1,4],10:[1,5],11:[1,6]},{5:[2,3],7:[2,3],9:[2,3],10:[2,3],11:[2,3]},{8:[1,9]},{5:[2,5],7:[2,5],9:[2,5],10:[2,5],11:[2,5]},{5:[2,6],7:[2,6],9:[2,6],10:[2,6],11:[2,6]},{1:[2,1]},{5:[2,2],7:[2,2],9:[2,2],10:[2,2],11:[2,2]},{4:10,6:3,7:[1,4],10:[1,5],11:[1,6]},{6:8,7:[1,4],9:[1,11],10:[1,5],11:[1,6]},{5:[2,4],7:[2,4],9:[2,4],10:[2,4],11:[2,4]}],
 defaultActions: {7:[2,1]},
 parseError: function parseError(str, hash) {
     throw new Error(str);
@@ -346,24 +346,40 @@ var YYSTATE=YY_START
 switch($avoiding_name_collisions) {
 case 0: 
 break;
-case 1: return 6; 
+case 1: return 7; 
 break;
-case 2: return 'COUNT;' 
+case 2: return 10; 
 break;
 case 3: return 11; 
 break;
-case 4: return 7; 
+case 4: return 8; 
 break;
-case 5: return 8; 
+case 5: return 9; 
 break;
-case 6: return 5; 
+case 6: return 8; 
 break;
-case 7: return 'INVALID'; 
+case 7: return 9; 
+break;
+case 8: return 8; 
+break;
+case 9: return 9; 
+break;
+case 10: return 8; 
+break;
+case 11: return 9; 
+break;
+case 12: return 8; 
+break;
+case 13: return 9; 
+break;
+case 14: return 5; 
+break;
+case 15: return 'INVALID'; 
 break;
 }
 };
-lexer.rules = [/^\s+/,/^twice\b/,/^count\b/,/^skip\b/,/^begin\b/,/^end\b/,/^$/,/^./];
-lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5,6,7],"inclusive":true}};
+lexer.rules = [/^\s+/,/^twice\b/,/^count\b/,/^skip\b/,/^begin\b/,/^end\b/,/^\(/,/^\)/,/^\{/,/^\}/,/^\[/,/^\]/,/^</,/^>/,/^$/,/^./];
+lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],"inclusive":true}};
 return lexer;})()
 parser.lexer = lexer;
 return parser;

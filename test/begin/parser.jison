@@ -3,7 +3,7 @@
 
 \s+                     { };
 "twice"                 { return 'TWICE'; };
-"count"                 { return 'COUNT;' };
+"count"                 { return 'COUNT'; };
 "skip"                  { return 'SKIP'; };
 "begin"                 { return 'BEGIN'; };
 "end"                   { return 'END'; };
@@ -22,16 +22,16 @@ program
     ;
 
 block
-    : 'TWICE' 'BEGIN' block 'END'
-    {{ $$ = {type: "TWICE", body: $block}; }}
-    | block statement
-    {{ $$.statements.push($3); }}
+    : block statement
+    {{ $$.statements.push($statement); }}
     | statement
     {{ $$ = {type: "BLOCK", statements: [$statement]}; }}
     ;
 
 statement
-    : 'COUNT'
+    : 'TWICE' 'BEGIN' block 'END'
+    {{ $$ = {type: "TWICE", body: $block}; }}
+    | 'COUNT'
     {{ $$ = {type: "COUNT"}; }}
     | 'SKIP'
     {{ $$ = {type: "SKIP"}; }}
