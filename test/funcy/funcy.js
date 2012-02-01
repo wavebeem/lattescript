@@ -11,7 +11,7 @@ parser.yy = {
 var ast = parser.parse(code);
 
 console.log("[Abstract Syntax Tree]");
-console.log(JSON.stringify(ast, null, 4));
+console.log(JSON.stringify(ast, null, 2));
 
 var funcs = {};
 var procs = {};
