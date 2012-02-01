@@ -9,8 +9,9 @@ parser.yy = {
 
 var ast = parser.parse(code);
 
+var indentation = 2;
 console.log("[Abstract Syntax Tree]");
-console.log(JSON.stringify(ast, null, 4));
+console.log(JSON.stringify(ast, null, indentation));
 console.log();
 console.log("[Program Execution]");
 
