@@ -51,9 +51,23 @@ exports.lexer = (function() {
         else {
             //console.log("MATCHED \"" + matches[0] + "\"");
             func(matches);
-            lexer.text = lexer.text.substr(matches[0].length);
+            consume(matches[0].length);
             return true;
         }
+    }
+
+    // Consumes n characters
+    function consume(n) {
+        for (var i = 0; i < n; i++) {
+            if (lexer.text[i] === "\n") {
+                inc_line();
+                reset_column();
+            }
+            else {
+                inc_column();
+            }
+        }
+        lexer.text = lexer.text.substr(n);
     }
 
     function set_input(str) {
@@ -62,25 +76,20 @@ exports.lexer = (function() {
         lexer.indents = [0];
         lexer.token_history = [];
 
-        lexer.first_line   = 1;
-        lexer.first_column = 1;
-        lexer.last_line    = 1;
-        lexer.last_column  = 1;
+        lexer.line   = 1;
+        lexer.column = 1;
     }
 
     function inc_line(line) {
-        lexer.first_line++;
-        lexer.last_line++;
+        lexer.line++;
     }
 
     function inc_column() {
-        lexer.first_column++;
-        lexer.last_column++;
+        lexer.column++;
     }
 
     function reset_column() {
-        lexer.first_column = 1;
-        lexer.last_column  = 1;
+        lexer.column = 1;
     }
 
     patterns = [
@@ -93,7 +102,6 @@ exports.lexer = (function() {
         // newline whitespace*
         {pattern: /^(\s*\n)([ ]*)/, func: function(matches) {
             lexer.tokens.push({token: "NEWLINE", yytext: "\n"});
-            inc_line();
             var whole   = matches[0];
             var newline = matches[1];
             var spaces  = matches[2];
