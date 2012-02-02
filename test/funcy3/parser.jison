@@ -1,64 +1,56 @@
-%lex
 %%
-
-\s+                     { };
-"function"              { return 'FUNC'; };
-"procedure"             { return 'PROC'; };
-"end"                   { return 'END'; };
-"pass"                  { return 'NOOP'; };
-[a-z_]+                 { console.log('FOUND', yytext); return 'ID'; };
-\d+                     { return 'NUMBER'; };
-"+"                     { return 'ADD'; };
-"*"                     { return 'MUL'; };
-<<EOF>>                 { return 'EOF'; };
-.                       { return 'INVALID'; };
-
-/lex
-
-%start program
-
-%%
-
 program
-    : sub_defs 'EOF'
-    {{ return $sub_defs; }}
+    : statements eof
+    {{ return $block; }}
     ;
 
-sub_defs
-    : sub_defs sub_def
-    {{ $$.sub_defs.push($sub_def); }}
-    | sub_def
-    {{ $$ = {type: "SUB_DEFS", sub_defs: [$sub_def]}; }}
-    ;
-
-sub_def
-    : proc_def
-    | func_def
-    ;
-
-proc_def
-    : 'PROC' id block 'END'
-    {{ $$ = {type: "PROC_DEF", name: $id, body: $block}; }}
-    ;
-
-func_def
-    : 'FUNC' id block 'END'
-    {{ $$ = {type: "FUNC_DEF", name: $id, body: $block}; }}
+while_statement
+    : while newline block
+    {{ $$ = {type: "WHILE", statements: $block}; }}
     ;
 
 block
-    : block statement
-    {{ $$.statements.push($statement); }}
+    : indent statements dedent
+    {{ $$ = $statements; }}
+    ;
+
+statements
+    : statements newline statement
+    {{ $$.push($statement); }}
+    | statement
+    {{ $$ = [$statement]; }}
     |
-    {{ $$ = {type: "BLOCK", statements: []}; }}
+    {{ $$ = []; }}
     ;
 
 statement
     : id
-    {{ $$ = {type: "PROC_CALL", name: $id}; }}
-    | noop
+    | while_statement
     ;
 
-id: 'ID' {{ $$ = $1 }};
-noop: 'NOOP' {{ $$ = {type: "NOOP"}; }};
+while
+    : 'WHILE'
+    ;
+
+id
+    : 'ID'
+    {{ $$ = $1; }}
+    ;
+
+newline
+    : 'NEWLINE'
+    ;
+
+indent
+    : 'INDENT'
+    ;
+
+dedent
+    : 'DEDENT'
+    ;
+
+eof
+    : 'EOF'
+    ;
+/* vim: set syn=yacc: */
 %%
