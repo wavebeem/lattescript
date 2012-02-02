@@ -4,28 +4,34 @@ program
     {{ return $block; }}
     ;
 
-while_statement
-    : while newline block
-    {{ $$ = {type: "WHILE", statements: $block}; }}
-    ;
-
 block
     : indent statements dedent
     {{ $$ = $statements; }}
     ;
 
+while_statement
+    : while newline block
+    {{ $$ = {type: "WHILE", statements: $block}; }}
+    ;
+
 statements
-    : statements newline statement
+    : statements statement
     {{ $$.push($statement); }}
     | statement
     {{ $$ = [$statement]; }}
-    |
-    {{ $$ = []; }}
     ;
 
 statement
+    : single_statement newline
+    | block_statement
+    ;
+
+single_statement
     : id
-    | while_statement
+    ;
+
+block_statement
+    : while_statement
     ;
 
 while
@@ -50,8 +56,7 @@ dedent
     ;
 
 eof
-    : newline 'EOF'
-    | 'EOF'
+    : 'EOF'
     ;
 /* vim: set syn=yacc: */
 %%
