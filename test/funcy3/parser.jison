@@ -50,7 +50,8 @@ dedent
     ;
 
 eof
-    : 'EOF'
+    : newline 'EOF'
+    | 'EOF'
     ;
 /* vim: set syn=yacc: */
 %%

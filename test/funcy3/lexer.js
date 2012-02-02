@@ -1,3 +1,4 @@
+// XXX REMEMBER TO ONLY CHECK FOR INDENTATION IMMEDIATELY AFTER NEWLINES
 exports.lexer = (function() {
     var lexer = {};
 
@@ -21,9 +22,12 @@ exports.lexer = (function() {
         }
 
         if (lexer.tokens[0] !== undefined) {
+            var token = lexer.tokens.shift();
+            lexer.yytext = token.yytext;
+            lexer.token_history.push(token.token);
             console.log("TOKENS =", lexer.tokens);
-            lexer.yytext = lexer.tokens[0].yytext;
-            return lexer.tokens.shift().token;
+            console.log("TOKEN HISTORY =\n", lexer.token_history);
+            return token.token;
         }
         else {
             return lex();
@@ -37,7 +41,7 @@ exports.lexer = (function() {
             return false;
         }
         else {
-            console.log("MATCHED \"" + matches[0] + "\"");
+            //console.log("MATCHED \"" + matches[0] + "\"");
             func(matches);
             lexer.text = lexer.text.substr(matches[0].length);
             return true;
@@ -45,9 +49,11 @@ exports.lexer = (function() {
     }
 
     function set_input(str) {
+        //lexer.text = "\n" + str + "\n";
         lexer.text = str;
         lexer.tokens = [];
-        lexer.indents = [-1];
+        lexer.indents = [0];
+        lexer.token_history = [];
 
         lexer.first_line   = 1;
         lexer.first_column = 1;
@@ -71,19 +77,12 @@ exports.lexer = (function() {
     }
 
     patterns = [
-        {pattern: /^(\n)/, func: function(matches) {
+        {pattern: /^(\n)(\s*)/, func: function(matches) {
             lexer.tokens.push({token: "NEWLINE", yytext: "\n"});
-        }},
-        {pattern: /^(while)/, func: function(matches) {
-            lexer.tokens.push({token: "WHILE", yytext: "while"});
-        }},
-        {pattern: /^(\w+)/, func: function(matches) {
-            var id = matches[1];
-            lexer.tokens.push({token: "ID", yytext: id});
-        }},
-        {pattern: /^(\s*)(?=\S+)/, func: function(matches) {
+            inc_line();
             var whole   = matches[0];
-            var spaces  = matches[1];
+            var newline = matches[1];
+            var spaces  = matches[2];
             var indent  = spaces.length;
             var last_indent = lexer.indents[lexer.indents.length - 1];
             if (indent > last_indent) {
@@ -94,7 +93,14 @@ exports.lexer = (function() {
                 lexer.indents.pop();
                 lexer.tokens.push({token: "DEDENT", yytext: spaces});
             }
-        }}
+        }},
+        {pattern: /^(while)/, func: function(matches) {
+            lexer.tokens.push({token: "WHILE", yytext: "while"});
+        }},
+        {pattern: /^(\w+)/, func: function(matches) {
+            var id = matches[1];
+            lexer.tokens.push({token: "ID", yytext: id});
+        }},
     ];
 
     lexer.lex = lex;
