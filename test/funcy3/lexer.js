@@ -1,4 +1,3 @@
-// XXX REMEMBER TO ONLY CHECK FOR INDENTATION IMMEDIATELY AFTER NEWLINES
 exports.lexer = (function() {
     var lexer = {};
 
@@ -106,8 +105,11 @@ exports.lexer = (function() {
                 lexer.tokens.push({token: "INDENT", yytext: spaces});
             }
             else if (indent < last_indent) {
-                lexer.indents.pop();
-                lexer.tokens.push({token: "DEDENT", yytext: spaces});
+                while (indent < last_indent) {
+                    lexer.indents.pop();
+                    lexer.tokens.push({token: "DEDENT", yytext: spaces});
+                    last_indent = lexer.indents[lexer.indents.length - 1];
+                }
             }
         }},
 

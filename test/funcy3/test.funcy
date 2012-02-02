@@ -1,4 +1,7 @@
 a
 while
     b
-c
+    while
+        c
+        d
+e
