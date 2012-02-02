@@ -1,6 +1,6 @@
-a
+a b
 while
-    b
+    b c, d, e
     while
         c
         d

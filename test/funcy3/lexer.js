@@ -125,9 +125,18 @@ exports.lexer = (function() {
             lexer.tokens.push({token: "WHILE", yytext: "while"});
         }},
 
+        // Matches commas
+        {pattern: /^(\s*)(,)(\s*)/, func: function(matches) {
+            var ws1   = matches[1];
+            var comma = matches[2];
+            var ws2   = matches[3];
+            lexer.tokens.push({token: "COMMA", yytext: comma});
+        }},
+
         // Matches identifiers
-        {pattern: /^(\w+)/, func: function(matches) {
-            var id = matches[1];
+        {pattern: /^(\s*)(\w+)/, func: function(matches) {
+            var ws = matches[1];
+            var id = matches[2];
             lexer.tokens.push({token: "ID", yytext: id});
         }},
     ];
