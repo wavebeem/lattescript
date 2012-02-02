@@ -25,6 +25,13 @@ var dispatch = {
         }
     },
 
+    WHILE: function(node) {
+        console.log("While loop");
+        for (var n = 0; n < node.statements.length; n++) {
+            run(node.statements[n]);
+        }
+    },
+
     PROC_CALL: function(node) {
         console.log("Calling procedure:", node.name);
         run(procs[node.name]);

@@ -1,7 +1,7 @@
 %%
 program
     : statements eof
-    {{ return $block; }}
+    {{ return {type: "BLOCK", statements: $statements}; }}
     ;
 
 block
@@ -27,7 +27,12 @@ statement
     ;
 
 single_statement
+    : proc_call
+    ;
+
+proc_call
     : id
+    {{ $$ = {type: "PROC_CALL", name: $id}; }}
     ;
 
 block_statement
