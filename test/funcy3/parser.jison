@@ -1,67 +1,29 @@
 %%
-program
-    : statements eof
-    {{ return {type: "BLOCK", statements: $statements}; }}
-    ;
+program: statements eof
+    {{ return {type: "BLOCK", statements: $statements}; }};
 
-block
-    : indent statements dedent
-    {{ $$ = $statements; }}
-    ;
+block: indent statements dedent
+    {{ $$ = $statements; }};
 
-while_statement
-    : while newline block
-    {{ $$ = {type: "WHILE", statements: $block}; }}
-    ;
+while_statement: while newline block
+    {{ $$ = {type: "WHILE", statements: $block}; }};
 
-statements
-    : statements statement
-    {{ $$.push($statement); }}
-    | statement
-    {{ $$ = [$statement]; }}
-    ;
+statements: statements statement {{ $$.push($statement); }}
+          | statement            {{ $$ = [$statement];   }};
 
-statement
-    : single_statement newline
-    | block_statement
-    ;
+statement: single_statement newline | block_statement;
 
-single_statement
-    : proc_call
-    ;
+single_statement: proc_call;
 
-proc_call
-    : id
-    {{ $$ = {type: "PROC_CALL", name: $id}; }}
-    ;
+proc_call: id {{ $$ = {type: "PROC_CALL", name: $id}; }};
 
-block_statement
-    : while_statement
-    ;
+block_statement: while_statement;
 
-while
-    : 'WHILE'
-    ;
-
-id
-    : 'ID'
-    {{ $$ = $1; }}
-    ;
-
-newline
-    : 'NEWLINE'
-    ;
-
-indent
-    : 'INDENT'
-    ;
-
-dedent
-    : 'DEDENT'
-    ;
-
-eof
-    : 'EOF'
-    ;
+id: 'ID' {{ $$ = $1; }};
+while: 'WHILE';
+newline: 'NEWLINE';
+indent: 'INDENT';
+dedent: 'DEDENT';
+eof: 'EOF';
 /* vim: set syn=yacc: */
 %%
