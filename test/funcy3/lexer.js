@@ -58,7 +58,6 @@ exports.lexer = (function() {
 
     function set_input(str) {
         lexer.text = str + "\n";
-        //lexer.text = str;
         lexer.tokens = [];
         lexer.indents = [0];
         lexer.token_history = [];
