@@ -92,6 +92,14 @@ exports.lexer = (function() {
         lexer.column = 1;
     }
 
+    function make_op_pattern(type, pattern) {
+        return {pattern: pattern, func: function(matches) {
+            var ws = matches[1];
+            var op = matches[2];
+            lexer.tokens.push({token: type, yytext: op});
+        }};
+    }
+
     patterns = [
         // Matches comments
         // (whitespace* comment) LOOKAHEAD(newline)
@@ -132,6 +140,16 @@ exports.lexer = (function() {
             var ws2   = matches[3];
             lexer.tokens.push({token: "COMMA", yytext: comma});
         }},
+
+        // Matches numeric literals
+        {pattern: /^(\s*)(\+)/, func: function(matches) {
+            var ws = matches[1];
+            var op = matches[2];
+            lexer.tokens.push({token: "ADD", yytext: op});
+        }},
+
+        make_op_pattern("ADD", /^(\s*)(\+)/),
+        make_op_pattern("MUL", /^(\s*)(\*)/),
 
         // Matches numeric literals
         {pattern: /^(\s*)(-?\d+)/, func: function(matches) {
