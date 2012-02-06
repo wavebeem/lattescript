@@ -35,7 +35,6 @@ exports.lexer = (function() {
     function get_token() {
         var token = lexer.tokens.shift();
         lexer.yytext = token.yytext;
-        //lexer.token_history.push(token.token);
         lexer.token_history.push(token);
         console.log("TOKENS =", lexer.tokens);
         console.log("TOKEN HISTORY =\n", lexer.token_history);
@@ -49,7 +48,6 @@ exports.lexer = (function() {
             return false;
         }
         else {
-            //console.log("MATCHED \"" + matches[0] + "\"");
             func(matches);
             consume(matches[0].length);
             return true;
@@ -92,11 +90,18 @@ exports.lexer = (function() {
         lexer.column = 1;
     }
 
-    function make_op_pattern(type, pattern) {
+    function spaced_pattern(type, pattern) {
         return {pattern: pattern, func: function(matches) {
             var ws = matches[1];
-            var op = matches[2];
-            lexer.tokens.push({token: type, yytext: op});
+            var x  = matches[2];
+            lexer.tokens.push({token: type, yytext: x});
+        }};
+    }
+
+    function regular_pattern(type, pattern) {
+        return {pattern: pattern, func: function(matches) {
+            var x = matches[1];
+            lexer.tokens.push({token: type, yytext: x});
         }};
     }
 
@@ -128,42 +133,15 @@ exports.lexer = (function() {
             }
         }},
 
-        // Matches ``while''
-        {pattern: /^(while)/, func: function(matches) {
-            lexer.tokens.push({token: "WHILE", yytext: "while"});
-        }},
+        regular_pattern("WHILE", /^(while)/),
 
-        // Matches commas
-        {pattern: /^(\s*)(,)(\s*)/, func: function(matches) {
-            var ws1   = matches[1];
-            var comma = matches[2];
-            var ws2   = matches[3];
-            lexer.tokens.push({token: "COMMA", yytext: comma});
-        }},
+        spaced_pattern("COMMA", /^(\s*)(,)/),
 
-        // Matches numeric literals
-        {pattern: /^(\s*)(\+)/, func: function(matches) {
-            var ws = matches[1];
-            var op = matches[2];
-            lexer.tokens.push({token: "ADD", yytext: op});
-        }},
+        spaced_pattern("ADD", /^(\s*)(\+)/),
+        spaced_pattern("MUL", /^(\s*)(\*)/),
 
-        make_op_pattern("ADD", /^(\s*)(\+)/),
-        make_op_pattern("MUL", /^(\s*)(\*)/),
-
-        // Matches numeric literals
-        {pattern: /^(\s*)(-?\d+)/, func: function(matches) {
-            var ws  = matches[1];
-            var num = matches[2];
-            lexer.tokens.push({token: "NUM", yytext: Number(num)});
-        }},
-
-        // Matches identifiers
-        {pattern: /^(\s*)(\w+)/, func: function(matches) {
-            var ws = matches[1];
-            var id = matches[2];
-            lexer.tokens.push({token: "ID", yytext: id});
-        }},
+        spaced_pattern("NUM", /^(\s*)(-?\d+)/),
+        spaced_pattern("ID",  /^(\s*)(\w+)/),
     ];
 
     lexer.lex = lex;
