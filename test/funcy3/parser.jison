@@ -1,5 +1,7 @@
-%left add
-%left mul
+%left  add sub
+%left  mul div
+%right exp
+
 %%
 program: statements eof
     { return {type: "BLOCK", statements: $statements}; };
@@ -16,6 +18,7 @@ statements: statements statement { $$.push($statement); }
 
 statement: single_statement newline
          | block_statement
+         | newline
          ;
 
 single_statement: proc_call;
@@ -32,11 +35,18 @@ nonempty_args_list: nonempty_args_list comma arg { $$.push($arg); }
 
 empty_args_list: { $$ = []; };
 
-expr: expr add expr { $$ = {type: "ADD", left: $expr1, right: $expr2}; }
-    | expr mul expr { $$ = {type: "MUL", left: $expr1, right: $expr2}; }
+expr: expr bin_op expr   { $$ = {type: $bin_op, left: $expr1, right: $expr2}; }
+    | lparen expr rparen { $$ = $expr; }
     | num
     | id
     ;
+
+bin_op: add
+      | sub
+      | mul
+      | div
+      | exp
+      ;
 
 block_statement: while_statement;
 
@@ -50,6 +60,12 @@ indent: 'INDENT';
 dedent: 'DEDENT';
 eof: 'EOF';
 add: 'ADD';
+sub: 'SUB';
 mul: 'MUL';
+div: 'DIV';
+exp: 'EXP';
+lparen: 'LPAREN';
+rparen: 'RPAREN';
+
 /* vim: set syn=yacc: */
 %%

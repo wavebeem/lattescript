@@ -136,6 +136,8 @@ exports.lexer = (function() {
 
         regular_pattern("WHILE", /^(while)/),
 
+        spaced_pattern("LPAREN", /(\()/),
+        spaced_pattern("RPAREN", /(\))/),
         spaced_pattern("COMMA", /(,)/),
 
         spaced_pattern("NUM", /([+-]?\d+)/),
@@ -145,6 +147,7 @@ exports.lexer = (function() {
         spaced_pattern("SUB", /(\-)/),
         spaced_pattern("MUL", /(\*)/),
         spaced_pattern("DIV", /(\/)/),
+        spaced_pattern("EXP", /(\^)/),
     ];
 
     lexer.lex = lex;
