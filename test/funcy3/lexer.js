@@ -90,7 +90,8 @@ exports.lexer = (function() {
         lexer.column = 1;
     }
 
-    function spaced_pattern(type, pattern) {
+    function spaced_pattern(type, pattern_fragment) {
+        var pattern = RegExp(/^(\s*)/.source + pattern_fragment.source);
         return {pattern: pattern, func: function(matches) {
             var ws = matches[1];
             var x  = matches[2];
@@ -135,13 +136,15 @@ exports.lexer = (function() {
 
         regular_pattern("WHILE", /^(while)/),
 
-        spaced_pattern("COMMA", /^(\s*)(,)/),
+        spaced_pattern("COMMA", /(,)/),
 
-        spaced_pattern("ADD", /^(\s*)(\+)/),
-        spaced_pattern("MUL", /^(\s*)(\*)/),
+        spaced_pattern("NUM", /([+-]?\d+)/),
+        spaced_pattern("ID",  /(\w+)/),
 
-        spaced_pattern("NUM", /^(\s*)(-?\d+)/),
-        spaced_pattern("ID",  /^(\s*)(\w+)/),
+        spaced_pattern("ADD", /(\+)/),
+        spaced_pattern("SUB", /(\-)/),
+        spaced_pattern("MUL", /(\*)/),
+        spaced_pattern("DIV", /(\/)/),
     ];
 
     lexer.lex = lex;
