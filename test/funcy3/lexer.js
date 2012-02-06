@@ -133,6 +133,13 @@ exports.lexer = (function() {
             lexer.tokens.push({token: "COMMA", yytext: comma});
         }},
 
+        // Matches numeric literals
+        {pattern: /^(\s*)(-?\d+)/, func: function(matches) {
+            var ws  = matches[1];
+            var num = matches[2];
+            lexer.tokens.push({token: "NUM", yytext: Number(num)});
+        }},
+
         // Matches identifiers
         {pattern: /^(\s*)(\w+)/, func: function(matches) {
             var ws = matches[1];

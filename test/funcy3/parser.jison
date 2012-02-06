@@ -9,7 +9,7 @@ while_statement: while newline block
     {{ $$ = {type: "WHILE", statements: $block}; }};
 
 statements: statements statement {{ $$.push($statement); }}
-          | statement            {{ $$ = [$statement];   }}
+          | statement            {{ $$ =   [$statement]; }}
           ;
 
 statement: single_statement newline
@@ -24,17 +24,22 @@ args_list: nonempty_args_list
          | empty_args_list
          ;
 
-nonempty_args_list: nonempty_args_list comma arg {{ $$ = $$.push($arg); }}
-                  | arg                          {{ $$ = [$arg]; }}
+nonempty_args_list: nonempty_args_list comma arg {{ $$.push($arg); }}
+                  | arg                          {{ $$ =   [$arg]; }}
                   ;
 
 empty_args_list: {{ $$ = []; }};
 
+arg: id
+   | num
+   ;
+
 block_statement: while_statement;
 
-id: 'ID' {{ $$ = $1; }};
-arg: id;
+id: 'ID';
+num: 'NUM';
 while: 'WHILE';
+comma: 'COMMA';
 newline: 'NEWLINE';
 indent: 'INDENT';
 dedent: 'DEDENT';
