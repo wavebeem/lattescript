@@ -154,15 +154,20 @@ exports.lexer = (function() {
             var str = matches[2];
             lexer.tokens.push({token: "STR", yytext: unescape(str)});
         }},
-        spaced_pattern("NUM", /([+-]?\d+)/),
-        spaced_pattern("ID",  /(\w+)/),
+        spaced_pattern("NUM",   /([+-]?\d+)/),
+        spaced_pattern("TRUE",  /(true)/),
+        spaced_pattern("FALSE", /(false)/),
 
+        spaced_pattern("AND", /(and)/),
+        spaced_pattern("OR",  /(or)/),
         spaced_pattern("CAT", /(\~)/),
         spaced_pattern("ADD", /(\+)/),
         spaced_pattern("SUB", /(\-)/),
         spaced_pattern("MUL", /(\*)/),
         spaced_pattern("DIV", /(\/)/),
         spaced_pattern("EXP", /(\^)/),
+
+        spaced_pattern("ID",    /(\w+)/),
     ];
 
     lexer.lex = lex;

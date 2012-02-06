@@ -2,9 +2,11 @@
 ;print 1 + (+2)
 ;print 1 + 2 * 3 ^ 5 ^ 6
 ;print "Hello"
-print "This is a \"quote\""
-print "This is a \\ slash"
-print "Con" ~ "cat", "e" ~ "n" ~ "ation"
+;print "This is a \"quote\""
+;print "This is a \\ slash"
+;print "Con" ~ "cat", "e" ~ "n" ~ "ation"
+;print true
+print true and false or false
 ;while
 ;    pass
 ;while

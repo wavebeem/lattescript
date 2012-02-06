@@ -2,6 +2,8 @@
 %left  add sub
 %left  mul div
 %right exp
+%left  and
+%left  or
 
 %%
 program: statements eof
@@ -40,12 +42,15 @@ empty_args_list: { $$ = []; };
 
 expr: expr   bin_op expr   { $$ = {type: $bin_op, left: $expr1, right: $expr2}; }
     | lparen expr   rparen { $$ = $expr; }
+    | bool
     | num
     | str
     | id
     ;
 
-bin_op: cat
+bin_op: and
+      | or
+      | cat
       | add
       | sub
       | mul
@@ -57,6 +62,13 @@ block_statement: while_statement;
 
 pass: 'PASS' { $$ = {type: "NOOP"}; };
 
+bool: true
+    | false
+    ;
+
+true:  'TRUE'  { $$ = {type: "BOOL", value: true }; };
+false: 'FALSE' { $$ = {type: "BOOL", value: false}; };
+
 arg: expr;
 id: 'ID';
 num: 'NUM';
@@ -67,6 +79,8 @@ newline: 'NEWLINE';
 indent: 'INDENT';
 dedent: 'DEDENT';
 eof: 'EOF';
+and: 'AND';
+or:  'OR';
 cat: 'CAT';
 add: 'ADD';
 sub: 'SUB';
