@@ -1,5 +1,12 @@
 exports.lexer = (function() {
     var lexer = {};
+    var DEBUG = false;
+
+    function debug() {
+        if (DEBUG) {
+            console.log.apply(console, arguments);
+        }
+    }
 
     function lex() {
         if (lexer.tokens.length > 0) {
@@ -7,13 +14,13 @@ exports.lexer = (function() {
         }
 
         if (lexer.text === "") {
-            console.log("<<EOF>>");
+            debug("<<EOF>>");
             return 'EOF';
         }
 
-        console.log("TEXT = '''");
-        console.log(lexer.text);
-        console.log("'''");
+        debug("TEXT = '''");
+        debug(lexer.text);
+        debug("'''");
 
         for (var n = 0; n < patterns.length; n++) {
             var p = patterns[n];
@@ -36,8 +43,8 @@ exports.lexer = (function() {
         var token = lexer.tokens.shift();
         lexer.yytext = token.yytext;
         lexer.token_history.push(token);
-        console.log("TOKENS =", lexer.tokens);
-        console.log("TOKEN HISTORY =\n", lexer.token_history);
+        debug("TOKENS =", lexer.tokens);
+        debug("TOKEN HISTORY =\n", lexer.token_history);
         return token.token;
     }
 
@@ -158,6 +165,12 @@ exports.lexer = (function() {
         spaced_pattern("TRUE",  /(true)/),
         spaced_pattern("FALSE", /(false)/),
 
+        spaced_pattern("LE", /(<=)/),
+        spaced_pattern("GE", /(>=)/),
+        spaced_pattern("LT", /(<)/),
+        spaced_pattern("GT", /(>)/),
+        spaced_pattern("EQ", /(=)/),
+
         spaced_pattern("AND", /(and)/),
         spaced_pattern("OR",  /(or)/),
         spaced_pattern("CAT", /(\~)/),
@@ -167,7 +180,7 @@ exports.lexer = (function() {
         spaced_pattern("DIV", /(\/)/),
         spaced_pattern("EXP", /(\^)/),
 
-        spaced_pattern("ID",    /(\w+)/),
+        spaced_pattern("ID", /(\w+)/),
     ];
 
     lexer.lex = lex;

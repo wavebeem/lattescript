@@ -34,42 +34,53 @@ args_list: nonempty_args_list
          | empty_args_list
          ;
 
-nonempty_args_list: nonempty_args_list comma arg { $$.push($arg); }
-                  | arg                          { $$ =   [$arg]; }
+nonempty_args_list: nonempty_args_list comma expr { $$.push($expr); }
+                  | expr                          { $$ =   [$expr]; }
                   ;
 
 empty_args_list: { $$ = []; };
 
 expr: expr   bin_op expr   { $$ = {type: $bin_op, left: $expr1, right: $expr2}; }
     | lparen expr   rparen { $$ = $expr; }
-    | bool
-    | num
-    | str
+    | literal
     | id
     ;
 
-bin_op: and
-      | or
-      | cat
-      | add
-      | sub
-      | mul
-      | div
-      | exp
+literal: bool
+       | num
+       | str
+       ;
+
+bin_op: and { $$ = "AND"; }
+      | or  { $$ = "OR";  }
+      | lt  { $$ = "LT";  }
+      | gt  { $$ = "GT";  }
+      | le  { $$ = "LE";  }
+      | ge  { $$ = "GE";  }
+      | eq  { $$ = "EQ";  }
+      | cat { $$ = "CAT"; }
+      | add { $$ = "ADD"; }
+      | sub { $$ = "SUB"; }
+      | mul { $$ = "MUL"; }
+      | div { $$ = "DIV"; }
+      | exp { $$ = "EXP"; }
       ;
 
 block_statement: while_statement;
 
 pass: 'PASS' { $$ = {type: "NOOP"}; };
 
-bool: true
-    | false
+bool: true   { $$ = {type: "BOOL", value: true }; }
+    | false  { $$ = {type: "BOOL", value: false}; }
     ;
 
-true:  'TRUE'  { $$ = {type: "BOOL", value: true }; };
-false: 'FALSE' { $$ = {type: "BOOL", value: false}; };
-
-arg: expr;
+true:  'TRUE';
+false: 'FALSE';
+eq: 'EQ';
+lt: 'LT';
+gt: 'GT';
+le: 'LE';
+ge: 'GE';
 id: 'ID';
 num: 'NUM';
 str: 'STR';
