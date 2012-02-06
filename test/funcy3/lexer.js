@@ -106,6 +106,14 @@ exports.lexer = (function() {
         }};
     }
 
+    function unescape(str) {
+        return (str
+            .replace(/\\n/g,  "\n")
+            .replace(/\\"/g,  "\"")
+            .replace(/\\\\/g, "\\")
+        );
+    }
+
     patterns = [
         // Matches comments
         // (whitespace* comment) LOOKAHEAD(newline)
@@ -141,9 +149,15 @@ exports.lexer = (function() {
         spaced_pattern("RPAREN", /(\))/),
         spaced_pattern("COMMA", /(,)/),
 
+        {pattern: /^(\s*)"((?:\\"|[^\"])*?)"/, func: function(matches) {
+            var ws  = matches[1];
+            var str = matches[2];
+            lexer.tokens.push({token: "STR", yytext: unescape(str)});
+        }},
         spaced_pattern("NUM", /([+-]?\d+)/),
         spaced_pattern("ID",  /(\w+)/),
 
+        spaced_pattern("CAT", /(\~)/),
         spaced_pattern("ADD", /(\+)/),
         spaced_pattern("SUB", /(\-)/),
         spaced_pattern("MUL", /(\*)/),

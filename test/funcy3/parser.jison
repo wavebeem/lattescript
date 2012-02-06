@@ -1,3 +1,4 @@
+%left  cat
 %left  add sub
 %left  mul div
 %right exp
@@ -40,10 +41,12 @@ empty_args_list: { $$ = []; };
 expr: expr   bin_op expr   { $$ = {type: $bin_op, left: $expr1, right: $expr2}; }
     | lparen expr   rparen { $$ = $expr; }
     | num
+    | str
     | id
     ;
 
-bin_op: add
+bin_op: cat
+      | add
       | sub
       | mul
       | div
@@ -57,12 +60,14 @@ pass: 'PASS' { $$ = {type: "NOOP"}; };
 arg: expr;
 id: 'ID';
 num: 'NUM';
+str: 'STR';
 while: 'WHILE';
 comma: 'COMMA';
 newline: 'NEWLINE';
 indent: 'INDENT';
 dedent: 'DEDENT';
 eof: 'EOF';
+cat: 'CAT';
 add: 'ADD';
 sub: 'SUB';
 mul: 'MUL';
