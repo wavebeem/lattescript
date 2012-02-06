@@ -91,7 +91,7 @@ exports.lexer = (function() {
     }
 
     function spaced_pattern(type, pattern_fragment) {
-        var pattern = RegExp(/^(\s*)/.source + pattern_fragment.source);
+        var pattern = new RegExp(/^(\s*)/.source + pattern_fragment.source);
         return {pattern: pattern, func: function(matches) {
             var ws = matches[1];
             var x  = matches[2];
