@@ -135,6 +135,7 @@ exports.lexer = (function() {
         }},
 
         regular_pattern("WHILE", /^(while)/),
+        regular_pattern("PASS",  /^(pass)/),
 
         spaced_pattern("LPAREN", /(\()/),
         spaced_pattern("RPAREN", /(\))/),

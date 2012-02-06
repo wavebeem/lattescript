@@ -18,10 +18,12 @@ statements: statements statement { $$.push($statement); }
 
 statement: single_statement newline
          | block_statement
-         | newline
+         | newline { $$ = {type: "NOOP"}; }
          ;
 
-single_statement: proc_call;
+single_statement: proc_call
+                | pass
+                ;
 
 proc_call: id args_list { $$ = {type: "PROC_CALL", name: $id, args: $args_list}; };
 
@@ -35,8 +37,8 @@ nonempty_args_list: nonempty_args_list comma arg { $$.push($arg); }
 
 empty_args_list: { $$ = []; };
 
-expr: expr bin_op expr   { $$ = {type: $bin_op, left: $expr1, right: $expr2}; }
-    | lparen expr rparen { $$ = $expr; }
+expr: expr   bin_op expr   { $$ = {type: $bin_op, left: $expr1, right: $expr2}; }
+    | lparen expr   rparen { $$ = $expr; }
     | num
     | id
     ;
@@ -49,6 +51,8 @@ bin_op: add
       ;
 
 block_statement: while_statement;
+
+pass: 'PASS' { $$ = {type: "NOOP"}; };
 
 arg: expr;
 id: 'ID';
