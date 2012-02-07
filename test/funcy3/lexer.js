@@ -162,7 +162,7 @@ exports.lexer = (function() {
         {pattern: /^(\s*)"((?:\\"|[^\"])*?)"/, func: function(matches) {
             var ws  = matches[1];
             var str = matches[2];
-            lexer.tokens.push({token: "STR", yytext: unescape(str)});
+            lexer.tokens.push({token: "TEXT", yytext: unescape(str)});
         }},
         spaced_pattern("NUM",   /([+-]?\d+)/),
         spaced_pattern("TRUE",  /(true)/),
