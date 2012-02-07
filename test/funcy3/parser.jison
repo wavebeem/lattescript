@@ -1,10 +1,4 @@
-%left  cat
-%left  add sub
-%left  mul div
-%right exp
-%left  and
-%left  or
-
+%start program
 %%
 program: statements eof
     { return {type: "BLOCK", statements: $statements}; };
@@ -40,12 +34,29 @@ nonempty_args_list: nonempty_args_list comma expr { $$.push($expr); }
 
 empty_args_list: { $$ = []; };
 
-expr: expr   bin_op basic    { $$ = {type: $bin_op, left: $expr, right: $basic}; }
-    | lparen expr   rparen   { $$ = $expr; }
-    | len basic              { $$ = {type: "LEN", arg: $basic}; }
-    | len lparen expr rparen { $$ = {type: "LEN", arg: $expr }; }
-    | basic
+expr: expr_01
+    | expr_02
+    | expr_03
+    | expr_04
+    | expr_05
+    | expr_06
+    | expr_07
+    | expr_08
     ;
+
+expr_01: expr_01 or  expr_02 { $$ = {type: $2, left: $1, right: $3}; };
+expr_02: expr_02 and expr_03 { $$ = {type: $2, left: $1, right: $3}; };
+expr_03: expr_03 exp expr_04 { $$ = {type: $2, left: $1, right: $3}; };
+expr_04: expr_04 mul expr_05 { $$ = {type: $2, left: $1, right: $3}; }
+       | expr_04 div expr_05 { $$ = {type: $2, left: $1, right: $3}; };
+expr_05: expr_05 add expr_06 { $$ = {type: $2, left: $1, right: $3}; }
+       | expr_05 sub expr_06 { $$ = {type: $2, left: $1, right: $3}; };
+expr_06: expr_06 add expr_07 { $$ = {type: $2, left: $1, right: $3}; };
+expr_07: expr_07 at  expr_08 { $$ = {type: $2, left: $1, right: $3}; };
+expr_08: len expr_08         { $$ = {type: "LEN", arg: $2}; }
+       | lparen expr rparen  { $$ = $2; }
+       | basic
+       ;
 
 basic: literal
      | id
@@ -57,7 +68,7 @@ list_internals: empty_list_internals
               | nonempty_list_internals
               ;
 
-empty_list_internals:;
+empty_list_internals: { $$ = []; };
 
 nonempty_list_internals: nonempty_list_internals comma expr { $$.push($expr); }
                        | expr                               { $$ =   [$expr]; }
