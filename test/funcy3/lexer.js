@@ -168,6 +168,8 @@ exports.lexer = (function() {
         spaced_pattern("TRUE",  /(true)/),
         spaced_pattern("FALSE", /(false)/),
 
+        spaced_pattern("LEN", /(#)/),
+
         spaced_pattern("LE", /(<=)/),
         spaced_pattern("GE", /(>=)/),
         spaced_pattern("LT", /(<)/),

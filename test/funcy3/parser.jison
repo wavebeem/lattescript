@@ -40,8 +40,10 @@ nonempty_args_list: nonempty_args_list comma expr { $$.push($expr); }
 
 empty_args_list: { $$ = []; };
 
-expr: expr   bin_op basic  { $$ = {type: $bin_op, left: $expr, right: $basic}; }
-    | lparen expr   rparen { $$ = $expr; }
+expr: expr   bin_op basic    { $$ = {type: $bin_op, left: $expr, right: $basic}; }
+    | lparen expr   rparen   { $$ = $expr; }
+    | len basic              { $$ = {type: "LEN", arg: $basic}; }
+    | len lparen expr rparen { $$ = {type: "LEN", arg: $expr }; }
     | basic
     ;
 
@@ -114,6 +116,7 @@ exp: 'EXP' { $$ = {type: "OP", value: "EXP"}; };
 
 str: 'STR' { $$ = {type: "STR", value: $1}; };
 
+len: 'LEN';
 while: 'WHILE';
 comma: 'COMMA';
 newline: 'NEWLINE';
