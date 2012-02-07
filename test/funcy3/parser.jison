@@ -36,33 +36,23 @@ empty_args_list: { $$ = []; };
 
 expr: expr_08
     | expr_07
+    | expr_06
+    | expr_05
+    | expr_04
+    | expr_03
+    | expr_02
+    | expr_01
     ;
 
-expr_01: expr_01 or  expr_02 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_02 or  expr_02 { $$ = {type: $2, left: $1, right: $3}; }
-       ;
-expr_02: expr_02 and expr_03 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_03 and expr_03 { $$ = {type: $2, left: $1, right: $3}; }
-       ;
-expr_03: expr_03 exp expr_04 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_04 exp expr_04 { $$ = {type: $2, left: $1, right: $3}; }
-       ;
-expr_04: expr_04 mul expr_05 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_04 div expr_05 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_05 mul expr_05 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_05 div expr_05 { $$ = {type: $2, left: $1, right: $3}; }
-       ;
-expr_05: expr_05 add expr_06 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_05 sub expr_06 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_05 add expr_06 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_05 sub expr_06 { $$ = {type: $2, left: $1, right: $3}; }
-       ;
-expr_06: expr_06 add expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_07 add expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-       ;
-expr_07: expr_07 at  expr_08 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_08 at  expr_08 { $$ = {type: $2, left: $1, right: $3}; }
-       ;
+expr_01: expr or  expr_02 { $$ = {type: $2, left: $1, right: $3}; };
+expr_02: expr and expr_03 { $$ = {type: $2, left: $1, right: $3}; };
+expr_03: expr_04 exp expr { $$ = {type: $2, left: $1, right: $3}; };
+expr_04: expr mul expr_05 { $$ = {type: $2, left: $1, right: $3}; }
+       | expr div expr_05 { $$ = {type: $2, left: $1, right: $3}; };
+expr_05: expr add expr_06 { $$ = {type: $2, left: $1, right: $3}; }
+       | expr sub expr_06 { $$ = {type: $2, left: $1, right: $3}; };
+expr_06: expr add expr_07 { $$ = {type: $2, left: $1, right: $3}; };
+expr_07: expr at  expr_08 { $$ = {type: $2, left: $1, right: $3}; };
 expr_08: len expr_08         { $$ = {type: "LEN", arg: $2}; }
        | lparen expr rparen  { $$ = $2; }
        | basic

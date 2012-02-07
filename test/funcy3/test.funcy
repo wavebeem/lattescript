@@ -12,7 +12,9 @@
 ;print 1
 ;print #[]
 ;print #([#([a])])
-print #(xss@1)
+;a #(xss@1)
+;b #(#(x))
+c 1^2^3
 ;print true and (#[1, 2] > 2)
 ;print #[1, 2, 3]
 ;print a@(b+c)
