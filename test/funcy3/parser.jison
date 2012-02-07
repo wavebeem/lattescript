@@ -49,60 +49,80 @@ basic: literal
      | id
      ;
 
+list: lbracket list_internals rbracket { $$ = {type: "LIST", values: $list_internals}; };
+
+list_internals: empty_list_internals
+              | nonempty_list_internals
+              ;
+
+empty_list_internals:;
+
+nonempty_list_internals: nonempty_list_internals comma expr { $$.push($expr); }
+                       | expr                               { $$ =   [$expr]; }
+                       ;
+
 literal: bool
        | num
        | str
+       | list
        ;
 
-bin_op: and { $$ = "AND"; }
-      | or  { $$ = "OR";  }
-      | lt  { $$ = "LT";  }
-      | gt  { $$ = "GT";  }
-      | le  { $$ = "LE";  }
-      | ge  { $$ = "GE";  }
-      | eq  { $$ = "EQ";  }
-      | cat { $$ = "CAT"; }
-      | add { $$ = "ADD"; }
-      | sub { $$ = "SUB"; }
-      | mul { $$ = "MUL"; }
-      | div { $$ = "DIV"; }
-      | exp { $$ = "EXP"; }
+bin_op: and
+      | or
+      | lt
+      | gt
+      | le
+      | ge
+      | eq
+      | cat
+      | add
+      | sub
+      | mul
+      | div
+      | exp
       ;
 
 block_statement: while_statement;
 
-pass: 'PASS' { $$ = {type: "NOOP"}; };
-
-bool: true   { $$ = {type: "BOOL", value: true }; }
-    | false  { $$ = {type: "BOOL", value: false}; }
+bool: true
+    | false
     ;
 
-true:  'TRUE';
-false: 'FALSE';
-eq: 'EQ';
-lt: 'LT';
-gt: 'GT';
-le: 'LE';
-ge: 'GE';
-id: 'ID';
-num: 'NUM';
-str: 'STR';
+true:  'TRUE'  { $$ = {type: "BOOL", value: true }; };
+false: 'FALSE' { $$ = {type: "BOOL", value: false}; };
+
+id: 'ID' { $$ = {type: "ID", value: $1}; };
+
+pass: 'PASS' { $$ = {type: "NOOP"}; };
+
+num: 'NUM' { $$ = {type: "NUM", value: Number($1)}; };
+
+eq:  'EQ'  { $$ = {type: "OP", value: "EQ" }; };
+lt:  'LT'  { $$ = {type: "OP", value: "LT" }; };
+gt:  'GT'  { $$ = {type: "OP", value: "GT" }; };
+le:  'LE'  { $$ = {type: "OP", value: "LE" }; };
+ge:  'GE'  { $$ = {type: "OP", value: "GE" }; };
+or:  'OR'  { $$ = {type: "OP", value: "OR" }; };
+and: 'AND' { $$ = {type: "OP", value: "AND"}; };
+cat: 'CAT' { $$ = {type: "OP", value: "CAT"}; };
+add: 'ADD' { $$ = {type: "OP", value: "ADD"}; };
+sub: 'SUB' { $$ = {type: "OP", value: "SUB"}; };
+mul: 'MUL' { $$ = {type: "OP", value: "MUL"}; };
+div: 'DIV' { $$ = {type: "OP", value: "DIV"}; };
+exp: 'EXP' { $$ = {type: "OP", value: "EXP"}; };
+
+str: 'STR' { $$ = {type: "STR", value: $1}; };
+
 while: 'WHILE';
 comma: 'COMMA';
 newline: 'NEWLINE';
 indent: 'INDENT';
 dedent: 'DEDENT';
 eof: 'EOF';
-and: 'AND';
-or:  'OR';
-cat: 'CAT';
-add: 'ADD';
-sub: 'SUB';
-mul: 'MUL';
-div: 'DIV';
-exp: 'EXP';
 lparen: 'LPAREN';
 rparen: 'RPAREN';
+lbracket: 'LBRACKET';
+rbracket: 'RBRACKET';
 
 /* vim: set syn=yacc: */
 %%

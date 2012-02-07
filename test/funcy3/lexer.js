@@ -152,8 +152,11 @@ exports.lexer = (function() {
         regular_pattern("WHILE", /^(while)/),
         regular_pattern("PASS",  /^(pass)/),
 
-        spaced_pattern("LPAREN", /(\()/),
-        spaced_pattern("RPAREN", /(\))/),
+        spaced_pattern("LPAREN",   /(\()/),
+        spaced_pattern("RPAREN",   /(\))/),
+        spaced_pattern("LBRACKET", /(\[)/),
+        spaced_pattern("RBRACKET", /(\])/),
+
         spaced_pattern("COMMA", /(,)/),
 
         {pattern: /^(\s*)"((?:\\"|[^\"])*?)"/, func: function(matches) {
