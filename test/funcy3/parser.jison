@@ -103,6 +103,7 @@ gt:  'GT'  { $$ = {type: "OP", value: "GT" }; };
 le:  'LE'  { $$ = {type: "OP", value: "LE" }; };
 ge:  'GE'  { $$ = {type: "OP", value: "GE" }; };
 or:  'OR'  { $$ = {type: "OP", value: "OR" }; };
+or:  'AT'  { $$ = {type: "OP", value: "AT" }; };
 and: 'AND' { $$ = {type: "OP", value: "AND"}; };
 cat: 'CAT' { $$ = {type: "OP", value: "CAT"}; };
 add: 'ADD' { $$ = {type: "OP", value: "ADD"}; };

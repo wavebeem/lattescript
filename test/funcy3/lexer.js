@@ -176,6 +176,7 @@ exports.lexer = (function() {
 
         spaced_pattern("AND", /(and)/),
         spaced_pattern("OR",  /(or)/),
+        spaced_pattern("AT",  /(\@)/),
         spaced_pattern("CAT", /(\~)/),
         spaced_pattern("ADD", /(\+)/),
         spaced_pattern("SUB", /(\-)/),
