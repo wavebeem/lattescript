@@ -40,11 +40,14 @@ nonempty_args_list: nonempty_args_list comma expr { $$.push($expr); }
 
 empty_args_list: { $$ = []; };
 
-expr: expr   bin_op expr   { $$ = {type: $bin_op, left: $expr1, right: $expr2}; }
+expr: expr   bin_op basic  { $$ = {type: $bin_op, left: $expr, right: $basic}; }
     | lparen expr   rparen { $$ = $expr; }
-    | literal
-    | id
+    | basic
     ;
+
+basic: literal
+     | id
+     ;
 
 literal: bool
        | num
