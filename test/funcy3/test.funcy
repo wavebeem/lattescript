@@ -11,7 +11,9 @@
 ;print [1]
 ;print 1
 ;print #[]
-print true and (#[1, 2] > 2)
+;print #([#([a])])
+print #(xss@1)
+;print true and (#[1, 2] > 2)
 ;print #[1, 2, 3]
 ;print a@(b+c)
 ;;; FIXME
