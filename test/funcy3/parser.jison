@@ -83,8 +83,11 @@ expr_09: len expr_10         { $$ = {type: "LEN", arg: $2}; }
        | expr_10
        ;
 expr_10: lparen expr rparen  { $$ = $2; }
+       | func_call
        | basic
        ;
+
+func_call: id lparen args_list rparen  { $$ = {type: "FUNC_CALL", args: $args_list}; };
 
 basic: literal
      | id
