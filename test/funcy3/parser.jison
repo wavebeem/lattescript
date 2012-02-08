@@ -53,18 +53,25 @@ expr_05: expr_05 mul expr_06 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_05 div expr_06 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_06
        ;
-expr_06: expr_06 cat expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+expr_06: expr_06 lt  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+       | expr_06 gt  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+       | expr_06 le  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+       | expr_06 ge  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+       | expr_06 eq  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_07
        ;
-expr_07: expr_07 at  expr_08 { $$ = {type: $2, left: $1, right: $3}; }
+expr_07: expr_07 cat expr_08 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_08
        ;
-expr_08: len expr_09         { $$ = {type: "LEN", arg: $2}; }
-       | sub expr_09         { $$ = {type: "NEG", arg: $2}; }
-       | add expr_09         { $$ = {type: "POS", arg: $2}; }
+expr_08: expr_08 at  expr_09 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_09
        ;
-expr_09: lparen expr rparen  { $$ = $2; }
+expr_09: len expr_10         { $$ = {type: "LEN", arg: $2}; }
+       | sub expr_10         { $$ = {type: "NEG", arg: $2}; }
+       | add expr_10         { $$ = {type: "POS", arg: $2}; }
+       | expr_10
+       ;
+expr_10: lparen expr rparen  { $$ = $2; }
        | basic
        ;
 

@@ -1,4 +1,5 @@
 ; vim: set syn=lisp:
+print 1 < 2 and 3 + 4 = 7 or true
 ;print 1 + 2*3+(4 + 5)/6
 ;print 3.14
 ;print 3
