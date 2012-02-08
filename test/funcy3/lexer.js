@@ -164,7 +164,8 @@ exports.lexer = (function() {
             var str = matches[2];
             lexer.tokens.push({token: "TEXT", yytext: unescape(str)});
         }},
-        spaced_pattern("NUM",   /([+-]?\d+)/),
+        spaced_pattern("NUM",   /(\d+\.\d+)/),
+        spaced_pattern("NUM",   /(\d+)/),
         spaced_pattern("TRUE",  /(true)/),
         spaced_pattern("FALSE", /(false)/),
 

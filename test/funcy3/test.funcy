@@ -1,7 +1,10 @@
 ; vim: set syn=lisp:
 ;print 1 + 2*3+(4 + 5)/6
+;print 3.14
+;print 3
+;print 1/-a
 ;print 1 + (+2)
-print 1^2^3
+;print 1^2^3
 ;print 1 + 2 * 3 ^ 5 ^ 6
 ;print [[1, 2], [[3]], [[[4]]]]
 ;print [1 + 2, 3 + 4 * 5]

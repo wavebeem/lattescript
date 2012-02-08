@@ -60,6 +60,8 @@ expr_07: expr_07 at  expr_08 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_08
        ;
 expr_08: len expr_09         { $$ = {type: "LEN", arg: $2}; }
+       | sub expr_09         { $$ = {type: "NEG", arg: $2}; }
+       | add expr_09         { $$ = {type: "POS", arg: $2}; }
        | expr_09
        ;
 expr_09: lparen expr rparen  { $$ = $2; }
