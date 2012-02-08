@@ -23,7 +23,15 @@ single_statement: proc_call
                 | assignment
                 ;
 
-assignment: id assign expr { $$ = {type: "ASSIGN", left: $id, right: $expr}; };
+assignment: lvalue assign expr { $$ = {type: "ASSIGN", left: $lvalue, right: $expr}; };
+
+lvalue: id
+      | list_lvalue
+      ;
+
+list_lvalue: list_value at expr { $$ = {type: $at, left: $list_lvalue, right: $expr}; }
+           | id         at expr { $$ = {type: $at, left: $id,          right: $expr}; }
+           ;
 
 proc_call: id args_list { $$ = {type: "PROC_CALL", name: $id, args: $args_list}; };
 
