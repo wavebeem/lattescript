@@ -45,12 +45,12 @@ expr_02: expr_02 and expr_03 { $$ = {type: $2, left: $1, right: $3}; }
 expr_03: expr_03 exp expr_04 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_04
        ;
-expr_04: expr_04 mul expr_05 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_04 div expr_05 { $$ = {type: $2, left: $1, right: $3}; }
+expr_04: expr_04 add expr_05 { $$ = {type: $2, left: $1, right: $3}; }
+       | expr_04 sub expr_05 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_05
        ;
-expr_05: expr_05 add expr_06 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_05 sub expr_06 { $$ = {type: $2, left: $1, right: $3}; }
+expr_05: expr_05 mul expr_06 { $$ = {type: $2, left: $1, right: $3}; }
+       | expr_05 div expr_06 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_06
        ;
 expr_06: expr_06 cat expr_07 { $$ = {type: $2, left: $1, right: $3}; }
@@ -59,8 +59,10 @@ expr_06: expr_06 cat expr_07 { $$ = {type: $2, left: $1, right: $3}; }
 expr_07: expr_07 at  expr_08 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_08
        ;
-expr_08: len expr_08         { $$ = {type: "LEN", arg: $2}; }
-       | lparen expr rparen  { $$ = $2; }
+expr_08: len expr_09         { $$ = {type: "LEN", arg: $2}; }
+       | expr_09
+       ;
+expr_09: lparen expr rparen  { $$ = $2; }
        | basic
        ;
 
@@ -70,7 +72,7 @@ basic: literal
 
 literal: bool
        | num
-       | str
+       | text
        | list
        ;
 
@@ -108,7 +110,6 @@ gt:  'GT'  { $$ = {type: "OP", value: "GT" }; };
 le:  'LE'  { $$ = {type: "OP", value: "LE" }; };
 ge:  'GE'  { $$ = {type: "OP", value: "GE" }; };
 or:  'OR'  { $$ = {type: "OP", value: "OR" }; };
-or:  'AT'  { $$ = {type: "OP", value: "AT" }; };
 and: 'AND' { $$ = {type: "OP", value: "AND"}; };
 cat: 'CAT' { $$ = {type: "OP", value: "CAT"}; };
 add: 'ADD' { $$ = {type: "OP", value: "ADD"}; };
@@ -117,7 +118,7 @@ mul: 'MUL' { $$ = {type: "OP", value: "MUL"}; };
 div: 'DIV' { $$ = {type: "OP", value: "DIV"}; };
 exp: 'EXP' { $$ = {type: "OP", value: "EXP"}; };
 
-str: 'STR' { $$ = {type: "STR", value: $1}; };
+text: 'TEXT' { $$ = {type: "TEXT", value: $1}; };
 
 len: 'LEN';
 while: 'WHILE';
