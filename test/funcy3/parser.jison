@@ -20,7 +20,10 @@ statement: single_statement newline
 
 single_statement: proc_call
                 | pass
+                | assignment
                 ;
+
+assignment: id assign expr { $$ = {type: "ASSIGN", left: $id, right: $expr}; };
 
 proc_call: id args_list { $$ = {type: "PROC_CALL", name: $id, args: $args_list}; };
 
@@ -128,6 +131,8 @@ div: 'DIV' { $$ = {type: "OP", value: "DIV"}; };
 exp: 'EXP' { $$ = {type: "OP", value: "EXP"}; };
 
 text: 'TEXT' { $$ = {type: "TEXT", value: $1}; };
+
+assign: 'ASSIGN';
 
 len: 'LEN';
 while: 'WHILE';
