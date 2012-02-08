@@ -42,7 +42,7 @@ expr_01: expr_01 or  expr_02 { $$ = {type: $2, left: $1, right: $3}; }
 expr_02: expr_02 and expr_03 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_03
        ;
-expr_03: expr_03 exp expr_04 { $$ = {type: $2, left: $1, right: $3}; }
+expr_03: expr_04 exp expr_03 { $$ = {type: $2, left: $1, right: $3}; }
        | expr_04
        ;
 expr_04: expr_04 add expr_05 { $$ = {type: $2, left: $1, right: $3}; }
