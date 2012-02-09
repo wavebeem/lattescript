@@ -21,8 +21,13 @@ while_statement
 ;
 
 forrange_statement
-: for id from expr to expr         newline block { $$ = {type: "FORRANGE", from: $expr1, to: $expr2, by:   1, statements: $block}; }
-| for id from expr to expr by expr newline block { $$ = {type: "FORRANGE", from: $expr1, to: $expr2, by: $by, statements: $block}; }
+: for_helper by expr newline block { $$.by = $expr; $$.statements = $block; }
+| for_helper         newline block { $$.by =     1; $$.statements = $block; }
+;
+
+for_helper
+: for id from expr to expr
+{ $$ = {type: "FORRANGE", from: $expr1, to: $expr2}; }
 ;
 
 foreach_statement
