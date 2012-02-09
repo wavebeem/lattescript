@@ -1,136 +1,195 @@
 %start program
 %%
-program: statements eof
-    { return {type: "BLOCK", statements: $statements}; };
+program
+: statements eof
+{ return {type: "BLOCK", statements: $statements}; }
+;
 
-block: indent statements dedent
-    { $$ = $statements; };
+block
+: indent statements dedent
+{ $$ = $statements; }
+;
 
-until_statement: until expr newline block
-    { $$ = {type: "UNTIL", condition: $expr, statements: $block}; };
+until_statement
+: until expr newline block
+{ $$ = {type: "UNTIL", condition: $expr, statements: $block}; }
+;
 
-while_statement: while expr newline block
-    { $$ = {type: "WHILE", condition: $expr, statements: $block}; };
+while_statement
+: while expr newline block
+{ $$ = {type: "WHILE", condition: $expr, statements: $block}; }
+;
 
 forrange_statement
 : for id from expr to expr         newline block { $$ = {type: "FORRANGE", from: $expr1, to: $expr2, by:   1, statements: $block}; }
 | for id from expr to expr by expr newline block { $$ = {type: "FORRANGE", from: $expr1, to: $expr2, by: $by, statements: $block}; }
 ;
 
-foreach_statement: for id in expr newline block
-    { $$ = {type: "FOREACH", var: $id, list: $expr, statements: $block}; };
+foreach_statement
+: for id in expr newline block
+{ $$ = {type: "FOREACH", var: $id, list: $expr, statements: $block}; }
+;
 
-statements: statements statement { $$.push($statement); }
-          | statement            { $$ =   [$statement]; }
-          ;
+statements
+: statements statement { $$.push($statement); }
+| statement            { $$ =   [$statement]; }
+;
 
-block_statement: while_statement
-               | until_statement
-               | forrange_statement
-               | foreach_statement
-               ;
+block_statement
+: while_statement
+| until_statement
+| forrange_statement
+| foreach_statement
+;
 
-statement: single_statement newline
-         | block_statement
-         | newline { $$ = {type: "NOOP"}; }
-         ;
+statement
+: single_statement newline
+| block_statement
+| newline { $$ = {type: "NOOP"}; }
+;
 
-single_statement: proc_call
-                | pass
-                | assignment
-                ;
+single_statement
+: proc_call
+| pass
+| assignment
+;
 
-assignment: lvalue assign expr { $$ = {type: "ASSIGN", left: $lvalue, right: $expr}; };
+assignment
+: lvalue assign expr
+{ $$ = {type: "ASSIGN", left: $lvalue, right: $expr}; };
 
-lvalue: id
-      | list_lvalue
-      ;
+lvalue
+: id
+| list_lvalue
+;
 
-list_lvalue: list_value at expr { $$ = {type: $at, left: $list_lvalue, right: $expr}; }
-           | id         at expr { $$ = {type: $at, left: $id,          right: $expr}; }
-           ;
+list_lvalue
+: list_value at expr { $$ = {type: $at, left: $list_lvalue, right: $expr}; }
+| id         at expr { $$ = {type: $at, left: $id,          right: $expr}; }
+;
 
-proc_call: id args_list { $$ = {type: "PROC_CALL", name: $id, args: $args_list}; };
+proc_call
+: id args_list
+{ $$ = {type: "PROC_CALL", name: $id, args: $args_list}; }
+;
 
-args_list: nonempty_args_list
-         | empty_args_list
-         ;
+args_list
+: nonempty_args_list
+| empty_args_list
+;
 
-nonempty_args_list: nonempty_args_list comma expr { $$.push($expr); }
-                  | expr                          { $$ =   [$expr]; }
-                  ;
+nonempty_args_list
+: nonempty_args_list comma expr { $$.push($expr); }
+| expr                          { $$ =   [$expr]; }
+;
 
-empty_args_list: { $$ = []; };
+empty_args_list
+: /* empty */
+{ $$ = []; }
+;
 
 expr: expr_01;
 
-expr_01: expr_01 or  expr_02 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_02
-       ;
-expr_02: expr_02 and expr_03 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_03
-       ;
-expr_03: expr_04 exp expr_03 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_04
-       ;
-expr_04: expr_04 add expr_05 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_04 sub expr_05 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_05
-       ;
-expr_05: expr_05 mul expr_06 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_05 div expr_06 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_06
-       ;
-expr_06: expr_06 lt  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_06 gt  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_06 le  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_06 ge  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_06 eq  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_07
-       ;
-expr_07: expr_07 cat expr_08 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_08
-       ;
-expr_08: expr_08 at  expr_09 { $$ = {type: $2, left: $1, right: $3}; }
-       | expr_09
-       ;
-expr_09: len expr_10         { $$ = {type: "LEN", arg: $2}; }
-       | sub expr_10         { $$ = {type: "NEG", arg: $2}; }
-       | add expr_10         { $$ = {type: "POS", arg: $2}; }
-       | expr_10
-       ;
-expr_10: lparen expr rparen  { $$ = $2; }
-       | func_call
-       | basic
-       ;
+expr_01
+: expr_01 or  expr_02 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_02
+;
 
-func_call: id lparen args_list rparen  { $$ = {type: "FUNC_CALL", args: $args_list}; };
+expr_02
+: expr_02 and expr_03 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_03
+;
 
-basic: literal
-     | id
-     ;
+expr_03
+: expr_04 exp expr_03 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_04
+;
 
-literal: bool
-       | num
-       | text
-       | list
-       ;
+expr_04
+: expr_04 add expr_05 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_04 sub expr_05 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_05
+;
 
-list: lbracket list_internals rbracket { $$ = {type: "LIST", values: $list_internals}; };
+expr_05
+: expr_05 mul expr_06 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_05 div expr_06 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_06
+;
 
-list_internals: empty_list_internals
-              | nonempty_list_internals
-              ;
+expr_06
+: expr_06 lt  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_06 gt  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_06 le  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_06 ge  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_06 eq  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_07
+;
 
-empty_list_internals: { $$ = []; };
+expr_07
+: expr_07 cat expr_08 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_08
+;
 
-nonempty_list_internals: nonempty_list_internals comma expr { $$.push($expr); }
-                       | expr                               { $$ =   [$expr]; }
-                       ;
+expr_08
+: expr_08 at  expr_09 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_09
+;
 
-bool: true
-    | false
-    ;
+expr_09
+: len expr_10 { $$ = {type: "LEN", arg: $2}; }
+| sub expr_10 { $$ = {type: "NEG", arg: $2}; }
+| add expr_10 { $$ = {type: "POS", arg: $2}; }
+| expr_10
+;
+
+expr_10
+: lparen expr rparen  { $$ = $2; }
+| func_call
+| basic
+;
+
+func_call
+: id lparen args_list rparen
+{ $$ = {type: "FUNC_CALL", args: $args_list}; }
+;
+
+basic
+: literal
+| id
+;
+
+literal
+: bool
+| num
+| text
+| list
+;
+
+list
+: lbracket list_internals rbracket
+{ $$ = {type: "LIST", values: $list_internals}; }
+;
+
+list_internals
+: empty_list_internals
+| nonempty_list_internals
+;
+
+empty_list_internals
+: /* empty */
+{ $$ = []; }
+;
+
+nonempty_list_internals
+: nonempty_list_internals comma expr { $$.push($expr); }
+| expr                               { $$ =   [$expr]; }
+;
+
+bool
+: true
+| false
+;
 
 true:  'TRUE'  { $$ = {type: "BOOL", value: true }; };
 false: 'FALSE' { $$ = {type: "BOOL", value: false}; };

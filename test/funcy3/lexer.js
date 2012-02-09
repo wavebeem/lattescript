@@ -157,7 +157,7 @@ exports.lexer = (function() {
         spaced_pattern("IN",     /(in)/),
         spaced_pattern("TO",     /(to)/),
         spaced_pattern("BY",     /(by)/),
-        spaced_pattern("FROM",   /(to)/),
+        spaced_pattern("FROM",   /(from)/),
 
         spaced_pattern("LPAREN",   /(\()/),
         spaced_pattern("RPAREN",   /(\))/),
