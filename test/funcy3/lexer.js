@@ -149,6 +149,11 @@ exports.lexer = (function() {
             }
         }},
 
+        regular_pattern("FOR",   /^(for)/),
+        spaced_pattern("IN",     /(in)/),
+        spaced_pattern("TO",     /(to)/),
+        spaced_pattern("BY",     /(by)/),
+        spaced_pattern("FROM",   /(to)/),
         regular_pattern("WHILE", /^(while)/),
         regular_pattern("PASS",  /^(pass)/),
 

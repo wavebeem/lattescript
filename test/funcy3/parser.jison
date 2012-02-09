@@ -6,12 +6,25 @@ program: statements eof
 block: indent statements dedent
     { $$ = $statements; };
 
-while_statement: while newline block
-    { $$ = {type: "WHILE", statements: $block}; };
+while_statement: while expr newline block
+    { $$ = {type: "WHILE", condition: $expr, statements: $block}; };
+
+forrange_statement
+: for id from expr to expr         newline block { $$ = {type: "FORRANGE", from: $expr1, to: $expr2, by:   1, statements: $block}; }
+| for id from expr to expr by expr newline block { $$ = {type: "FORRANGE", from: $expr1, to: $expr2, by: $by, statements: $block}; }
+;
+
+foreach_statement: for id in expr newline block
+    { $$ = {type: "FOREACH", var: $id, list: $expr, statements: $block}; };
 
 statements: statements statement { $$.push($statement); }
           | statement            { $$ =   [$statement]; }
           ;
+
+block_statement: while_statement
+               | forrange_statement
+               | foreach_statement
+               ;
 
 statement: single_statement newline
          | block_statement
@@ -111,8 +124,6 @@ nonempty_list_internals: nonempty_list_internals comma expr { $$.push($expr); }
                        | expr                               { $$ =   [$expr]; }
                        ;
 
-block_statement: while_statement;
-
 bool: true
     | false
     ;
@@ -145,6 +156,12 @@ text: 'TEXT' { $$ = {type: "TEXT", value: $1}; };
 
 assign: 'ASSIGN';
 
+from: 'FROM';
+by: 'BY';
+in: 'IN';
+to: 'TO';
+
+for: 'FOR';
 len: 'LEN';
 while: 'WHILE';
 comma: 'COMMA';
