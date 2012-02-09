@@ -8,6 +8,9 @@
     ;x
 for x in xs
     print x
+
+until 2 + 2 = 5
+    print "Oh no, infinite loop!"
 ;print 1 < 2 and 3 + 4 = 7 or true
 ;print 1 + 2*3+(4 + 5)/6
 ;print 3.14

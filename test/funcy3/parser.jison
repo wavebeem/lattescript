@@ -6,6 +6,9 @@ program: statements eof
 block: indent statements dedent
     { $$ = $statements; };
 
+until_statement: until expr newline block
+    { $$ = {type: "UNTIL", condition: $expr, statements: $block}; };
+
 while_statement: while expr newline block
     { $$ = {type: "WHILE", condition: $expr, statements: $block}; };
 
@@ -22,6 +25,7 @@ statements: statements statement { $$.push($statement); }
           ;
 
 block_statement: while_statement
+               | until_statement
                | forrange_statement
                | foreach_statement
                ;
@@ -163,6 +167,7 @@ to: 'TO';
 
 for: 'FOR';
 len: 'LEN';
+until: 'UNTIL';
 while: 'WHILE';
 comma: 'COMMA';
 newline: 'NEWLINE';
