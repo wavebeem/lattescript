@@ -56,6 +56,17 @@ foreach_statement
 { $$ = {type: "FOREACH", var: $id, list: $expr, statements: $block}; }
 ;
 
+if_statement
+: if_helper else if_statement  { $$.else = $if_statement; }
+| if_helper else newline block { $$.else = $block; }
+| if_helper
+;
+
+if_helper
+: if expr newline block
+{ $$ = {type: "IF", cond: $expr, body: $block}; }
+;
+
 statements
 : statements statement { $$.push($statement); }
 | statement            { $$ =   [$statement]; }
@@ -66,6 +77,7 @@ block_statement
 | until_statement
 | forrange_statement
 | foreach_statement
+| if_statement
 ;
 
 statement
@@ -249,6 +261,8 @@ from: 'FROM';
 by: 'BY';
 in: 'IN';
 to: 'TO';
+if: 'IF';
+else: 'ELSE';
 
 for: 'FOR';
 len: 'LEN';
