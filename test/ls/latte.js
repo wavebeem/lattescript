@@ -20,8 +20,8 @@ var procs = {};
 
 var dispatch = {
     BLOCK: function(node) {
-        for (var n = 0; n < node.statements.length; n++) {
-            run(node.statements[n]);
+        for (var n = 0; n < node.length; n++) {
+            run(node[n]);
         }
     },
 
@@ -33,18 +33,18 @@ var dispatch = {
     },
 
     PROC_CALL: function(node) {
-        console.log("Calling procedure:", node.name);
-        run(procs[node.name]);
+        console.log("Calling procedure:", node.name.value);
+        run(procs[node.name.value]);
     },
 
     PROC_DEF: function(node) {
-        console.log("Defining procedure:", node.name);
-        procs[node.name] = node.body;
+        console.log("Defining procedure:", node.name.value);
+        procs[node.name.value] = node.body;
     },
 
     FUNC_DEF: function(node) {
-        console.log("Defining function:", node.name);
-        funcs[node.name] = node.body;
+        console.log("Defining function:", node.name.value);
+        funcs[node.name.value] = node.body;
     },
 
     SUB_DEFS: function(node) {

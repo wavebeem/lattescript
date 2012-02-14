@@ -1,8 +1,29 @@
 %start program
 %%
 program
-: statements eof
-{ return {type: "BLOCK", statements: $statements}; }
+: sub_defs eof
+{ return $sub_defs; }
+;
+
+sub_defs
+: sub_defs sub_def { $$.sub_defs.push($sub_def); }
+| sub_def          { $$ = {type: "SUB_DEFS", sub_defs: [$sub_def]}; }
+| newline          { $$ = {type: "SUB_DEFS", sub_defs: []}; }
+;
+
+sub_def
+: proc_def
+| func_def
+;
+
+proc_def
+: procedure id args_list newline block
+{ $$ = {type: "PROC_DEF", name: $id, args: $args_list, body: $block}; }
+;
+
+func_def
+: function id lparen args_list rparen newline block
+{ $$ = {type: "FUNC_DEF", name: $id, args: $args_list, body: $block}; }
 ;
 
 block
@@ -242,6 +263,9 @@ lparen: 'LPAREN';
 rparen: 'RPAREN';
 lbracket: 'LBRACKET';
 rbracket: 'RBRACKET';
+
+function: 'FUNCTION';
+procedure: 'PROCEDURE';
 
 /* vim: set syn=yacc: */
 %%

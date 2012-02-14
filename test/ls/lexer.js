@@ -153,6 +153,8 @@ exports.lexer = (function() {
         regular_pattern("WHILE", /^(while)/),
         regular_pattern("UNTIL", /^(until)/),
         regular_pattern("PASS",  /^(pass)/),
+        regular_pattern("FUNCTION", /^(function)/),
+        regular_pattern("PROCEDURE", /^(procedure)/),
 
         spaced_pattern("IN",     /(in)/),
         spaced_pattern("TO",     /(to)/),
