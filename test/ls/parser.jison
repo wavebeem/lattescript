@@ -16,14 +16,29 @@ sub_def
 | func_def
 ;
 
+id_list
+: nonempty_id_list
+| empty_id_list
+;
+
+empty_id_list
+: /* empty */
+{ $$ = []; }
+;
+
+nonempty_id_list
+: nonempty_id_list id { $$.push($id); }
+| id                  { $$ =   [$id]; }
+;
+
 proc_def
-: procedure id args_list newline block
-{ $$ = {type: "PROC_DEF", name: $id, args: $args_list, body: $block}; }
+: procedure id id_list newline block
+{ $$ = {type: "PROC_DEF", name: $id, args: $id_list, body: $block}; }
 ;
 
 func_def
-: function id lparen args_list rparen newline block
-{ $$ = {type: "FUNC_DEF", name: $id, args: $args_list, body: $block}; }
+: function id lparen id_list rparen newline block
+{ $$ = {type: "FUNC_DEF", name: $id, args: $id_list, body: $block}; }
 ;
 
 block
@@ -202,6 +217,7 @@ literal
 | num
 | text
 | list
+| nothing
 ;
 
 list
@@ -231,6 +247,8 @@ bool
 
 true:  'TRUE'  { $$ = {type: "BOOL", value: true }; };
 false: 'FALSE' { $$ = {type: "BOOL", value: false}; };
+
+nothing: 'NOTHING' { $$ = {type: "NOTHING"}; };
 
 id: 'ID' { $$ = {type: "ID", value: $1}; };
 
