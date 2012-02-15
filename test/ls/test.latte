@@ -1,53 +1,10 @@
 ; vim: set syn=lisp:
 procedure add_echoed_input my_list
-    with m
-    with n
-    with input
-
+with m, n
     write "Please enter some word"
-    get input
+    get answer
     for m from 1 to n
-        append my_list, input
-
-procedure add_echoed_input my_list
-    use m, n, input
-    write "Please enter some word"
-    get input
-    for m from 1 to n
-        append my_list, input
-
-procedure add_echoed_input my_list
-    with m, n, input
-    write "Please enter some word"
-    get input
-    for m from 1 to n
-        append my_list, input
-
-procedure add_echoed_input my_list
-with m, n, input
-    write "Please enter some word"
-    get input
-    for m from 1 to n
-        append my_list, input
-
-procedure add_echoed_input my_list
-    write "Please enter some word"
-    get input
-    for m from 1 to n
-        append my_list, input
-
-procedure add_echoed_input my_list:
-    write "Please enter some word"
-    get input
-    for m from 1 to n:
-        append my_list, input
-
-procedure add_echoed_input my_list:
-with m, n, input
-    write "Please enter some word"
-    get input
-    for m from 1 to n:
-        append my_list, input
+        append my_list, answer
 
 function a(b)
     if b

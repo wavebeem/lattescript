@@ -27,18 +27,39 @@ empty_id_list
 ;
 
 nonempty_id_list
-: nonempty_id_list id { $$.push($id); }
-| id                  { $$ =   [$id]; }
+: nonempty_id_list comma id { $$.push($id); }
+| id                        { $$ =   [$id]; }
 ;
 
 proc_def
-: procedure id id_list newline block
-{ $$ = {type: "PROC_DEF", name: $id, args: $id_list, body: $block}; }
+: procedure id id_list newline
+  maybe_with
+  block
+{ $$ = {
+    type: "PROC_DEF",
+    name: $id,
+    args: $id_list,
+    vars: $maybe_with,
+    body: $block
+}; }
 ;
 
 func_def
-: function id lparen id_list rparen newline block
-{ $$ = {type: "FUNC_DEF", name: $id, args: $id_list, body: $block}; }
+: function id lparen id_list rparen newline
+  maybe_with
+  block
+{ $$ = {
+    type: "FUNC_DEF",
+    name: $id,
+    args: $id_list,
+    vars: $maybe_with,
+    body: $block
+}; }
+;
+
+maybe_with
+: with nonempty_id_list newline { $$ = $nonempty_id_list; }
+| /* empty */                   { $$ = []; }
 ;
 
 block
@@ -275,6 +296,7 @@ text: 'TEXT' { $$ = {type: "TEXT", value: $1}; };
 
 assign: 'ASSIGN';
 
+with: 'WITH';
 from: 'FROM';
 by: 'BY';
 in: 'IN';
