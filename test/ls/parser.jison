@@ -93,8 +93,8 @@ foreach_statement
 ;
 
 if_statement
-: if_helper else if_statement  { $$.else = $if_statement; }
-| if_helper else newline block { $$.else = $block; }
+: if_helper else if_statement  { $$["else"] = $if_statement; }
+| if_helper else newline block { $$["else"] = $block; }
 | if_helper
 ;
 
