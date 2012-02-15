@@ -106,10 +106,17 @@ exports.lexer = (function() {
         }};
     }
 
-    function regular_pattern(type, pattern) {
+    function keyword_pattern(type, word) {
+        var pattern = new RegExp(
+            /(\s*)/ .source + // optional whitespace
+            word            + // word we want to match
+            /(?=\W)/.source   // lookahead ensuring non-word char
+                              // (to fix 'input' matching an 'IN' token)
+        );
         return {pattern: pattern, func: function(matches) {
-            var x = matches[1];
-            lexer.tokens.push({token: type, yytext: x});
+            var ws = matches[1];
+            var kw = matches[2];
+            lexer.tokens.push({token: type, yytext: kw});
         }};
     }
 
@@ -149,20 +156,20 @@ exports.lexer = (function() {
             }
         }},
 
-        regular_pattern("FOR",   /^(for)/),
-        regular_pattern("WHILE", /^(while)/),
-        regular_pattern("UNTIL", /^(until)/),
-        regular_pattern("PASS",  /^(pass)/),
-        regular_pattern("WITH",  /^(with)/),
-        regular_pattern("FUNCTION", /^(function)/),
-        regular_pattern("PROCEDURE", /^(procedure)/),
-        spaced_pattern("IF",   /(if)/),
-        regular_pattern("ELSE", /^(else)/),
+        keyword_pattern("FOR",       "for"),
+        keyword_pattern("WHILE",     "while"),
+        keyword_pattern("UNTIL",     "until"),
+        keyword_pattern("PASS",      "pass"),
+        keyword_pattern("WITH",      "with"),
+        keyword_pattern("FUNCTION",  "function"),
+        keyword_pattern("PROCEDURE", "procedure"),
+        keyword_pattern("IF",        "if"),
+        keyword_pattern("ELSE",      "else"),
 
-        spaced_pattern("IN",     /(in)/),
-        spaced_pattern("TO",     /(to)/),
-        spaced_pattern("BY",     /(by)/),
-        spaced_pattern("FROM",   /(from)/),
+        keyword_pattern("IN",     "in"),
+        keyword_pattern("TO",     "to"),
+        keyword_pattern("BY",     "by"),
+        keyword_pattern("FROM",   "from"),
 
         spaced_pattern("LPAREN",   /(\()/),
         spaced_pattern("RPAREN",   /(\))/),
