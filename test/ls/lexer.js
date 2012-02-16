@@ -108,10 +108,10 @@ exports.lexer = (function() {
 
     function keyword_pattern(type, word) {
         var pattern = new RegExp(
-            /(\s*)/ .source + // optional whitespace
-            word            + // word we want to match
-            /(?=\W)/.source   // lookahead ensuring non-word char
-                              // (to fix 'input' matching an 'IN' token)
+            /^(\s*)/ .source  + // optional whitespace
+            "(" + word + ")"  + // word we want to match
+            /(?=\W)/.source     // lookahead ensuring non-word char
+                                // (to fix 'input' matching an 'IN' token)
         );
         return {pattern: pattern, func: function(matches) {
             var ws = matches[1];
@@ -185,9 +185,9 @@ exports.lexer = (function() {
         }},
         spaced_pattern("NUM",   /(\d+\.\d+)/),
         spaced_pattern("NUM",   /(\d+)/),
-        spaced_pattern("NOTHING", /(nothing)/),
-        spaced_pattern("TRUE",  /(true)/),
-        spaced_pattern("FALSE", /(false)/),
+        keyword_pattern("NOTHING", /(nothing)/),
+        keyword_pattern("TRUE",  "true"),
+        keyword_pattern("FALSE", "false"),
 
         spaced_pattern("ASSIGN", /(:=)/),
 
@@ -199,8 +199,8 @@ exports.lexer = (function() {
         spaced_pattern("GT", /(>)/),
         spaced_pattern("EQ", /(=)/),
 
-        spaced_pattern("AND", /(and)/),
-        spaced_pattern("OR",  /(or)/),
+        keyword_pattern("AND", /(and)/),
+        keyword_pattern("OR",  /(or)/),
         spaced_pattern("AT",  /(\@)/),
         spaced_pattern("CAT", /(\~)/),
         spaced_pattern("ADD", /(\+)/),
