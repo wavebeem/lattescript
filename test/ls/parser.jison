@@ -78,8 +78,16 @@ while_statement
 ;
 
 forrange_statement
-: for_helper by expr newline block { $$.by = $expr; $$.statements = $block; }
-| for_helper         newline block { $$.by =     1; $$.statements = $block; }
+: for_helper by expr newline
+  block
+{ $$.by = $expr;
+  $$.statements = $block;
+}
+| for_helper newline
+  block
+{ $$.by = {type: "NUM", value: 1};
+  $$.statements = $block;
+}
 ;
 
 for_helper

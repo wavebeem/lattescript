@@ -1,6 +1,13 @@
 ; vim: set syn=lisp:
-procedure f
-    print trueth
+procedure pyramid n
+with i, j
+    for i from 1 to n
+        for j from 1 to i
+            write "*"
+        write "\n"
+
+;procedure f
+;    print trueth
 ;procedure add_echoed_input my_list
 ;with m, n
 ;    write "Please enter some word"
