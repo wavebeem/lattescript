@@ -199,8 +199,8 @@ exports.lexer = (function() {
         spaced_pattern("GT", /(>)/),
         spaced_pattern("EQ", /(=)/),
 
-        keyword_pattern("AND", /(and)/),
-        keyword_pattern("OR",  /(or)/),
+        keyword_pattern("AND", "and"),
+        keyword_pattern("OR",  "or"),
         spaced_pattern("AT",  /(\@)/),
         spaced_pattern("CAT", /(\~)/),
         spaced_pattern("ADD", /(\+)/),
