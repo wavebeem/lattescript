@@ -1,6 +1,6 @@
 exports.lexer = (function() {
     var lexer = {};
-    var DEBUG = true;
+    var DEBUG = false;
 
     function debug() {
         if (DEBUG) {

@@ -6,6 +6,33 @@ with i, j
             write "*"
         write "\n"
 
+procedure pyramids n
+with i
+    for i from 1 to n
+        print "Pyramid of size ", i
+        print
+        pyramid i
+
+function factorial(n)
+    if n < 0
+        error "factorial(n) is only defined for n >= 0"
+    else if n = 0 or n = 1
+        return 1
+    else
+        return n * factorial(n)
+
+function factorial2(n)
+with i, product
+    if n < 0
+        error "factorial2(n) is only defined for n >= 0"
+    product := 1
+    for i from n to 2 by -1
+        product := product * i
+    return product
+
+procedure main
+    pyramids factorial(5)
+
 ;procedure f
 ;    print trueth
 ;procedure add_echoed_input my_list
