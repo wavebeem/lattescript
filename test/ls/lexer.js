@@ -178,7 +178,7 @@ exports.lexer = (function() {
 
         spaced_pattern("COMMA", /(,)/),
 
-        {pattern: /^(\s*)"((?:\\"|[^\"])*?)"/, func: function(matches) {
+        {pattern: /^(\s*)"((?:\\\\|\\"|[^\"])*?)"/, func: function(matches) {
             var ws  = matches[1];
             var str = matches[2];
             lexer.tokens.push({token: "TEXT", yytext: unescape(str)});
