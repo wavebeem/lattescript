@@ -44,7 +44,7 @@ procs.print = {
     body: [{
         type: "JS",
         js: function() {
-            console.log("PRINT:", get_var("str"));
+            console.log("PRINT:", helpers.textify(get_var("str")));
         }
     }]
 };
