@@ -73,6 +73,7 @@ function current_call() {
 
 function get_var(id) {
     var vars = current_call().vars;
+    //debug("Current vars =", vars);
     if (id in vars) {
         return vars[id];
     }
@@ -138,6 +139,8 @@ function call_proc(node, args) {
     for (var i = 0; i < args.length; i++) {
         vars[bound_proc.args[i].value] = evaluate(args[i]);
     }
+    // Insert the "with" variables into the vars mapping,
+    // but leave them "undefind" by mapping them to null.
     for (var i = 0; i < node.vars.length; i++) {
         vars[node.vars[i].value] = null;
     }
@@ -156,11 +159,21 @@ function call_proc(node, args) {
 var ops = {};
 
 ops.CAT = function(a, b) {
-    return {type: "TEXT", value: ("" + helpers.textify(a) + helpers.textify(b))};
+    return {type: "TEXT", value: (helpers.textify(a) + helpers.textify(b))};
+};
+
+ops.ADD = function(a, b) {
+    if (a.type === "NUM" && b.type === "NUM") {
+        return {type: "NUM", value: a.value + b.value};
+    }
+    else {
+        throw "Cannot add arguments: incorrect types";
+    }
 };
 
 var helpers = {};
 helpers.textify = function(x) {
+    debug("Trying to textify", x);
     var t = x.type;
     if (t === "TEXT") return x.value;
     if (t === "BOOL") return x.value? "true": "false";
@@ -193,7 +206,11 @@ function evaluate(node) {
     if (node.type.type === "OP") {
         // Apply the operation
         var t = node.type.value;
-        if (t === "CAT") return ops.CAT(evaluate(node.left), evaluate(node.right));
+        var l = node.left;
+        var r = node.right;
+        var e = evaluate;
+        if (t === "CAT") return ops.CAT(e(l), e(r));
+        if (t === "ADD") return ops.ADD(e(l), e(r));
 
         throw "Unsupported operation";
     }
