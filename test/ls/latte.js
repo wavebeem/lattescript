@@ -4,9 +4,11 @@ var parser = require("./parser").parser;
 var lexer  = require("./lexer").lexer;
 
 var DEBUG = true;
+var DEBUG_PREFIX = "DEBUG: ";
 
 function debug() {
     if (DEBUG) {
+        process.stdout.write(DEBUG_PREFIX);
         console.log.apply(console, arguments);
     }
 }
@@ -24,8 +26,12 @@ parser.yy.parseError = function(err, hash) {
 };
 var ast = parser.parse(code);
 
+function to_json(obj) {
+    return JSON.stringify(obj, null, 2);
+}
+
 debug("[Abstract Syntax Tree]");
-debug(JSON.stringify(ast, null, 2));
+debug(to_json(ast));
 
 var funcs = {};
 var procs = {};
@@ -34,14 +40,30 @@ procs.print = {
     type: "PROC",
     name: {type: "ID", value: "print"},
     args: [{type: "ID", value: "str"}],
-    vars: [],
+    vars: {},
     body: [{
         type: "JS",
         js: function() {
-            console.log("Hello, World!");
+            console.log("PRINT:", get_var("str"));
         }
     }]
 };
+
+var call_stack = [];
+
+function current_call() {
+    return call_stack[call_stack.length - 1];
+}
+
+function get_var(id) {
+    var vars = current_call().vars;
+    if (id in vars) {
+        return vars[id];
+    }
+    else {
+        throw "up";
+    }
+}
 
 var dispatch = {};
 
@@ -75,21 +97,30 @@ dispatch.PROC_CALL = function(node) {
 
 function call_proc(node, args) {
     var bound_proc = {
+        type: "PROC",
         name: node.name,
         body: node.body,
-        args: {}
+        args: node.args,
+        vars: {}
     };
 
+    debug("call_proc(node, args) where args =", node.args);
+
+    // Bind the arguments passed in to the procedure call to the names
+    // specified in the argument list in the function definition.
+    var vars = {};
     for (var i = 0; i < args.length; i++) {
-        var obj = {};
-        obj[node.args[i]] = evaluate(args[i]);
-
-        bound_proc.args[i] = obj;
+        vars[bound_proc.args[i].value] = evaluate(args[i]);
     }
+    bound_proc.vars = vars;
 
+    call_stack.push(bound_proc);
+    //debug("call stack =", to_json(call_stack));
+    //debug("call args =", to_json(bound_proc.args));
     for (var i = 0; i < bound_proc.body.length; i++) {
         run(bound_proc.body[i]);
     }
+    call_stack.pop();
 }
 
 function evaluate(node) {
