@@ -42,6 +42,7 @@ exports.lexer = (function() {
     function get_token() {
         var token = lexer.tokens.shift();
         lexer.yytext = token.yytext;
+        lexer.yyloc  = token.yyloc;
         lexer.token_history.push(token);
         debug("TOKENS =", lexer.tokens);
         debug("TOKEN HISTORY =\n", lexer.token_history);
@@ -81,20 +82,28 @@ exports.lexer = (function() {
         lexer.indents = [0];
         lexer.token_history = [];
 
-        lexer.line   = 1;
-        lexer.column = 1;
+        lexer.yyloc = {
+            first_column: 1,
+            first_line:   1,
+            last_line:    1,
+            last_column:  1
+        };
+        lexer.yylineno = 1;
+        lexer.lineno = 1;
+        lexer.colno  = 1;
     }
 
     function inc_line(line) {
-        lexer.line++;
+        lexer.lineno++;
+        lexer.yylineno = lexer.lineno;
     }
 
     function inc_column() {
-        lexer.column++;
+        lexer.colno++;
     }
 
     function reset_column() {
-        lexer.column = 1;
+        lexer.colno = 1;
     }
 
     function spaced_pattern(type, pattern_fragment) {
@@ -102,8 +111,15 @@ exports.lexer = (function() {
         return {pattern: pattern, func: function(matches) {
             var ws = matches[1];
             var x  = matches[2];
-            lexer.tokens.push({token: type, yytext: x});
+            emit(type, x);
         }};
+    }
+
+    function emit(type, text, loc) {
+        text = text === undefined? "<junk>":  text;
+        loc  = loc  === undefined? get_loc(): loc;
+
+        lexer.tokens.push({token: type, yytext: text, yyloc: loc});
     }
 
     function keyword_pattern(type, word) {
@@ -116,7 +132,7 @@ exports.lexer = (function() {
         return {pattern: pattern, func: function(matches) {
             var ws = matches[1];
             var kw = matches[2];
-            lexer.tokens.push({token: type, yytext: kw});
+            emit(type, kw);
         }};
     }
 
@@ -128,6 +144,15 @@ exports.lexer = (function() {
         );
     }
 
+    function get_loc() {
+        return {
+            first_column: lexer.colno,
+            last_column:  lexer.colno,
+            first_line:   lexer.lineno,
+            last_line:    lexer.lineno
+        };
+    }
+
     patterns = [
         // Matches comments
         // (whitespace* comment) LOOKAHEAD(newline)
@@ -137,20 +162,20 @@ exports.lexer = (function() {
         // Matches newlines and indentation
         // newline whitespace*
         {pattern: /^(\s*\n)([ ]*)/, func: function(matches) {
-            lexer.tokens.push({token: "NEWLINE", yytext: "\n"});
             var whole   = matches[0];
             var newline = matches[1];
             var spaces  = matches[2];
+            emit("NEWLINE", newline);
             var indent  = spaces.length;
             var last_indent = lexer.indents[lexer.indents.length - 1];
             if (indent > last_indent) {
                 lexer.indents.push(indent);
-                lexer.tokens.push({token: "INDENT", yytext: spaces});
+                emit("INDENT", spaces);
             }
             else if (indent < last_indent) {
                 while (indent < last_indent) {
                     lexer.indents.pop();
-                    lexer.tokens.push({token: "DEDENT", yytext: spaces});
+                    emit("DEDENT", spaces);
                     last_indent = lexer.indents[lexer.indents.length - 1];
                 }
             }
@@ -181,7 +206,7 @@ exports.lexer = (function() {
         {pattern: /^(\s*)"((?:\\\\|\\"|[^\"])*?)"/, func: function(matches) {
             var ws  = matches[1];
             var str = matches[2];
-            lexer.tokens.push({token: "TEXT", yytext: unescape(str)});
+            emit("TEXT", unescape(str));
         }},
         spaced_pattern("NUM",   /(\d+\.\d+)/),
         spaced_pattern("NUM",   /(\d+)/),

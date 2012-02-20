@@ -10,6 +10,10 @@ parser.yy = {
 };
 
 parser.lexer = lexer;
+parser.yy.parseError = function(err, hash) {
+    console.log("err =", err);
+    console.log("hash =", hash);
+};
 var ast = parser.parse(code);
 
 console.log("[Abstract Syntax Tree]");
