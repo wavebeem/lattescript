@@ -44,7 +44,23 @@ procs.print = {
     body: [{
         type: "JS",
         js: function() {
-            console.log("PRINT:", helpers.textify(get_var("str")));
+            var str = get_var("str");
+            console.log("PRINT:", helpers.textify(str));
+        }
+    }]
+};
+
+procs.append = {
+    type: "PROC",
+    name: {type: "ID", value: "append"},
+    args: [{type: "ID", value: "list"}, {type: "ID", value: "item"}],
+    vars: {},
+    body: [{
+        type: "JS",
+        js: function() {
+            var list = get_var("list");
+            var item = get_var("item");
+            list.values.push(item);
         }
     }]
 };
@@ -61,7 +77,17 @@ function get_var(id) {
         return vars[id];
     }
     else {
-        throw "up";
+        throw "Unable to get value of undeclared variable";
+    }
+}
+
+function set_var(id, val) {
+    var vars = current_call().vars;
+    if (id in vars) {
+        vars[id] = val;
+    }
+    else {
+        throw "Unable to set value of undeclared variable";
     }
 }
 
@@ -104,7 +130,7 @@ function call_proc(node, args) {
         vars: {}
     };
 
-    debug("call_proc(node, args) where args =", node.args);
+    //debug("call_proc(node, args) where args =", node.args);
 
     // Bind the arguments passed in to the procedure call to the names
     // specified in the argument list in the function definition.
@@ -112,11 +138,15 @@ function call_proc(node, args) {
     for (var i = 0; i < args.length; i++) {
         vars[bound_proc.args[i].value] = evaluate(args[i]);
     }
+    for (var i = 0; i < node.vars.length; i++) {
+        vars[node.vars[i].value] = null;
+    }
     bound_proc.vars = vars;
 
     call_stack.push(bound_proc);
     //debug("call stack =", to_json(call_stack));
     //debug("call args =", to_json(bound_proc.args));
+    //debug("current vars =", current_call().vars);
     for (var i = 0; i < bound_proc.body.length; i++) {
         run(bound_proc.body[i]);
     }
@@ -131,14 +161,23 @@ ops.CAT = function(a, b) {
 
 var helpers = {};
 helpers.textify = function(x) {
-    // XXXYYYZZZ
     var t = x.type;
     if (t === "TEXT") return x.value;
     if (t === "BOOL") return x.value? "true": "false";
     if (t === "NUM")  return "" + x.value;
+    if (t === "LIST") return helpers.textify_list(x.values);
     if (t === "NOTHING") return "nothing";
 
     throw "Couldn't stringify";
+};
+
+helpers.textify_list = function(xs) {
+    var ts = [];
+    for (var i = 0; i < xs.length; i++) {
+        ts.push(helpers.textify(xs[i]));
+    }
+
+    return "[" + ts.join(", ") + "]";
 };
 
 function evaluate(node) {
@@ -203,6 +242,19 @@ dispatch.SUB_DEFS = function(node) {
     }
 };
 
+
+dispatch.ASSIGN = function(node) {
+    // Simple assignment
+    if (node.left.type === "ID") {
+        var name = node.left.value;
+        var val  = evaluate(node.right);
+
+        set_var(name, val);
+    }
+    else {
+        throw "Need to implement list assignment";
+    }
+};
 dispatch.NOOP = function(node) {
 };
 

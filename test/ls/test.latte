@@ -30,11 +30,14 @@
 ;        product := product * i
 ;    return product
 ;
-procedure my_print x
-    print x
-
 procedure main
-    my_print "a" ~ "b"
+with items
+    items := []
+    print items
+    append items, 1
+    append items, 2
+    append items, 3
+    print items
     ;print "a" ~ "b"
 ;    pyramids factorial(5)
 
