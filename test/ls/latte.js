@@ -123,13 +123,53 @@ function call_proc(node, args) {
     call_stack.pop();
 }
 
+var ops = {};
+
+ops.CAT = function(a, b) {
+    return {type: "TEXT", value: ("" + helpers.textify(a) + helpers.textify(b))};
+};
+
+var helpers = {};
+helpers.textify = function(x) {
+    // XXXYYYZZZ
+    var t = x.type;
+    if (t === "TEXT") return x.value;
+    if (t === "BOOL") return x.value? "true": "false";
+    if (t === "NUM")  return "" + x.value;
+    if (t === "NOTHING") return "nothing";
+
+    throw "Couldn't stringify";
+};
+
 function evaluate(node) {
-    if (node.type === "OP") {
-        // TODO
-        return node
+    var atomic_types = {
+        ID:      true,
+        BOOL:    true,
+        NUM:     true,
+        TEXT:    true,
+        LIST:    true,
+        NOTHING: true
+    };
+
+    if (node.type.type === "OP") {
+        // Apply the operation
+        var t = node.type.value;
+        if (t === "CAT") return ops.CAT(evaluate(node.left), evaluate(node.right));
+
+        throw "Unsupported operation";
+    }
+    // If the node's type is atomic
+    else if (atomic_types[node.type]) {
+        if (node.type === "ID") {
+            return get_var(node.name.value);
+        }
+        // Not a variable, just return the value
+        else {
+            return node;
+        }
     }
 
-    return node;
+    throw "Couldn't evaluate";
 }
 
 dispatch.PROC_DEF = function(node) {
