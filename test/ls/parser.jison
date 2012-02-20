@@ -132,8 +132,14 @@ statement
 
 single_statement
 : proc_call
+| return_statement
 | pass
 | assignment
+;
+
+return_statement
+: return expr
+{ $$ = {type: "RETURN", value: $expr}; }
 ;
 
 assignment
@@ -233,7 +239,7 @@ expr_10
 
 func_call
 : id lparen args_list rparen
-{ $$ = {type: "FUNC_CALL", args: $args_list}; }
+{ $$ = {type: "FUNC_CALL", name: $id, args: $args_list}; }
 ;
 
 basic
@@ -299,6 +305,8 @@ sub: 'SUB' { $$ = {type: "OP", value: "SUB"}; };
 mul: 'MUL' { $$ = {type: "OP", value: "MUL"}; };
 div: 'DIV' { $$ = {type: "OP", value: "DIV"}; };
 exp: 'EXP' { $$ = {type: "OP", value: "EXP"}; };
+
+return: 'RETURN';
 
 text: 'TEXT' { $$ = {type: "TEXT", value: $1}; };
 

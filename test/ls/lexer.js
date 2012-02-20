@@ -210,7 +210,8 @@ exports.lexer = (function() {
         }},
         spaced_pattern("NUM",   /(\d+\.\d+)/),
         spaced_pattern("NUM",   /(\d+)/),
-        keyword_pattern("NOTHING", /(nothing)/),
+        keyword_pattern("NOTHING", "nothing"),
+        keyword_pattern("RETURN", "return"),
         keyword_pattern("TRUE",  "true"),
         keyword_pattern("FALSE", "false"),
 

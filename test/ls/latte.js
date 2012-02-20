@@ -156,6 +156,65 @@ function call_proc(node, args) {
     call_stack.pop();
 }
 
+dispatch.FUNC_CALL = function(node) {
+    debug("Calling function:", node);
+    debug("Calling function:", node.name.value);
+    if (procs[node.name.value]) {
+        return call_func(procs[node.name.value], node.args);
+    }
+    else {
+        debug("Throwing up");
+        throw "up";
+    }
+};
+
+function call_func(node, args) {
+    var bound_func = {
+        type: "FUNC",
+        name: node.name,
+        body: node.body,
+        args: node.args,
+        vars: {}
+    };
+
+    //debug("call_proc(node, args) where args =", node.args);
+
+    // Bind the arguments passed in to the procedure call to the names
+    // specified in the argument list in the function definition.
+    var vars = {};
+    for (var i = 0; i < args.length; i++) {
+        vars[bound_func.args[i].value] = evaluate(args[i]);
+    }
+    // Insert the "with" variables into the vars mapping,
+    // but leave them "undefind" by mapping them to null.
+    for (var i = 0; i < node.vars.length; i++) {
+        vars[node.vars[i].value] = null;
+    }
+    bound_func.vars = vars;
+
+    call_stack.push(bound_func);
+    //debug("call stack =", to_json(call_stack));
+    //debug("call args =", to_json(bound_proc.args));
+    //debug("current vars =", current_call().vars);
+    for (var i = 0; i < bound_func.body.length; i++) {
+        var result = undefined;
+        try {
+            run(bound_func.body[i]);
+        }
+        catch (e) {
+            if (e.type === "RETURN") {
+                result = evaluate(e.value);
+            }
+            else {
+                throw "Reached the end of a function without returning a value.";
+            }
+        }
+    }
+    call_stack.pop();
+
+    return result;
+}
+
 var ops = {};
 
 ops.CAT = function(a, b) {
@@ -214,6 +273,10 @@ function evaluate(node) {
 
         throw "Unsupported operation";
     }
+    else if (node.type === "FUNC_CALL") {
+        debug("Trying to do FUNC_CALL(node) where node =", node);
+        return run(node);
+    }
     // If the node's type is atomic
     else if (atomic_types[node.type]) {
         if (node.type === "ID") {
@@ -238,18 +301,17 @@ dispatch.PROC_DEF = function(node) {
     };
 };
 
+dispatch.RETURN = function(node) {
+    throw node;
+}
+
 dispatch.FUNC_DEF = function(node) {
     debug("Defining function:", node.name.value);
-    var no_return_error = {
-        type: "PROC_CALL",
-        name: {type: "ID", value: "error"},
-        args: ["Reached the end of a function without returning a value."]
-    };
     procs[node.name.value] = {
         name: node.name,
         args: node.args,
         vars: node.vars,
-        body: node.body.concat(no_return_error)
+        body: node.body
     };
 },
 
@@ -268,8 +330,11 @@ dispatch.ASSIGN = function(node) {
 
         set_var(name, val);
     }
-    else {
+    else if (node.left.type === "LIST") {
         throw "Need to implement list assignment";
+    }
+    else {
+        throw "Unable to assign";
     }
 };
 dispatch.NOOP = function(node) {
@@ -277,7 +342,7 @@ dispatch.NOOP = function(node) {
 
 function run(node) {
     if (node && dispatch[node.type]) {
-        dispatch[node.type](node);
+        return dispatch[node.type](node);
     }
     else {
         debug("No rule defined to run:", node);
