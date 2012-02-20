@@ -161,7 +161,7 @@ function evaluate(node) {
     // If the node's type is atomic
     else if (atomic_types[node.type]) {
         if (node.type === "ID") {
-            return get_var(node.name.value);
+            return get_var(node.value);
         }
         // Not a variable, just return the value
         else {
