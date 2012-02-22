@@ -33,8 +33,11 @@
 function f(x)
     return x + 1
 
+function empty_list()
+    return []
+
 procedure main
-with items, x
+with items, x, y
     ;items := []
     ;print items
     ;append items, 1
@@ -45,8 +48,14 @@ with items, x
     ;print x
     ;x := x + 1
     ;print x
-    x := f(2)
+    ;x := f(2)
+    ;print x
+    x := empty_list()
+    y := empty_list()
+    append x, 1
+    append y, 2
     print x
+    print y
     ;print "a" ~ "b"
 ;    pyramids factorial(5)
 

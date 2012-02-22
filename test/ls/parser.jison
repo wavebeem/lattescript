@@ -257,7 +257,7 @@ literal
 
 list
 : lbracket list_internals rbracket
-{ $$ = {type: "LIST", values: $list_internals}; }
+{ $$ = {type: "LIST", immutable: true, values: $list_internals}; }
 ;
 
 list_internals

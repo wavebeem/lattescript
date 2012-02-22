@@ -252,6 +252,22 @@ helpers.textify_list = function(xs) {
     return "[" + ts.join(", ") + "]";
 };
 
+helpers.mutable_list_copy = function(node) {
+    debug("attempting to make mutable_list_copy of:", node);
+
+    if (node.type !== "LIST" || !node.immutable) return node;
+
+    var result = {type: "LIST", values: []};
+
+    for (var i = 0; i < node.values.length; i++) {
+        var value = node.values[i];
+
+        result.values[i] = evaluate(value);
+    }
+
+    return result;
+}
+
 function evaluate(node) {
     var atomic_types = {
         ID:      true,
@@ -262,7 +278,10 @@ function evaluate(node) {
         NOTHING: true
     };
 
-    if (node.type.type === "OP") {
+    if (node.type === "LIST" && node.immutable) {
+        return helpers.mutable_list_copy(node);
+    }
+    else if (node.type.type === "OP") {
         // Apply the operation
         var t = node.type.value;
         var l = node.left;
