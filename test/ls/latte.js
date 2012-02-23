@@ -406,6 +406,15 @@ function run(node) {
 
 run(ast);
 
+function show_stack_trace() {
+    for (var i = 0; i < call_stack.length; i++) {
+        var map   = {PROC: "procedure", FUNC: "function"};
+        var call  = call_stack[i];
+        var type  = map[call.type] || "<oops>";
+        console.log("  at line", call.lineno, "in", type, call.name.value);
+    }
+}
+
 debug("[Program Execution]");
 if (procs.main) {
     try {
@@ -413,7 +422,8 @@ if (procs.main) {
     }
     catch (e) {
         if (e.type === "ERROR") {
-            console.log("There was an error:", e.message);
+            console.log("Error:", e.message);
+            show_stack_trace();
         }
         else {
             throw e;
