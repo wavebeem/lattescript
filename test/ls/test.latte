@@ -30,14 +30,51 @@
 ;        product := product * i
 ;    return product
 ;
+
+;procedure sing takes times
+;with lyrics, lyric, n
+;    lyrics := ["a", "b", "c", 1, 2, 3]
+;    for n from 1 to times
+;        for lyric in lyrics
+;            write lyric ~ " "
+;        write "\n"
+
+;procedure sing times
+;with lyrics, lyric, n
+;    lyrics := ["a", "b", "c", 1, 2, 3]
+;    for n from 1 to times
+;        for lyric in lyrics
+;            write lyric ~ " "
+;        write "\n"
+
 function f(x)
     return x + 1
 
+;function f takes x
+;    give x + 1
+
 function empty_list()
-    return []
+    return [[[]]]
+
+;function empty_list
+;    give []
 
 procedure main
 with items, x, y
+    x := empty_list()
+    y := empty_list()
+    append x, 1
+    print x
+    append x@1, 2
+    print x
+    append x@1@1, 3
+    print x
+    append x@1@1@1, 4
+    print x
+    append x@1@1@1@1,5
+    print x
+    ;print y
+    ;print "a" ~ "b"
     ;items := []
     ;print items
     ;append items, 1
@@ -50,13 +87,6 @@ with items, x, y
     ;print x
     ;x := f(2)
     ;print x
-    x := empty_list()
-    y := empty_list()
-    append x, 1
-    append y, 2
-    print x
-    print y
-    ;print "a" ~ "b"
 ;    pyramids factorial(5)
 
 ;procedure f

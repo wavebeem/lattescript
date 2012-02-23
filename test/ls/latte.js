@@ -60,7 +60,13 @@ procs.append = {
         js: function() {
             var list = get_var("list");
             var item = get_var("item");
-            list.values.push(item);
+            debug("APPENDING WITH LIST =", list, "ITEM =", item);
+            if (list.type === "LIST") {
+                list.values.push(item);
+            }
+            else {
+                helpers.error("First argument to append must be a list");
+            }
         }
     }]
 };
@@ -112,13 +118,12 @@ dispatch.WHILE = function(node) {
 };
 
 dispatch.PROC_CALL = function(node) {
-    debug("Calling procedure:", node.name.value);
     if (procs[node.name.value]) {
+        debug("Calling procedure:", node.name.value);
         call_proc(procs[node.name.value], node.args);
     }
     else {
-        debug("Throwing up");
-        throw "up";
+        helpers.error("Procedure", node.name.value, "is undefined");
     }
 };
 
@@ -151,7 +156,17 @@ function call_proc(node, args) {
     //debug("call args =", to_json(bound_proc.args));
     //debug("current vars =", current_call().vars);
     for (var i = 0; i < bound_proc.body.length; i++) {
-        run(bound_proc.body[i]);
+        try {
+            debug("<<<RUNNING>>>", bound_proc.body[i]);
+            run(bound_proc.body[i]);
+        }
+        catch (e) {
+            if (e.type === "RETURN") {
+            }
+            else {
+                throw e;
+            }
+        }
     }
     call_stack.pop();
 }
@@ -197,22 +212,21 @@ function call_func(node, args) {
     //debug("call args =", to_json(bound_proc.args));
     //debug("current vars =", current_call().vars);
     for (var i = 0; i < bound_func.body.length; i++) {
-        var result = undefined;
         try {
             run(bound_func.body[i]);
         }
         catch (e) {
             if (e.type === "RETURN") {
-                result = evaluate(e.value);
+                call_stack.pop();
+                return evaluate(e.value);
             }
             else {
-                throw "Reached the end of a function without returning a value.";
+                throw e;
             }
         }
     }
-    call_stack.pop();
 
-    return result;
+    helpers.error("Function ended without returning a value");
 }
 
 var ops = {};
@@ -226,11 +240,34 @@ ops.ADD = function(a, b) {
         return {type: "NUM", value: a.value + b.value};
     }
     else {
-        throw "Cannot add arguments: incorrect types";
+        helpers.error("Cannot add arguments: incorrect types");
+    }
+};
+
+ops.AT = function(a, b) {
+    if (a.type === "LIST" && b.type === "NUM") {
+        var n = a.values.length;
+        var i = b.value;
+
+        if (1 <= i && i <= n) {
+            return a.values[i - 1];
+        }
+        else {
+            helpers.error("Index out of range");
+        }
+    }
+    else {
+        helpers.error("Cannot index argument: incorrect types");
     }
 };
 
 var helpers = {};
+
+helpers.error = function() {
+    var msg = [].join.call(arguments, " ");
+    throw {type: "ERROR", message: msg};
+}
+
 helpers.textify = function(x) {
     debug("Trying to textify", x);
     var t = x.type;
@@ -287,10 +324,9 @@ function evaluate(node) {
         var l = node.left;
         var r = node.right;
         var e = evaluate;
-        if (t === "CAT") return ops.CAT(e(l), e(r));
-        if (t === "ADD") return ops.ADD(e(l), e(r));
+        if (t in ops) return ops[t](e(l), e(r));
 
-        throw "Unsupported operation";
+        helpers.error("Unsupported operation:", t);
     }
     else if (node.type === "FUNC_CALL") {
         debug("Trying to do FUNC_CALL(node) where node =", node);
@@ -307,7 +343,7 @@ function evaluate(node) {
         }
     }
 
-    throw "Couldn't evaluate";
+    helpers.error("Couldn't evaluate");
 }
 
 dispatch.PROC_DEF = function(node) {
@@ -350,10 +386,10 @@ dispatch.ASSIGN = function(node) {
         set_var(name, val);
     }
     else if (node.left.type === "LIST") {
-        throw "Need to implement list assignment";
+        helpers.error("Need to implement list assignment");
     }
     else {
-        throw "Unable to assign";
+        helpers.error("Unable to assign");
     }
 };
 dispatch.NOOP = function(node) {
@@ -372,7 +408,17 @@ run(ast);
 
 debug("[Program Execution]");
 if (procs.main) {
-    run({type: "PROC_CALL", name: {type: "ID", value: "main"}, args: []});
+    try {
+        run({type: "PROC_CALL", name: {type: "ID", value: "main"}, args: []});
+    }
+    catch (e) {
+        if (e.type === "ERROR") {
+            console.log("There was an error:", e.message);
+        }
+        else {
+            throw e;
+        }
+    }
 }
 else {
     debug("Please define a main procedure.");
