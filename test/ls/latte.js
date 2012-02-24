@@ -370,9 +370,14 @@ function evaluate(node) {
     else if (node.type === "OP") {
         // Apply the operation
         var t = node.op;
+        var e = evaluate;
+
+        // Implement short-circuit behavior for AND and OR
+        if (t === "AND") { var l = e(node.left); return l && e(node.right) }
+        if (t === "OR")  { var l = e(node.left); return l || e(node.right) }
+
         var l = node.left;
         var r = node.right;
-        var e = evaluate;
         // FIXME: Fix this later to short circuit AND and OR?
         if (t in ops) return ops[t](e(l), e(r));
 

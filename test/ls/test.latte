@@ -50,6 +50,14 @@
 function f(x)
     return x + 1
 
+function TRUE()
+    print "true"
+    return true
+
+function FALSE()
+    print "false"
+    return false
+
 ;function f takes x
 ;    give x + 1
 
@@ -65,6 +73,9 @@ with items, x, y
     print x
     print #["a", "b", "c"]
     print "a"
+    ;y := TRUE() and FALSE()
+    ;y := FALSE() and TRUE()
+    y := TRUE() or FALSE()
     ;x := empty_list()
     ;y := empty_list()
     ;append x, 1
