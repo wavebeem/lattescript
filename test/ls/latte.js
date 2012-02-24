@@ -84,7 +84,7 @@ function get_var(id) {
         return vars[id];
     }
     else {
-        throw "Unable to get value of undeclared variable";
+        helpers.error("Unable to get value of undeclared variable:", id);
     }
 }
 
@@ -94,7 +94,8 @@ function set_var(id, val) {
         vars[id] = val;
     }
     else {
-        throw "Unable to set value of undeclared variable";
+        debug("current variables:", vars);
+        helpers.error("Unable to set value of undeclared variable:", id);
     }
 }
 
@@ -118,12 +119,12 @@ dispatch.WHILE = function(node) {
 };
 
 dispatch.PROC_CALL = function(node) {
-    if (procs[node.name.value]) {
-        debug("Calling procedure:", node.name.value);
-        call_proc(procs[node.name.value], node.args);
+    if (procs[node.name]) {
+        debug("Calling procedure:", node.name);
+        call_proc(procs[node.name], node.args);
     }
     else {
-        helpers.error("Procedure", node.name.value, "is undefined");
+        helpers.error("Procedure", node.name, "is undefined");
     }
 };
 
@@ -147,7 +148,7 @@ function call_proc(node, args) {
     // Insert the "with" variables into the vars mapping,
     // but leave them "undefind" by mapping them to null.
     for (var i = 0; i < node.vars.length; i++) {
-        vars[node.vars[i].value] = null;
+        vars[node.vars[i]] = null;
     }
     bound_proc.vars = vars;
 
@@ -173,9 +174,9 @@ function call_proc(node, args) {
 
 dispatch.FUNC_CALL = function(node) {
     debug("Calling function:", node);
-    debug("Calling function:", node.name.value);
-    if (procs[node.name.value]) {
-        return call_func(procs[node.name.value], node.args);
+    debug("Calling function:", node.name);
+    if (procs[node.name]) {
+        return call_func(procs[node.name], node.args);
     }
     else {
         debug("Throwing up");
@@ -402,8 +403,8 @@ function evaluate(node) {
 }
 
 dispatch.PROC_DEF = function(node) {
-    debug("Defining procedure:", node.name.value);
-    procs[node.name.value] = {
+    debug("Defining procedure:", node.name);
+    procs[node.name] = {
         name: node.name,
         args: node.args,
         vars: node.vars,
@@ -416,8 +417,8 @@ dispatch.RETURN = function(node) {
 }
 
 dispatch.FUNC_DEF = function(node) {
-    debug("Defining function:", node.name.value);
-    procs[node.name.value] = {
+    debug("Defining function:", node.name);
+    procs[node.name] = {
         name: node.name,
         args: node.args,
         vars: node.vars,
@@ -437,6 +438,8 @@ dispatch.ASSIGN = function(node) {
     if (node.left.type === "ID") {
         var name = node.left.value;
         var val  = evaluate(node.right);
+
+        debug("Setting", name, "to", val);
 
         set_var(name, val);
     }
@@ -468,14 +471,14 @@ function show_stack_trace() {
         var call  = call_stack[i];
         var type  = map[call.type] || "<oops>";
         var line  = call.lineno === undefined? "???": call.lineno;
-        console.log("  at line", line, "in", type, call.name.value);
+        console.log("  at line", line, "in", type, call.name);
     }
 }
 
 debug("[Program Execution]");
 if (procs.main) {
     try {
-        run({type: "PROC_CALL", name: {type: "ID", value: "main"}, args: []});
+        run({type: "PROC_CALL", name:"main", args: []});
     }
     catch (e) {
         if (e.type === "ERROR") {

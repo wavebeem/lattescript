@@ -27,8 +27,8 @@ empty_id_list
 ;
 
 nonempty_id_list
-: nonempty_id_list comma id { $$.push($id); }
-| id                        { $$ =   [$id]; }
+: nonempty_id_list comma id { $$.push($id.value); }
+| id                        { $$ =   [$id.value]; }
 ;
 
 proc_def
@@ -37,7 +37,7 @@ proc_def
   block
 { $$ = {
     type: "PROC_DEF",
-    name: $id,
+    name: $id.value,
     args: $id_list,
     vars: $maybe_with,
     body: $block
@@ -50,7 +50,7 @@ func_def
   block
 { $$ = {
     type: "FUNC_DEF",
-    name: $id,
+    name: $id.value,
     args: $id_list,
     vars: $maybe_with,
     body: $block
@@ -158,7 +158,7 @@ list_lvalue
 
 proc_call
 : id args_list
-{ $$ = {type: "PROC_CALL", name: $id, args: $args_list}; }
+{ $$ = {type: "PROC_CALL", name: $id.value, args: $args_list}; }
 ;
 
 args_list
@@ -239,7 +239,7 @@ expr_10
 
 func_call
 : id lparen args_list rparen
-{ $$ = {type: "FUNC_CALL", name: $id, args: $args_list}; }
+{ $$ = {type: "FUNC_CALL", name: $id.value, args: $args_list}; }
 ;
 
 basic
