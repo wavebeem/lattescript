@@ -339,6 +339,34 @@ function evaluate(node) {
     if (node.type === "LIST" && node.immutable) {
         return helpers.mutable_list_copy(node);
     }
+    else if (node.type === "LEN") {
+        var val = evaluate(node.arg);
+
+        if (val.type === "LIST") {
+            return {type: "NUM", value: val.values.length};
+        }
+        else {
+            helpers.error("Unable to determine the length of a", val.type);
+        }
+    }
+    else if (node.type === "NEG") {
+        var val = evaluate(node.arg);
+        if (val.type === "NUM") {
+            return {type: "NUM", value: -val.value};
+        }
+        else {
+            helpers.error("Cannot negate a", val.type);
+        }
+    }
+    else if (node.type === "POS") {
+        var val = evaluate(node.arg);
+        if (val.type === "NUM") {
+            return val;
+        }
+        else {
+            helpers.error("Cannot apply unary plus to a", val.type);
+        }
+    }
     else if (node.type === "OP") {
         // Apply the operation
         var t = node.op;
