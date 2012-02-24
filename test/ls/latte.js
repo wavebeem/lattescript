@@ -392,6 +392,7 @@ dispatch.ASSIGN = function(node) {
         helpers.error("Unable to assign");
     }
 };
+
 dispatch.NOOP = function(node) {
 };
 
@@ -411,7 +412,8 @@ function show_stack_trace() {
         var map   = {PROC: "procedure", FUNC: "function"};
         var call  = call_stack[i];
         var type  = map[call.type] || "<oops>";
-        console.log("  at line", call.lineno, "in", type, call.name.value);
+        var line  = call.lineno === undefined? "???": call.lineno;
+        console.log("  at line", line, "in", type, call.name.value);
     }
 }
 
