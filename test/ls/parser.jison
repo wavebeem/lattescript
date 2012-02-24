@@ -179,17 +179,21 @@ empty_args_list
 expr: expr_01;
 
 expr_01
-: expr_01 or  expr_02 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_01 at  expr_02 { $$ = {type: $2, left: $1, right: $3}; }
 | expr_02
 ;
 
 expr_02
-: expr_02 and expr_03 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_02 cat expr_03 { $$ = {type: $2, left: $1, right: $3}; }
 | expr_03
 ;
 
 expr_03
-: expr_04 exp expr_03 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_03 lt  expr_04 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_03 gt  expr_04 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_03 le  expr_04 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_03 ge  expr_04 { $$ = {type: $2, left: $1, right: $3}; }
+| expr_03 eq  expr_04 { $$ = {type: $2, left: $1, right: $3}; }
 | expr_04
 ;
 
@@ -206,21 +210,17 @@ expr_05
 ;
 
 expr_06
-: expr_06 lt  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-| expr_06 gt  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-| expr_06 le  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-| expr_06 ge  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
-| expr_06 eq  expr_07 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_07 exp expr_06 { $$ = {type: $2, left: $1, right: $3}; }
 | expr_07
 ;
 
 expr_07
-: expr_07 cat expr_08 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_07 and expr_08 { $$ = {type: $2, left: $1, right: $3}; }
 | expr_08
 ;
 
 expr_08
-: expr_08 at  expr_09 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_08 or  expr_09 { $$ = {type: $2, left: $1, right: $3}; }
 | expr_09
 ;
 

@@ -235,14 +235,22 @@ ops.CAT = function(a, b) {
     return {type: "TEXT", value: (helpers.textify(a) + helpers.textify(b))};
 };
 
-ops.ADD = function(a, b) {
+var math_op_maker = function(word, f) { return function(a, b) {
     if (a.type === "NUM" && b.type === "NUM") {
-        return {type: "NUM", value: a.value + b.value};
+        debug("DOING>>>", a.value, word, b.value);
+        return {type: "NUM", value: f(a.value, b.value)};
     }
     else {
-        helpers.error("Cannot add arguments: incorrect types");
+        helpers.error("Cannot", word, "arguments: incorrect types");
     }
-};
+}};
+
+var exp = Math.pow;
+ops.ADD = math_op_maker("add",          function(a, b) { return a + b });
+ops.SUB = math_op_maker("subtract",     function(a, b) { return a - b });
+ops.MUL = math_op_maker("multiply",     function(a, b) { return a * b });
+ops.DIV = math_op_maker("divide",       function(a, b) { return a / b });
+ops.EXP = math_op_maker("exponentiate", function(a, b) { return exp(a, b) });
 
 ops.AT = function(a, b) {
     if (a.type === "LIST" && b.type === "NUM") {
