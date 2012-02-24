@@ -6,6 +6,9 @@ var lexer  = require("./lexer").lexer;
 var DEBUG = true;
 var DEBUG_PREFIX = "DEBUG: ";
 
+var ops     = {};
+var helpers = {};
+
 function debug() {
     if (DEBUG) {
         process.stdout.write(DEBUG_PREFIX);
@@ -230,8 +233,6 @@ function call_func(node, args) {
     helpers.error("Function ended without returning a value");
 }
 
-var ops = {};
-
 ops.CAT = function(a, b) {
     return {type: "TEXT", value: (helpers.textify(a) + helpers.textify(b))};
 };
@@ -266,18 +267,16 @@ var bool_op_maker = function(word, f) { return function(a, b) {
 ops.AND = bool_op_maker("and", function(a, b) { return a && b; });
 ops.OR  = bool_op_maker("or",  function(a, b) { return a || b; });
 
-var cmp_op_maker = function(word, fs) { return function(a, b) {
+var cmp_op_maker = function(word, f) { return function(a, b) {
     if (a.type === b.type) {
         var t = a.type;
-        var type_ok = t === "LIST" || t === "TEXT" || t === "NUM";
-        var result;
+        var type_ok = t === "TEXT" || t === "NUM";
 
         if (! type_ok) {
             helpers.error(word, "not supported for type", t);
         }
 
-        if (t === "LIST") result = fs[t](a.values, b.values);
-        else              result = fs[t](a.value,  b.value);
+        var result = f(a.value, b.value);
 
         return {type: "BOOL", value: result};
     }
@@ -286,11 +285,42 @@ var cmp_op_maker = function(word, fs) { return function(a, b) {
     }
 }};
 
-ops.LT = cmp_op_maker("less than", {
-LIST: function(a, b) { return a < b; },
-TEXT: function(a, b) {},
-NUM:  function(a, b) {}
-});
+ops.LT = cmp_op_maker("<", function(a, b) { return a <  b; });
+ops.GT = cmp_op_maker(">", function(a, b) { return a >  b; });
+ops.LE = cmp_op_maker("≤", function(a, b) { return a <= b; });
+ops.GE = cmp_op_maker("≥", function(a, b) { return a >= b; });
+
+ops.EQ = function(a, b) {
+    if (a.type === b.type) {
+        var result;
+        if (a.type === "LIST") {
+            result = a === b || helpers.list_eq(a, b);
+        }
+        else {
+            result = a === b;
+        }
+
+        return {type: "BOOL", value: result};
+    }
+    else {
+        helpers.error("Cannot compare equality for arguments: incorrect types");
+    }
+};
+
+helpers.list_eq = function(a, b) {
+    if (a.values.length !== b.values.length) {
+        return false;
+    }
+
+    for (var i = 0; i < a.values.length; i++) {
+        var eq = ops.EQ(a.values[i], b.values[i]);
+        if (! eq) {
+            return false;
+        }
+    }
+
+    return true;
+};
 
 ops.AT = function(a, b) {
     if (a.type === "LIST" && b.type === "NUM") {
@@ -309,23 +339,28 @@ ops.AT = function(a, b) {
     }
 };
 
-var helpers = {};
-
 helpers.error = function() {
     var msg = [].join.call(arguments, " ");
     throw {type: "ERROR", message: msg};
 }
 
 helpers.textify = function(x) {
-    debug("Trying to textify", x);
-    var t = x.type;
-    if (t === "TEXT") return x.value;
-    if (t === "BOOL") return x.value? "true": "false";
-    if (t === "NUM")  return "" + x.value;
-    if (t === "LIST") return helpers.textify_list(x.values);
-    if (t === "NOTHING") return "nothing";
-
-    throw "Couldn't stringify";
+    try {
+        debug("Trying to textify", x);
+        var t = x.type;
+        if (t === "TEXT"   ) return x.value;
+        if (t === "BOOL"   ) return x.value? "true": "false";
+        if (t === "NUM"    ) return "" + x.value;
+        if (t === "LIST"   ) return helpers.textify_list(x.values);
+        if (t === "NOTHING") return "nothing";
+        throw "up";
+    }
+    catch (e) {
+        // FIXME
+        // This probably happens if we infinitely recurse.
+        // I should fix this to not die so horribly on circular lists.
+        helpers.error("Couldn't stringify the", t);
+    }
 };
 
 helpers.textify_list = function(xs) {
