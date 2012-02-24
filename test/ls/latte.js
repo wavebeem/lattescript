@@ -252,6 +252,19 @@ ops.MUL = math_op_maker("multiply",     function(a, b) { return a * b });
 ops.DIV = math_op_maker("divide",       function(a, b) { return a / b });
 ops.EXP = math_op_maker("exponentiate", function(a, b) { return exp(a, b) });
 
+var bool_op_maker = function(word, f) { return function(a, b) {
+    if (a.type === "BOOL" && b.type === "BOOL") {
+        debug("DOING>>>", a.value, word, b.value);
+        return {type: "BOOL", value: f(a.value, b.value)};
+    }
+    else {
+        helpers.error("Cannot", word, "arguments: incorrect types");
+    }
+}};
+
+ops.AND = bool_op_maker("and", function(a, b) { return a && b; });
+ops.OR  = bool_op_maker("or",  function(a, b) { return a || b; });
+
 ops.AT = function(a, b) {
     if (a.type === "LIST" && b.type === "NUM") {
         var n = a.values.length;
@@ -332,6 +345,7 @@ function evaluate(node) {
         var l = node.left;
         var r = node.right;
         var e = evaluate;
+        // FIXME: Fix this later to short circuit AND and OR?
         if (t in ops) return ops[t](e(l), e(r));
 
         helpers.error("Unsupported operation:", t);
