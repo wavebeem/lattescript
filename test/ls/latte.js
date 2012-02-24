@@ -266,6 +266,32 @@ var bool_op_maker = function(word, f) { return function(a, b) {
 ops.AND = bool_op_maker("and", function(a, b) { return a && b; });
 ops.OR  = bool_op_maker("or",  function(a, b) { return a || b; });
 
+var cmp_op_maker = function(word, fs) { return function(a, b) {
+    if (a.type === b.type) {
+        var t = a.type;
+        var type_ok = t === "LIST" || t === "TEXT" || t === "NUM";
+        var result;
+
+        if (! type_ok) {
+            helpers.error(word, "not supported for type", t);
+        }
+
+        if (t === "LIST") result = fs[t](a.values, b.values);
+        else              result = fs[t](a.value,  b.value);
+
+        return {type: "BOOL", value: result};
+    }
+    else {
+        helpers.error("Cannot", word, "arguments: incorrect types");
+    }
+}};
+
+ops.LT = cmp_op_maker("less than", {
+LIST: function(a, b) { return a < b; },
+TEXT: function(a, b) {},
+NUM:  function(a, b) {}
+});
+
 ops.AT = function(a, b) {
     if (a.type === "LIST" && b.type === "NUM") {
         var n = a.values.length;
