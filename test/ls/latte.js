@@ -339,9 +339,9 @@ function evaluate(node) {
     if (node.type === "LIST" && node.immutable) {
         return helpers.mutable_list_copy(node);
     }
-    else if (node.type.type === "OP") {
+    else if (node.type === "OP") {
         // Apply the operation
-        var t = node.type.value;
+        var t = node.op;
         var l = node.left;
         var r = node.right;
         var e = evaluate;

@@ -179,48 +179,48 @@ empty_args_list
 expr: expr_01;
 
 expr_01
-: expr_01 at  expr_02 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_01 at  expr_02 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
 | expr_02
 ;
 
 expr_02
-: expr_02 cat expr_03 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_02 cat expr_03 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
 | expr_03
 ;
 
 expr_03
-: expr_03 lt  expr_04 { $$ = {type: $2, left: $1, right: $3}; }
-| expr_03 gt  expr_04 { $$ = {type: $2, left: $1, right: $3}; }
-| expr_03 le  expr_04 { $$ = {type: $2, left: $1, right: $3}; }
-| expr_03 ge  expr_04 { $$ = {type: $2, left: $1, right: $3}; }
-| expr_03 eq  expr_04 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_03 lt  expr_04 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| expr_03 gt  expr_04 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| expr_03 le  expr_04 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| expr_03 ge  expr_04 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| expr_03 eq  expr_04 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
 | expr_04
 ;
 
 expr_04
-: expr_04 add expr_05 { $$ = {type: $2, left: $1, right: $3}; }
-| expr_04 sub expr_05 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_04 add expr_05 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| expr_04 sub expr_05 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
 | expr_05
 ;
 
 expr_05
-: expr_05 mul expr_06 { $$ = {type: $2, left: $1, right: $3}; }
-| expr_05 div expr_06 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_05 mul expr_06 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| expr_05 div expr_06 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
 | expr_06
 ;
 
 expr_06
-: expr_07 exp expr_06 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_07 exp expr_06 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
 | expr_07
 ;
 
 expr_07
-: expr_07 and expr_08 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_07 and expr_08 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
 | expr_08
 ;
 
 expr_08
-: expr_08 or  expr_09 { $$ = {type: $2, left: $1, right: $3}; }
+: expr_08 or  expr_09 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
 | expr_09
 ;
 
@@ -291,20 +291,20 @@ pass: 'PASS' { $$ = {type: "NOOP"}; };
 
 num: 'NUM' { $$ = {type: "NUM", value: Number($1)}; };
 
-at:  'AT'  { $$ = {type: "OP", value: "AT" }; };
-eq:  'EQ'  { $$ = {type: "OP", value: "EQ" }; };
-lt:  'LT'  { $$ = {type: "OP", value: "LT" }; };
-gt:  'GT'  { $$ = {type: "OP", value: "GT" }; };
-le:  'LE'  { $$ = {type: "OP", value: "LE" }; };
-ge:  'GE'  { $$ = {type: "OP", value: "GE" }; };
-or:  'OR'  { $$ = {type: "OP", value: "OR" }; };
-and: 'AND' { $$ = {type: "OP", value: "AND"}; };
-cat: 'CAT' { $$ = {type: "OP", value: "CAT"}; };
-add: 'ADD' { $$ = {type: "OP", value: "ADD"}; };
-sub: 'SUB' { $$ = {type: "OP", value: "SUB"}; };
-mul: 'MUL' { $$ = {type: "OP", value: "MUL"}; };
-div: 'DIV' { $$ = {type: "OP", value: "DIV"}; };
-exp: 'EXP' { $$ = {type: "OP", value: "EXP"}; };
+at:  'AT'  { $$ = {type: "OP", op: "AT" }; };
+eq:  'EQ'  { $$ = {type: "OP", op: "EQ" }; };
+lt:  'LT'  { $$ = {type: "OP", op: "LT" }; };
+gt:  'GT'  { $$ = {type: "OP", op: "GT" }; };
+le:  'LE'  { $$ = {type: "OP", op: "LE" }; };
+ge:  'GE'  { $$ = {type: "OP", op: "GE" }; };
+or:  'OR'  { $$ = {type: "OP", op: "OR" }; };
+and: 'AND' { $$ = {type: "OP", op: "AND"}; };
+cat: 'CAT' { $$ = {type: "OP", op: "CAT"}; };
+add: 'ADD' { $$ = {type: "OP", op: "ADD"}; };
+sub: 'SUB' { $$ = {type: "OP", op: "SUB"}; };
+mul: 'MUL' { $$ = {type: "OP", op: "MUL"}; };
+div: 'DIV' { $$ = {type: "OP", op: "DIV"}; };
+exp: 'EXP' { $$ = {type: "OP", op: "EXP"}; };
 
 return: 'RETURN';
 
