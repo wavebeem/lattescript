@@ -58,6 +58,39 @@ function FALSE()
     print "false"
     return false
 
+function value(node)
+    return node@1
+
+function left(node)
+    return node@2
+
+function right(node)
+    return node@3
+
+procedure set_value node, x
+    node@1 := x
+
+procedure set_left node, x
+    node@2 := x
+
+procedure set_right node, x
+    node@3 := x
+
+procedure insert node, x
+    if node = nothing
+        pass
+    else
+        if x < value(node)
+            if left(node) = nothing
+                set_left node, [x, nothing, nothing]
+            else
+                insert left(node), x
+        else
+            if right(node) = nothing
+                set_eight node, [x, nothing, nothing]
+            else
+                insert right(node), x
+
 ;function f takes x
 ;    give x + 1
 
@@ -69,14 +102,22 @@ function empty_list()
 
 procedure main
 with items, x, y
-    print 2 < 3
-    print [1, 2] = [1, 2]
-    x := []
-    append x, 1
-    append x, x
-    append x, 3
-    print x = x
+    x := [4, nothing, nothing]
+    x@2 := 2
+    x@3 := #x
+    ;insert x, 2
+    ;insert x, 3
+    ;insert x, 1
+    ;insert x, 5
     print x
+    ;print 2 < 3
+    ;print [1, 2] = [1, 2]
+    ;x := []
+    ;append x, 1
+    ;append x, x
+    ;append x, 3
+    ;print x = x
+    ;print x
     ;x := 1 + 10 * 2 ^ 2 ^ 3
     ;print x
     ;print #["a", "b", "c"]

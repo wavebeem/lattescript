@@ -152,8 +152,8 @@ lvalue
 ;
 
 list_lvalue
-: list_value at expr { $$ = {type: $at, left: $list_lvalue, right: $expr}; }
-| id         at expr { $$ = {type: $at, left: $id,          right: $expr}; }
+: list_lvalue at expr { $$ = {type: $at.type, op: $at.op, left: $1, right: $expr}; }
+| id          at expr { $$ = {type: $at.type, op: $at.op, left: $1, right: $expr}; }
 ;
 
 proc_call

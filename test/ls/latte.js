@@ -514,11 +514,18 @@ dispatch.ASSIGN = function(node) {
 
         set_var(name, val);
     }
-    else if (node.left.type === "LIST") {
-        helpers.error("Need to implement list assignment");
+    else if (node.left.type === "OP" && node.left.op === "AT") {
+        // FIXME: Work for nested AT expressions
+        var ll  = node.left.left.value;
+        var llv = get_var(ll).values;
+        var lr  = evaluate(node.left.right).value;
+        var r   = evaluate(node.right);
+        debug("LIST ASSIGNMENT???");
+        debug("llv =", llv, "; lr =", lr, "; r =", r);
+        get_var(ll).values[lr - 1] = r;
     }
     else {
-        helpers.error("Unable to assign");
+        helpers.error("Unable to assign:", to_json(node));
     }
 };
 
