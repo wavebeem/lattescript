@@ -353,7 +353,7 @@ helpers.textify = function(x, parent_lists) {
         if (t === "TEXT"   ) return x.value;
         if (t === "BOOL"   ) return x.value? "true": "false";
         if (t === "NUM"    ) return "" + x.value;
-        if (t === "LIST"   ) return helpers.textify_list(x.values, parent_lists);
+        if (t === "LIST"   ) return helpers.textify_list(x.values, parent_lists.concat(x));
         if (t === "NOTHING") return "nothing";
         throw "up";
     }
