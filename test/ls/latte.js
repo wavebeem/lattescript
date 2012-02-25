@@ -344,29 +344,39 @@ helpers.error = function() {
     throw {type: "ERROR", message: msg};
 }
 
-helpers.textify = function(x) {
+helpers.textify = function(x, parent_lists) {
+    // This variable helps to avoid printing circular lists forever.
+    parent_lists = parent_lists === undefined? []: parent_lists;
     try {
         debug("Trying to textify", x);
         var t = x.type;
         if (t === "TEXT"   ) return x.value;
         if (t === "BOOL"   ) return x.value? "true": "false";
         if (t === "NUM"    ) return "" + x.value;
-        if (t === "LIST"   ) return helpers.textify_list(x.values);
+        if (t === "LIST"   ) return helpers.textify_list(x.values, parent_lists);
         if (t === "NOTHING") return "nothing";
         throw "up";
     }
     catch (e) {
-        // FIXME
-        // This probably happens if we infinitely recurse.
-        // I should fix this to not die so horribly on circular lists.
         helpers.error("Couldn't stringify the", t);
     }
 };
 
-helpers.textify_list = function(xs) {
+helpers.textify_list = function(xs, parent_lists) {
     var ts = [];
     for (var i = 0; i < xs.length; i++) {
-        ts.push(helpers.textify(xs[i]));
+        var x = xs[i];
+        if (x.type === "LIST") {
+            if (parent_lists.indexOf(x) >= 0) {
+                ts.push("[...]");
+            }
+            else {
+                ts.push(helpers.textify(x, parent_lists.concat(x)));
+            }
+        }
+        else {
+            ts.push(helpers.textify(x, parent_lists));
+        }
     }
 
     return "[" + ts.join(", ") + "]";
