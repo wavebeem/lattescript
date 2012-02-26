@@ -148,12 +148,11 @@ assignment
 
 lvalue
 : id
-| list_lvalue
+/* | list_lvalue */
 ;
 
 list_lvalue
-: list_lvalue at expr { $$ = {type: $at.type, op: $at.op, left: $1, right: $expr}; }
-| id          at expr { $$ = {type: $at.type, op: $at.op, left: $1, right: $expr}; }
+: id          at expr { $$ = {type: $at.type, op: $at.op, left: $1, right: $expr}; }
 ;
 
 proc_call
@@ -176,64 +175,66 @@ empty_args_list
 { $$ = []; }
 ;
 
-expr: expr_01;
-
-expr_01
-: expr_01 at  expr_02 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_02
+expr
+: cat_expr
 ;
 
-expr_02
-: expr_02 cat expr_03 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_03
+cat_expr
+: cat_expr cat and_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| and_expr
 ;
 
-expr_03
-: expr_03 lt  expr_04 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_03 gt  expr_04 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_03 le  expr_04 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_03 ge  expr_04 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_03 eq  expr_04 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_04
+and_expr
+: and_expr and or_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| or_expr
 ;
 
-expr_04
-: expr_04 add expr_05 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_04 sub expr_05 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_05
+or_expr
+: or_expr or cmp_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| cmp_expr
 ;
 
-expr_05
-: expr_05 mul expr_06 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_05 div expr_06 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_06
+cmp_expr
+: cmp_expr lt add_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| cmp_expr gt add_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| cmp_expr le add_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| cmp_expr ge add_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| cmp_expr eq add_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| add_expr
 ;
 
-expr_06
-: expr_07 exp expr_06 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_07
+add_expr
+: add_expr add mul_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| add_expr sub mul_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| mul_expr
 ;
 
-expr_07
-: expr_07 and expr_08 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_08
+mul_expr
+: mul_expr mul exp_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| mul_expr div exp_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| exp_expr
 ;
 
-expr_08
-: expr_08 or  expr_09 { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| expr_09
+exp_expr
+: exp_expr exp at_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| at_expr
 ;
 
-expr_09
-: len expr_10 { $$ = {type: "LEN", arg: $2}; }
-| sub expr_10 { $$ = {type: "NEG", arg: $2}; }
-| add expr_10 { $$ = {type: "POS", arg: $2}; }
-| expr_10
+at_expr
+: at_expr at prefix_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| prefix_expr
 ;
 
-expr_10
-: lparen expr rparen  { $$ = $2; }
+prefix_expr
+: len simple_expr { $$ = {type: "LEN", arg: $2}; }
+| sub simple_expr { $$ = {type: "NEG", arg: $2}; }
+| add simple_expr { $$ = {type: "POS", arg: $2}; }
 | func_call
+| simple_expr
+;
+
+simple_expr
+: lparen expr rparen  { $$ = $2; }
 | basic
 ;
 

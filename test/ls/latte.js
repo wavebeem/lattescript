@@ -398,6 +398,55 @@ helpers.mutable_list_copy = function(node) {
     return result;
 }
 
+function pretty_expr(node) {
+    var ops = {
+        CAT: "~",
+        EXP: "^",
+        ADD: "+",
+        SUB: "-",
+        MUL: "*",
+        DIV: "/",
+        AND: "and",
+        OR:  "or",
+        AT:  "@",
+        EQ:  "=",
+        LT:  "<",
+        GT:  ">",
+        LE:  "<=",
+        GE:  ">="
+    }
+
+    var uops = {
+        LEN: "#",
+        POS: "+",
+        NEG: "-"
+    }
+
+    if (node.type === "OP") {
+        var l  = pretty_expr(node.left);
+        var r  = pretty_expr(node.right);
+        var op = ops[node.op];
+        return ["(", l, " ", op, " ", r, ")"].join("");
+    }
+    else if (uops[node.type]) {
+        var v = pretty_expr(node.arg);
+        return ["(", uops[node.type], v, ")"].join("");
+    }
+    else if (node.type === "ID") {
+        return node.value;
+    }
+    else if (node.type === "TEXT") {
+        return '"' + helpers.textify(node) + '"';
+    }
+    else {
+        return helpers.textify(node);
+    }
+}
+
+function pretty_print(node) {
+    debug(pretty_expr(node));
+}
+
 function evaluate(node) {
     var atomic_types = {
         ID:      true,
@@ -407,6 +456,8 @@ function evaluate(node) {
         LIST:    true,
         NOTHING: true
     };
+
+    pretty_print(node);
 
     if (node.type === "LIST" && node.immutable) {
         return helpers.mutable_list_copy(node);
