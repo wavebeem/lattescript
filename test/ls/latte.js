@@ -48,7 +48,7 @@ procs.print = {
         type: "JS",
         js: function() {
             var str = get_var("str");
-            console.log("PRINT:", helpers.textify(str));
+            console.log("PRINTPRINTPRINT>>>:", helpers.textify(str));
         }
     }]
 };
@@ -107,8 +107,8 @@ function set_var(id, val) {
 var dispatch = {};
 
 dispatch.BLOCK = function(node) {
-    for (var n = 0; n < node.length; n++) {
-        run(node[n]);
+    for (var n = 0; n < node.body.length; n++) {
+        run(node.body[n]);
     }
 };
 
@@ -312,10 +312,10 @@ ops.EQ = function(a, b) {
         return {type: "BOOL", value: result};
     }
     else if (a.type === "NOTHING") {
-        return b.type === "NOTHING";
+        return {type: "BOOL", value: b.type === "NOTHING"};
     }
     else if (b.type === "NOTHING") {
-        return a.type === "NOTHING";
+        return {type: "BOOL", value: a.type === "NOTHING"};
     }
     else {
         helpers.error("Cannot compare equality for arguments: incorrect types");
@@ -610,6 +610,21 @@ dispatch.ASSIGN = function(node) {
     }
 };
 
+dispatch.IF = function(node) {
+    var val = evaluate(node.cond);
+    if (val.type === "BOOL") {
+        if (val.value) {
+            run({type: "BLOCK", body: node.body});
+        }
+        else if ("else" in node) {
+            run(node["else"]);
+        }
+    }
+    else {
+        helpers.error("If condition shoud be true or false.");
+    }
+}
+
 dispatch.NOOP = function(node) {
 };
 
@@ -618,7 +633,7 @@ function run(node) {
         return dispatch[node.type](node);
     }
     else {
-        debug("No rule defined to run:", node);
+        helpers.error("No rule defined to run:", to_json(node));
     }
 };
 

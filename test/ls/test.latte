@@ -63,9 +63,12 @@ function value(node)
 
 function left(node)
     return node@2
-;
+
 function right(node)
     return node@3
+
+function node(x)
+    return [x, nothing, nothing]
 
 procedure set_value node, x
     node@1 := x
@@ -76,21 +79,31 @@ procedure set_left node, x
 procedure set_right node, x
     node@3 := x
 
-;procedure insert node, x
-;    if node = nothing
-;        pass
-;    else
-;        if x < value(node)
-;            if left(node) = nothing
-;                set_left node, [x, nothing, nothing]
-;            else
-;                insert left(node), x
-;        else
-;            if right(node) = nothing
-;                set_eight node, [x, nothing, nothing]
-;            else
-;                insert right(node), x
-;
+procedure insert node, x
+    if node = nothing
+        print "NODE IS NOTHING"
+        pass
+    else
+        print "NODE IS NOT NOTHING"
+        if x < value(node)
+            if left(node) = nothing
+                set_left node, node(x)
+            else
+                insert left(node), x
+        else
+            if right(node) = nothing
+                set_right node, node(x)
+            else
+                insert right(node), x
+
+procedure walk_infix node
+    if node = nothing
+        pass
+    else
+        walk_infix left(node)
+        print value(node)
+        walk_infix right(node)
+
 ;function f takes x
 ;    give x + 1
 ;
@@ -105,15 +118,23 @@ function one()
 
 procedure main
 with items, x, y, root
-    root := [4, nothing, nothing]
+    root := [4, 1, 2]
     print value(root)
-    y := 2
-    x := [[1, 6], 2, 3]
-    x@2 := "a"
-    x@(y + 1) := "b"
-    x@one()@1 := "c"
-    print x
-    print 1 ~ ""
+    set_left  root, nothing
+    set_right root, nothing
+    insert root, 3
+    insert root, 6
+    insert root, 2
+    insert root, 1
+    print root
+    walk_infix root
+    ;y := 2
+    ;x := [[1, 6], 2, 3]
+    ;x@2 := "a"
+    ;x@(y + 1) := "b"
+    ;x@one()@1 := "c"
+    ;print x
+    ;print 1 ~ ""
     ;print "1"
     ;print (("" ~ 1) = "1")
     ;print ["ZZZ"]@one()
