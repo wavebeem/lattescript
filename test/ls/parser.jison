@@ -108,7 +108,7 @@ if_statement
 
 if_helper
 : if expr newline block
-{ $$ = {type: "IF", cond: $expr, body: $block}; }
+{ $$ = {type: "IF", condition: $expr, body: $block}; }
 ;
 
 statements

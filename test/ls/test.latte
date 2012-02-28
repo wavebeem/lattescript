@@ -122,8 +122,16 @@ function factorial(n)
     else
         return n * factorial(n - 1)
 
+procedure rocket
+with n
+    n := 10
+    until n = 0
+        print n ~ "..."
+        n := n - 1
+    print "Blast off!"
+
 procedure main
-with items, x, y, root
+with n, x, y, root
     root := [4, 1, 2]
     print value(root)
     set_left  root, nothing
@@ -136,6 +144,8 @@ with items, x, y, root
     walk_infix root
 
     print factorial(10)
+
+    rocket
     ;y := 2
     ;x := [[1, 6], 2, 3]
     ;x@2 := "a"

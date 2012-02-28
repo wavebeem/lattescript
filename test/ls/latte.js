@@ -33,8 +33,8 @@ function to_json(obj) {
     return JSON.stringify(obj, null, 2);
 }
 
-debug("[Abstract Syntax Tree]");
-debug(to_json(ast));
+console.log("[Abstract Syntax Tree]");
+console.log(to_json(ast));
 
 var funcs = {};
 var procs = {};
@@ -123,8 +123,35 @@ dispatch.JS = function(node) {
 
 dispatch.WHILE = function(node) {
     debug("While loop");
-    for (var n = 0; n < node.statements.length; n++) {
-        run(node.statements[n]);
+    var cond = evaluate(node.condition);
+    if (cond.type !== "BOOL") {
+        helpers.error("Loop conditional must be true or false");
+    }
+
+    while (cond.value) {
+        run({type: "BLOCK", body: node.statements});
+
+        cond = evaluate(node.condition);
+        if (cond.type !== "BOOL") {
+            helpers.error("Loop conditional must be true or false");
+        }
+    }
+};
+
+dispatch.UNTIL = function(node) {
+    debug("While loop");
+    var cond = evaluate(node.condition);
+    if (cond.type !== "BOOL") {
+        helpers.error("Loop conditional must be true or false");
+    }
+
+    while (! cond.value) {
+        run({type: "BLOCK", body: node.statements});
+
+        cond = evaluate(node.condition);
+        if (cond.type !== "BOOL") {
+            helpers.error("Loop conditional must be true or false");
+        }
     }
 };
 
@@ -624,7 +651,7 @@ dispatch.ASSIGN = function(node) {
 };
 
 dispatch.IF = function(node) {
-    var val = evaluate(node.cond);
+    var val = evaluate(node.condition);
     if (val.type === "BOOL") {
         if (val.value) {
             run({type: "BLOCK", body: node.body});
@@ -662,7 +689,8 @@ function show_stack_trace() {
     }
 }
 
-debug("[Program Execution]");
+console.log("[Program Execution]");
+console.log();
 if (procs.main) {
     try {
         run({type: "PROC_CALL", name:"main", args: []});
