@@ -87,6 +87,7 @@ function get_var(id) {
         return vars[id];
     }
     else {
+        debug("current sub:", current_call().name);
         debug("current variables:", vars);
         helpers.error("Unable to get value of undeclared variable:", id);
     }
@@ -157,6 +158,8 @@ function call_proc(node, args) {
     bound_proc.vars = vars;
 
     call_stack.push(bound_proc);
+    debug("PUSHING", node.name, "ONTO CALL STACK");
+    debug("CURRENT CALL =", current_call().name);
     //debug("call stack =", to_json(call_stack));
     //debug("call args =", to_json(bound_proc.args));
     //debug("current vars =", current_call().vars);
@@ -178,14 +181,12 @@ function call_proc(node, args) {
 }
 
 dispatch.FUNC_CALL = function(node) {
-    debug("Calling function:", node);
-    debug("Calling function:", node.name);
     if (funcs[node.name]) {
+        debug("Calling function:", node.name);
         return call_func(funcs[node.name], node.args);
     }
     else {
-        debug("Throwing up");
-        throw "up";
+        helpers.error("Function", node.name, "is undefined");
     }
 };
 
@@ -207,6 +208,7 @@ function call_func(node, args) {
     // specified in the argument list in the function definition.
     var vars = {};
     for (var i = 0; i < node.args.length; i++) {
+        debug("BINDING", node.args[i], "TO",  evaluate(args[i]));
         vars[node.args[i]] = evaluate(args[i]);
     }
     // Insert the "with" variables into the vars mapping,
@@ -217,6 +219,8 @@ function call_func(node, args) {
     bound_func.vars = vars;
 
     call_stack.push(bound_func);
+    debug("PUSHING", node.name, "ONTO CALL STACK");
+    debug("CURRENT CALL =", current_call().name);
     //debug("call stack =", to_json(call_stack));
     //debug("call args =", to_json(bound_proc.args));
     //debug("current vars =", current_call().vars);
@@ -226,8 +230,9 @@ function call_func(node, args) {
         }
         catch (e) {
             if (e.type === "RETURN") {
+                var result = evaluate(e.value);
                 call_stack.pop();
-                return evaluate(e.value);
+                return result;
             }
             else {
                 throw e;
