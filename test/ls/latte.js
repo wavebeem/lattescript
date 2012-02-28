@@ -230,9 +230,8 @@ function call_func(node, args) {
         }
         catch (e) {
             if (e.type === "RETURN") {
-                var result = evaluate(e.value);
                 call_stack.pop();
-                return result;
+                return e.value;
             }
             else {
                 throw e;
@@ -554,7 +553,8 @@ dispatch.PROC_DEF = function(node) {
 };
 
 dispatch.RETURN = function(node) {
-    throw node;
+    debug("RETURNING", node.value);
+    throw {type: "RETURN", value: evaluate(node.value)};
 }
 
 dispatch.FUNC_DEF = function(node) {
