@@ -41,8 +41,8 @@ var procs = {};
 
 procs.print = {
     type: "PROC",
-    name: {type: "ID", value: "print"},
-    args: [{type: "ID", value: "str"}],
+    name: "print",
+    args: ["str"],
     vars: {},
     body: [{
         type: "JS",
@@ -55,8 +55,8 @@ procs.print = {
 
 procs.append = {
     type: "PROC",
-    name: {type: "ID", value: "append"},
-    args: [{type: "ID", value: "list"}, {type: "ID", value: "item"}],
+    name: "append",
+    args: ["list", "item"],
     vars: {},
     body: [{
         type: "JS",
@@ -87,6 +87,7 @@ function get_var(id) {
         return vars[id];
     }
     else {
+        debug("current variables:", vars);
         helpers.error("Unable to get value of undeclared variable:", id);
     }
 }
@@ -146,12 +147,12 @@ function call_proc(node, args) {
     // specified in the argument list in the function definition.
     var vars = {};
     for (var i = 0; i < args.length; i++) {
-        vars[bound_proc.args[i].value] = evaluate(args[i]);
+        vars[bound_proc.args[i]] = evaluate(args[i]);
     }
     // Insert the "with" variables into the vars mapping,
     // but leave them "undefind" by mapping them to null.
     for (var i = 0; i < node.vars.length; i++) {
-        vars[node.vars[i]] = null;
+        vars[node.vars[i]] = {type: "NOTHING"};
     }
     bound_proc.vars = vars;
 
@@ -179,8 +180,8 @@ function call_proc(node, args) {
 dispatch.FUNC_CALL = function(node) {
     debug("Calling function:", node);
     debug("Calling function:", node.name);
-    if (procs[node.name]) {
-        return call_func(procs[node.name], node.args);
+    if (funcs[node.name]) {
+        return call_func(funcs[node.name], node.args);
     }
     else {
         debug("Throwing up");
@@ -197,18 +198,21 @@ function call_func(node, args) {
         vars: {}
     };
 
-    //debug("call_proc(node, args) where args =", node.args);
+    debug("call_proc(node, args) where");
+    debug("node.args =", node.args);
+    debug("args =", args);
+    debug("node.vars =", node.vars);
 
     // Bind the arguments passed in to the procedure call to the names
     // specified in the argument list in the function definition.
     var vars = {};
-    for (var i = 0; i < args.length; i++) {
-        vars[bound_func.args[i].value] = evaluate(args[i]);
+    for (var i = 0; i < node.args.length; i++) {
+        vars[node.args[i]] = evaluate(args[i]);
     }
     // Insert the "with" variables into the vars mapping,
     // but leave them "undefind" by mapping them to null.
     for (var i = 0; i < node.vars.length; i++) {
-        vars[node.vars[i].value] = null;
+        vars[node.vars[i]] = {type: "NOTHING"};
     }
     bound_func.vars = vars;
 
@@ -302,6 +306,12 @@ ops.EQ = function(a, b) {
         }
 
         return {type: "BOOL", value: result};
+    }
+    else if (a.type === "NOTHING") {
+        return b.type === "NOTHING";
+    }
+    else if (b.type === "NOTHING") {
+        return a.type === "NOTHING";
     }
     else {
         helpers.error("Cannot compare equality for arguments: incorrect types");
@@ -544,7 +554,7 @@ dispatch.RETURN = function(node) {
 
 dispatch.FUNC_DEF = function(node) {
     debug("Defining function:", node.name);
-    procs[node.name] = {
+    funcs[node.name] = {
         name: node.name,
         args: node.args,
         vars: node.vars,
@@ -576,16 +586,6 @@ dispatch.ASSIGN = function(node) {
         debug("Setting", name, "to", val);
 
         set_var(name, val);
-    }
-    else if (node.left.type === "OP" && node.left.op === "AT") {
-        // FIXME: Work for nested AT expressions
-        var ll  = node.left.left.value;
-        var llv = get_var(ll).values;
-        var lr  = evaluate(node.left.right).value;
-        var r   = evaluate(node.right);
-        debug("LIST ASSIGNMENT???");
-        debug("llv =", llv, "; lr =", lr, "; r =", r);
-        get_var(ll).values[lr - 1] = r;
     }
     else {
         helpers.error("Unable to assign:", to_json(node));

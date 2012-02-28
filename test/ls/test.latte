@@ -58,24 +58,24 @@
 ;    print "false"
 ;    return false
 ;
-;function value(node)
-;    return node@1
+function value(node)
+    return node@1
+
+function left(node)
+    return node@2
 ;
-;function left(node)
-;    return node@2
-;;
-;function right(node)
-;    return node@3
-;
-;procedure set_value node, x
-;    node@1 := x
-;
-;procedure set_left node, x
-;    node@2 := x
-;
-;procedure set_right node, x
-;    node@3 := x
-;
+function right(node)
+    return node@3
+
+procedure set_value node, x
+    node@1 := x
+
+procedure set_left node, x
+    node@2 := x
+
+procedure set_right node, x
+    node@3 := x
+
 ;procedure insert node, x
 ;    if node = nothing
 ;        pass
@@ -100,17 +100,23 @@
 ;function empty_list
 ;    give []
 
+;function one()
+;    return 1
+
 procedure main
-with items, x, y
-    y := 2
-    x := [[1, 6], 2, 3]
-    x@2 := "a"
-    x@(y + 1) := "b"
-    x@1@1 := "c"
-    print x
-    print 1 ~ ""
-    print "1"
-    print (("" ~ 1) = "1")
+with items, x, y, root
+    root := [4, nothing, nothing]
+    print value(root)
+    ;y := 2
+    ;x := [[1, 6], 2, 3]
+    ;x@2 := "a"
+    ;x@(y + 1) := "b"
+    ;x@one()@1 := "c"
+    ;print x
+    ;print 1 ~ ""
+    ;print "1"
+    ;print (("" ~ 1) = "1")
+    ;print ["ZZZ"]@one()
 ;    x := [4, nothing, nothing]
 ;    x@2 := 2
 ;    x@3 := #x
