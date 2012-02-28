@@ -390,12 +390,25 @@ helpers.textify_list = function(xs, parent_lists) {
             }
         }
         else {
-            ts.push(helpers.textify(x, parent_lists));
+            if (x.type === "TEXT") {
+                ts.push('"' + helpers.unescape(x.value) + '"');
+            }
+            else {
+                ts.push(helpers.textify(x, parent_lists));
+            }
         }
     }
 
     return "[" + ts.join(", ") + "]";
 };
+
+helpers.unescape = function(str) {
+    return (str
+        .replace(/\\/, "\\\\")
+        .replace(/\n/, "\\n")
+        .replace(/\"/, "\\\"")
+    );
+}
 
 helpers.mutable_list_copy = function(node) {
     debug("attempting to make mutable_list_copy of:", node);
