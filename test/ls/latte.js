@@ -3,7 +3,7 @@ var util   = require("util");
 var parser = require("./parser").parser;
 var lexer  = require("./lexer").lexer;
 
-var DEBUG = true;
+var DEBUG = false;
 var DEBUG_PREFIX = "DEBUG: ";
 
 var ops     = {};
@@ -48,7 +48,12 @@ procs.print = {
         type: "JS",
         js: function() {
             var str = get_var("str");
-            console.log("PRINTPRINTPRINT>>>:", helpers.textify(str));
+            if (DEBUG) {
+                console.log("PRINTPRINTPRINT>>>:", helpers.textify(str));
+            }
+            else {
+                console.log(helpers.textify(str));
+            }
         }
     }]
 };
@@ -144,6 +149,10 @@ function call_proc(node, args) {
 
     //debug("call_proc(node, args) where args =", node.args);
 
+    if (node.args.length != args.length) {
+        helpers.error("Incorrect number of arguments to", node.name);
+    }
+
     // Bind the arguments passed in to the procedure call to the names
     // specified in the argument list in the function definition.
     var vars = {};
@@ -203,6 +212,10 @@ function call_func(node, args) {
     debug("node.args =", node.args);
     debug("args =", args);
     debug("node.vars =", node.vars);
+
+    if (node.args.length != args.length) {
+        helpers.error("Incorrect number of arguments to", node.name);
+    }
 
     // Bind the arguments passed in to the procedure call to the names
     // specified in the argument list in the function definition.

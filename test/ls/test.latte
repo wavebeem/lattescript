@@ -81,10 +81,8 @@ procedure set_right node, x
 
 procedure insert node, x
     if node = nothing
-        print "NODE IS NOTHING"
         pass
     else
-        print "NODE IS NOT NOTHING"
         if x < value(node)
             if left(node) = nothing
                 set_left node, node(x)
@@ -116,6 +114,14 @@ procedure walk_infix node
 function one()
     return 1
 
+function factorial(n)
+    if n < 0
+        error "n is too small"
+    else if n <= 1
+        return 1
+    else
+        return n * factorial(n - 1)
+
 procedure main
 with items, x, y, root
     root := [4, 1, 2]
@@ -126,8 +132,10 @@ with items, x, y, root
     insert root, 6
     insert root, 2
     insert root, 1
-    print root
+    print "Tree:\n" ~ root ~ "\n"
     walk_infix root
+
+    print factorial(10)
     ;y := 2
     ;x := [[1, 6], 2, 3]
     ;x@2 := "a"
