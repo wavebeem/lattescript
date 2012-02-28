@@ -102,6 +102,12 @@
 
 procedure main
 with items, x, y
+    y := 2
+    x := [[1, 6], 2, 3]
+    x@2 := "a"
+    x@(y + 1) := "b"
+    x@1@1 := "c"
+    print x
 ;    x := [4, nothing, nothing]
 ;    x@2 := 2
 ;    x@3 := #x
@@ -109,7 +115,7 @@ with items, x, y
 ;    y@1@1 := 3
 ;    print y
     ;print a ~ b and c or d = e + f * g ^ h@#g
-    print a + b = c or d = e and f < g or g > f
+    ;print a + b = c or d = e and f < g or g > f
     ;print a ~ b = e + f * g ^ h@#g
     ;insert x, 2
     ;insert x, 3

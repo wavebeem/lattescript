@@ -161,7 +161,8 @@ function call_proc(node, args) {
     //debug("current vars =", current_call().vars);
     for (var i = 0; i < bound_proc.body.length; i++) {
         try {
-            debug("<<<RUNNING>>>", bound_proc.body[i]);
+            //debug("<<<RUNNING>>>", to_json(bound_proc.body[i]));
+            //debug("<<<RUNNING>>>", pretty_print(bound_proc.body[i]));
             run(bound_proc.body[i]);
         }
         catch (e) {
@@ -358,7 +359,7 @@ helpers.textify = function(x, parent_lists) {
         throw "up";
     }
     catch (e) {
-        helpers.error("Couldn't stringify the", t);
+        helpers.error("Couldn't textify the", t);
     }
 };
 
@@ -438,6 +439,9 @@ function pretty_expr(node) {
     else if (node.type === "TEXT") {
         return '"' + helpers.textify(node) + '"';
     }
+    else if (node.type === "ASSIGN") {
+        return [pretty_expr(node.left), ":=", pretty_expr(node.right)].join(" ");
+    }
     else {
         return helpers.textify(node);
     }
@@ -457,7 +461,7 @@ function evaluate(node) {
         NOTHING: true
     };
 
-    pretty_print(node);
+    //pretty_print(node);
 
     if (node.type === "LIST" && node.immutable) {
         return helpers.mutable_list_copy(node);
@@ -553,6 +557,14 @@ dispatch.SUB_DEFS = function(node) {
         run(node.sub_defs[n]);
     }
 };
+
+dispatch.SET = function(node) {
+    var left  = evaluate(node.left).values;
+    var idx   = evaluate(node.at).value;
+    var right = evaluate(node.right);
+
+    left[idx - 1] = right;
+}
 
 
 dispatch.ASSIGN = function(node) {

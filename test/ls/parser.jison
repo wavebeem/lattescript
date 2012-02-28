@@ -135,6 +135,7 @@ single_statement
 | return_statement
 | pass
 | assignment
+| list_set
 ;
 
 return_statement
@@ -143,16 +144,24 @@ return_statement
 ;
 
 assignment
-: lvalue assign expr
-{ $$ = {type: "ASSIGN", left: $lvalue, right: $expr}; };
+: id assign expr
+{ $$ = {type: "ASSIGN", left: $id, right: $expr}; };
 
-lvalue
-: id
-/* | list_lvalue */
+list_set
+: id at_list assign expr
+{
+    $$ = $id;
+    for (var i = 0; i < $at_list.length - 1; i++) {
+        $$ = {type: "OP", op: "AT", left: $$, right: $at_list[i]};
+    }
+
+    $$ = {type: "SET", left: $$, at: $at_list[$at_list.length - 1], right: $expr};
+}
 ;
 
-list_lvalue
-: id          at expr { $$ = {type: $at.type, op: $at.op, left: $1, right: $expr}; }
+at_list
+: at_list at prefix_expr { $$.push($prefix_expr); }
+|         at prefix_expr { $$ =   [$prefix_expr]; }
 ;
 
 proc_call
