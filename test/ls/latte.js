@@ -298,7 +298,7 @@ ops.EQ = function(a, b) {
             result = a === b || helpers.list_eq(a, b);
         }
         else {
-            result = a === b;
+            result = a.value === b.value;
         }
 
         return {type: "BOOL", value: result};
