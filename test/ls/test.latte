@@ -130,6 +130,18 @@ with n
         n := n - 1
     print "Blast off!"
 
+procedure rocket2
+with n
+    for n from 10 to 1 by -1
+        print n ~ "..."
+    print "Blast off!"
+
+procedure counting
+with n
+    print "It's counting time!"
+    for n from 1 to 4
+        print "Number " ~ n
+
 procedure main
 with n, x, y, root
     root := [4, 1, 2]
@@ -146,6 +158,8 @@ with n, x, y, root
     print factorial(10)
 
     rocket
+    rocket2
+    counting
     ;y := 2
     ;x := [[1, 6], 2, 3]
     ;x@2 := "a"

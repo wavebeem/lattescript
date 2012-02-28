@@ -155,6 +155,37 @@ dispatch.UNTIL = function(node) {
     }
 };
 
+dispatch.FORRANGE = function(node) {
+    var begin = evaluate(node.from);
+    var end   = evaluate(node.to);
+    var step  = evaluate(node.by);
+
+    if (begin.type !== "NUM"
+    ||  end  .type !== "NUM"
+    ||  step .type !== "NUM") {
+        helpers.error("For-loop indices must be numbers!");
+    }
+
+    var var_name = node["var"].value;
+
+    if (step.value === 0) {
+        helpers.error("Step size cannot be 0");
+    }
+
+    if (step.value > 0) {
+        for (var i = begin.value; i <= end.value; i += step.value) {
+            set_var(var_name, {type: "NUM", value: i});
+            run({type: "BLOCK", body: node.statements});
+        }
+    }
+    else {
+        for (var i = begin.value; i >= end.value; i += step.value) {
+            set_var(var_name, {type: "NUM", value: i});
+            run({type: "BLOCK", body: node.statements});
+        }
+    }
+}
+
 dispatch.PROC_CALL = function(node) {
     if (procs[node.name]) {
         debug("Calling procedure:", node.name);

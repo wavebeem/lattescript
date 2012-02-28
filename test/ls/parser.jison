@@ -92,12 +92,12 @@ forrange_statement
 
 for_helper
 : for id from expr to expr
-{ $$ = {type: "FORRANGE", from: $expr1, to: $expr2}; }
+{ $$ = {type: "FORRANGE", "var": $id, from: $expr1, to: $expr2}; }
 ;
 
 foreach_statement
 : for id in expr newline block
-{ $$ = {type: "FOREACH", var: $id, list: $expr, statements: $block}; }
+{ $$ = {type: "FOREACH", "var": $id, list: $expr, statements: $block}; }
 ;
 
 if_statement
