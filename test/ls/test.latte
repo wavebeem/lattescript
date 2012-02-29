@@ -142,8 +142,14 @@ with n
     for n from 1 to 4
         print "Number " ~ n
 
+procedure say_each items
+with item
+    for item in items
+        append items, item
+        print item
+
 procedure main
-with n, x, y, root
+with items, n, x, y, root
     root := [4, 1, 2]
     print value(root)
     set_left  root, nothing
@@ -160,6 +166,13 @@ with n, x, y, root
     rocket
     rocket2
     counting
+
+    items := ["hello", "latte", "script"]
+    say_each items
+    print "===="
+    say_each items
+    print "===="
+    print items
     ;y := 2
     ;x := [[1, 6], 2, 3]
     ;x@2 := "a"

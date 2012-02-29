@@ -186,6 +186,32 @@ dispatch.FORRANGE = function(node) {
     }
 }
 
+dispatch.FOREACH = function(node) {
+    var list = evaluate(node.list);
+
+    var var_name = node["var"].value;
+
+    if (list.type === "LIST") {
+        // Copy the list so we don't loop forever if the loop body modifies the list
+        list = list.values.slice(0);
+
+        for (var n = 0; n < list.length; n++) {
+            set_var(var_name, list[n]);
+            run({type: "BLOCK", body: node.statements});
+        }
+    }
+    else if (list.type === "TEXT") {
+        var text = list;
+        for (var n = 0; n < text.value.length; n++) {
+            set_var(var_name, {type: "TEXT", value: text.value[n]});
+            run({type: "BLOCK", body: node.statements});
+        }
+    }
+    else {
+        helpers.error("Foreach loop only works on text and lists");
+    }
+}
+
 dispatch.PROC_CALL = function(node) {
     if (procs[node.name]) {
         debug("Calling procedure:", node.name);
