@@ -1,0 +1,326 @@
+; vim: set syn=lisp:
+;procedure pyramid n
+;with i, j
+;    for i from 1 to n
+;        for j from 1 to i
+;            write "*"
+;        write "\n"
+;
+;procedure pyramids n
+;with i
+;    for i from 1 to n
+;        print "Pyramid of size ", i
+;        print
+;        pyramid i
+;
+;function factorial(n)
+;    if n < 0
+;        error "factorial(n) is only defined for n >= 0"
+;    else if n = 0 or n = 1
+;        return 1
+;    else
+;        return n * factorial(n)
+;
+;function factorial2(n)
+;with i, product
+;    if n < 0
+;        error "factorial2(n) is only defined for n >= 0"
+;    product := 1
+;    for i from n to 2 by -1
+;        product := product * i
+;    return product
+;
+
+;procedure sing takes times
+;with lyrics, lyric, n
+;    lyrics := ["a", "b", "c", 1, 2, 3]
+;    for n from 1 to times
+;        for lyric in lyrics
+;            write lyric ~ " "
+;        write "\n"
+
+;procedure sing times
+;with lyrics, lyric, n
+;    lyrics := ["a", "b", "c", 1, 2, 3]
+;    for n from 1 to times
+;        for lyric in lyrics
+;            write lyric ~ " "
+;        write "\n"
+
+;function f(x)
+;    return x + 1
+;
+;function TRUE()
+;    print "true"
+;    return true
+;
+;function FALSE()
+;    print "false"
+;    return false
+;
+function value(node)
+    return node@1
+
+function left(node)
+    return node@2
+
+function right(node)
+    return node@3
+
+function node(x)
+    return [x, nothing, nothing]
+
+procedure set_value node, x
+    node@1 := x
+
+procedure set_left node, x
+    node@2 := x
+
+procedure set_right node, x
+    node@3 := x
+
+procedure insert node, x
+    if node = nothing
+        pass
+    else
+        if x < value(node)
+            if left(node) = nothing
+                set_left node, node(x)
+            else
+                insert left(node), x
+        else
+            if right(node) = nothing
+                set_right node, node(x)
+            else
+                insert right(node), x
+
+procedure walk_infix node
+    if node = nothing
+        pass
+    else
+        walk_infix left(node)
+        print value(node)
+        walk_infix right(node)
+
+;function f takes x
+;    give x + 1
+;
+;function empty_list()
+;    return [[[]]]
+
+;function empty_list
+;    give []
+
+function one()
+    return 1
+
+function factorial(n)
+    if n < 0
+        error "n is too small"
+    else if n <= 1
+        return 1
+    else
+        return n * factorial(n - 1)
+
+procedure rocket
+with n
+    n := 10
+    until n = 0
+        print n ~ "..."
+        n := n - 1
+    print "Blast off!"
+
+procedure rocket2
+with n
+    for n from 10 to 1 by -1
+        print n ~ "..."
+    print "Blast off!"
+
+procedure counting
+with n
+    print "It's counting time!"
+    for n from 1 to 4
+        print "Number " ~ n
+
+procedure say_each items
+with item
+    for item in items
+        append items, item
+        print item
+
+procedure main
+with items, n, x, y, root
+    root := [4, 1, 2]
+    print value(root)
+    set_left  root, nothing
+    set_right root, nothing
+    insert root, 3
+    insert root, 6
+    insert root, 2
+    insert root, 1
+    print "Tree:\n" ~ root ~ "\n"
+    walk_infix root
+
+    print factorial(10)
+
+    rocket
+    rocket2
+    counting
+
+    items := ["hello", "latte", "script"]
+    say_each items
+    print "===="
+    say_each items
+    print "===="
+    print items
+    ;y := 2
+    ;x := [[1, 6], 2, 3]
+    ;x@2 := "a"
+    ;x@(y + 1) := "b"
+    ;x@one()@1 := "c"
+    ;print x
+    ;print 1 ~ ""
+    ;print "1"
+    ;print (("" ~ 1) = "1")
+    ;print ["ZZZ"]@one()
+;    x := [4, nothing, nothing]
+;    x@2 := 2
+;    x@3 := #x
+;    y := [[1]]
+;    y@1@1 := 3
+;    print y
+    ;print a ~ b and c or d = e + f * g ^ h@#g
+    ;print a + b = c or d = e and f < g or g > f
+    ;print a ~ b = e + f * g ^ h@#g
+    ;insert x, 2
+    ;insert x, 3
+    ;insert x, 1
+    ;insert x, 5
+    ;print x
+    ;print 2 < 3
+    ;print [1, 2] = [1, 2]
+    ;x := []
+    ;append x, 1
+    ;append x, x
+    ;append x, 3
+    ;print x = x
+    ;print x
+    ;x := 1 + 10 * 2 ^ 2 ^ 3
+    ;print x
+    ;print #["a", "b", "c"]
+    ;print "a"
+    ;y := TRUE() and FALSE()
+    ;y := FALSE() and TRUE()
+    ;y := TRUE() or FALSE()
+    ;x := empty_list()
+    ;y := empty_list()
+    ;append x, 1
+    ;print x
+    ;append x@1, 2
+    ;print x
+    ;append x@1@1, 3
+    ;print x
+    ;print y
+    ;print "a" ~ "b"
+    ;items := []
+    ;print items
+    ;append items, 1
+    ;append items, 2
+    ;append items, 3
+    ;print items
+    ;x := 1
+    ;print x
+    ;x := x + 1
+    ;print x
+    ;x := f(2)
+    ;print x
+;    pyramids factorial(5)
+
+;procedure f
+;    print trueth
+;procedure add_echoed_input my_list
+;with m, n
+;    write "Please enter some word"
+;    get answer
+;    for m from 1 to n
+;        append my_list, answer
+;
+;function a(b)
+;    if b
+;        return 1
+;    else if c
+;        return nothing
+;    else
+;        return 3
+;function f(x)
+;    if x < 1
+;        return 1
+;    else if x = 0
+;        return "potato"
+;    else
+;        return x * f(x - 1)
+
+;procedure main
+;    print "Hello", "world!"
+;x := 1
+;x@i := 2
+;x@#x := "end"
+;print f(x, x + 2)
+;print -f(+x)
+;while true
+;    x
+;for x in xs
+;    print x
+;for x from a to b by c
+;    print x
+;until 2 + 2 = 5
+;    print "Oh no, infinite loop!"
+;print 1 < 2 and 3 + 4 = 7 or true
+;print 1 + 2*3+(4 + 5)/6
+;print 3.14
+;print 3
+;print 1/-a
+;print 1 + (+2)
+;print 1^2^3
+;print 1 + 2 * 3 ^ 5 ^ 6
+;print [[1, 2], [[3]], [[[4]]]]
+;print [1 + 2, 3 + 4 * 5]
+;print 2^3
+;print [3, 4]@1
+;print #a
+;print []
+;print [1]
+;print 1
+;print #[]
+;print #([#([a])])
+;print #(xss@1)
+;print true and (#[1, 2] > 2)
+;print #[1, 2, 3]
+;print a@(b+c)
+;;; Syntax Error
+;print ##a
+;print a + (b + c)
+;print "Hello"
+;print "This is a \"quote\""
+;print "This is a \\ slash"
+;print "Con" ~ "cat", "e" ~ "n" ~ "ation"
+;print true
+;print true and false or false
+;print 1 + 1 < 3
+;print 1 ~ 2
+;print (1 + 2) <= 4
+;print 1 and 2
+;while
+;    pass
+;while
+;    pass
+;a b, 1, 2, 3
+;print 1 + 2
+;print 1 + 2 * 3
+;print 1 + +2
+;while
+;    b c, d, e
+;    while
+;        c
+;        d
+;e
