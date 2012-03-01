@@ -1,7 +1,8 @@
-var fs     = require("fs");
-var util   = require("util");
-var parser = require("./parser").parser;
-var lexer  = require("./lexer").lexer;
+compile = (function(code) {
+//var fs     = require("fs");
+//var util   = require("util");
+//var parser = require("./parser").parser;
+//var lexer  = require("./lexer").lexer;
 
 var DEBUG = false;
 var DEBUG_PREFIX = "DEBUG: ";
@@ -16,7 +17,7 @@ function debug() {
     }
 }
 
-var code = fs.readFileSync("test.latte", "utf8");
+//var code = fs.readFileSync("test.latte", "utf8");
 
 parser.yy = {
     magic: "MAGIC!"
@@ -27,14 +28,10 @@ parser.yy.parseError = function(err, hash) {
     debug("err =", err);
     debug("hash =", hash);
 };
-var ast = parser.parse(code);
 
 function to_json(obj) {
     return JSON.stringify(obj, null, 2);
 }
-
-console.log("[Abstract Syntax Tree]");
-console.log(to_json(ast));
 
 var funcs = {};
 var procs = {};
@@ -49,10 +46,10 @@ procs.print = {
         js: function() {
             var str = get_var("str");
             if (DEBUG) {
-                console.log("PRINTPRINTPRINT>>>:", helpers.textify(str));
+                latte.print("PRINTPRINTPRINT>>>:", helpers.textify(str));
             }
             else {
-                console.log(helpers.textify(str));
+                latte.print(helpers.textify(str));
             }
         }
     }]
@@ -734,8 +731,6 @@ function run(node) {
     }
 };
 
-run(ast);
-
 function show_stack_trace() {
     for (var i = 0; i < call_stack.length; i++) {
         var map   = {PROC: "procedure", FUNC: "function"};
@@ -746,22 +741,34 @@ function show_stack_trace() {
     }
 }
 
-console.log("[Program Execution]");
-console.log();
-if (procs.main) {
-    try {
-        run({type: "PROC_CALL", name:"main", args: []});
+function main() {
+    var ast = parser.parse(code);
+
+    console.log("[Abstract Syntax Tree]");
+    console.log(to_json(ast));
+
+    run(ast);
+
+    console.log("[Program Execution]");
+    console.log();
+    if (procs.main) {
+        try {
+            run({type: "PROC_CALL", name:"main", args: []});
+        }
+        catch (e) {
+            if (e.type === "ERROR") {
+                console.log("Error:", e.message);
+                show_stack_trace();
+            }
+            else {
+                throw e;
+            }
+        }
     }
-    catch (e) {
-        if (e.type === "ERROR") {
-            console.log("Error:", e.message);
-            show_stack_trace();
-        }
-        else {
-            throw e;
-        }
+    else {
+        debug("Please define a main procedure.");
     }
 }
-else {
-    debug("Please define a main procedure.");
-}
+
+return main;
+})

@@ -1,4 +1,4 @@
-exports.lexer = (function() {
+lexer = (function() {
     var lexer = {};
     var DEBUG = false;
 
