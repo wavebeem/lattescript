@@ -77,7 +77,10 @@ lexer = (function() {
     }
 
     function set_input(str) {
-        lexer.text = str + "\n";
+        str = str.replace(/\xa0/g, " "); // replace &nbsp;
+        str = str + "\n"; // in case they forgot a newline
+
+        lexer.text = str;
         lexer.tokens = [];
         lexer.indents = [0];
         lexer.token_history = [];
@@ -161,7 +164,7 @@ lexer = (function() {
 
         // Matches newlines and indentation
         // newline whitespace*
-        {pattern: /^(\s*\n)([ ]*)/, func: function(matches) {
+        {pattern: /^(\s*\r?\n)([ ]*)/, func: function(matches) {
             var whole   = matches[0];
             var newline = matches[1];
             var spaces  = matches[2];
