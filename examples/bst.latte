@@ -1,0 +1,33 @@
+procedure insert node, item
+  if node = nothing
+    pass
+  else
+    if item < node@1
+      if node@2 = nothing
+        node@2 := [item, nothing, nothing]
+      else
+        insert node@2, item
+    else
+      if node@3 = nothing
+        node@3 := [item, nothing, nothing]
+      else
+        insert node@3, item
+        
+procedure walk node
+  if node = nothing
+    pass
+  else
+    walk  node@2
+    print node@1
+    walk  node@3
+
+procedure main
+with root, items, item
+  root  := [30, nothing, nothing]
+  items := [4, 78, 2, 3, 56, -1, 3]
+  for item in items
+    insert root, item
+  walk  root
+  print ""
+  print "Tree:"
+  print root
