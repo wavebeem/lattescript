@@ -166,7 +166,6 @@ evaluate = function(node) {
 
         var l = node.left;
         var r = node.right;
-        // FIXME: Fix this later to short circuit AND and OR?
         if (t in ops) return ops[t](e(l), e(r));
 
         helpers.error("Unsupported operation:", t);
