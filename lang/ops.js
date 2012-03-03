@@ -1,4 +1,4 @@
-var ops = {};
+ops = {};
 
 ops.CAT = function(a, b) {
     return {type: "TEXT", value: (helpers.textify(a) + helpers.textify(b))};
