@@ -166,7 +166,7 @@ h2,
 
 #the_term,
 #the_code {
-    white-space: nowrap;
+    /* white-space: nowrap; */
 }
 
 #the_submit {
