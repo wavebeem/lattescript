@@ -1,0 +1,266 @@
+* {
+    padding: 0px;
+    margin:  0px;
+
+    -moz-appearance: none !important;
+}
+
+p {
+    margin:      5px;
+    margin-top: 20px;
+}
+
+html,
+body {
+}
+
+body {
+    color:      #000;
+    background: url(bg.png);
+    background: #ddd;
+
+    font-family: sans-serif;
+    font-size: 10.5pt;
+
+
+    margin:   0px;
+    padding: 20px;
+}
+
+#the_navbar {
+    text-align: center;
+}
+
+h1,
+h1 *,
+h2,
+.label {
+    text-align: center;
+    font-size: 30pt;
+    color: #666;
+
+    padding-top:     0px;
+    padding-bottom: 20px;
+
+    text-decoration: none;
+
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
+}
+
+h2,
+.label {
+    text-align: left;
+    font-size: 14pt;
+
+    padding: 0px;
+    margin-top: 20px;
+}
+
+#the_code,
+#the_input,
+#the_term {
+    color:            #222;
+    background:       #ffffff;
+
+    border: 0px solid rgba(0, 0, 0, 0.10);
+    border-bottom-width: 6px;
+    /*
+    border-left-width:  0px;
+    border-right-width: 0px;
+    */
+
+    font-family: "Mono", monospace;
+    font-size: 10pt;
+
+    padding: 9px;
+
+    margin: 0px !important;
+    margin-top: 10px !important;
+
+    box-sizing:         border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+/*
+#the_code  { border-color: rgba(192,   0,   0, 0.15); }
+#the_input { border-color: rgba(  0, 128,   0, 0.25); }
+#the_term  { border-color: rgba(  0,   0, 192, 0.15); }
+*/
+
+#the_code:hover,
+#the_input:hover,
+#the_term:hover {
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+#the_code:focus,
+#the_input:focus,
+#the_term:focus {
+    outline: 0px solid transparent;
+}
+
+.button {
+    font-weight: bold;
+    padding-left:  20px;
+    padding-right: 20px;
+    padding-top:    4px;
+    padding-bottom: 4px;
+
+    border-width: 0px;
+    border-style: solid;
+    background:   #eee;
+    border-bottom-width: 4px;
+    border-color: rgba(0, 0, 0, 0.05);
+
+    font-size: 11pt;
+
+    margin: 2px !important;
+    margin-top: 10px !important;
+
+    box-sizing:         border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+
+    text-decoration: none;
+
+    color: #222;
+
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
+
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
+}
+
+.button:hover {
+    border-color: rgba(0, 0, 0, 0.10);
+}
+
+#the_run_button    { background: #8c8; }
+#the_clear_button  { background: #dd8; }
+#the_save_button   { background: #aaf; }
+#the_submit_button { background: #eae; }
+
+#the_run_button,
+#the_clear_button,
+#the_save_button,
+#the_submit_button {
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
+}
+
+#the_workspace {
+    width: 100%;
+    max-width: 800px;
+    margin-left:  auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.toolbar {
+    text-align: left;
+}
+
+.toolbar .separator {
+    margin:        0px;
+    margin-left:  16px;
+    margin-right: 16px;
+}
+
+#the_code,
+#the_input,
+#the_term {
+    width: 100%;
+}
+
+#the_code,
+#the_term {
+    width:  100%;
+    height: 15em;
+}
+
+#the_input {
+    min-height: 24px;
+    margin-top: 10px !important;
+}
+
+#the_term,
+#the_code {
+    /* white-space: nowrap; */
+}
+
+*:focus {
+}
+
+#the_text {
+    color:            #111;
+    background:       #ccc;
+
+    border: 0px solid rgba(0, 0, 0, 0.25);
+    border-left-width:  6px;
+    border-right-width: 6px;
+
+    max-width: 1024px;
+
+    font-size: 12pt;
+
+    padding:     9px;
+    padding-top: 1px;
+
+    margin: auto;
+    margin-top: 40px;
+
+    box-sizing:         border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
+}
+
+#the_text h2 {
+    color: #333;
+    text-shadow: none;
+    margin-left: 3px;
+}
+
+.footer *,
+.footer {
+    text-align: center;
+
+    margin-top: 20px;
+
+    font-weight: bold;
+    font-size:   12px;
+
+    color: #666;
+
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
+}
+
+.footer * {
+    margin-top:   10px;
+    margin-left:  auto;
+    margin-right: auto;
+}
+
+.footer .option:hover {
+    color: #000;
+    cursor: pointer;
+}
+
+table.invisible * {
+    margin-left:  12px;
+    margin-right: 12px;
+
+    padding:       2px;
+    padding-left:  0px;
+    padding-right: 0px;
+}
+
+table.invisible th {
+    text-align: right;
+}
+
+#the_copyright {
+    margin-top: 20px;
+}
