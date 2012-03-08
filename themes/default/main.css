@@ -7,7 +7,7 @@
 
 p {
     margin:      5px;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 html,
@@ -23,7 +23,7 @@ body {
     font-size: 10.5pt;
 
 
-    margin:   0px;
+    margin:  10px;
     padding: 20px;
 
     padding-left:  0px;
@@ -32,17 +32,17 @@ body {
 
 #the_navbar {
     text-align: center;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
 #the_navbar .button {
     display: inline-block;
-    background: #888;
-    border-color: rgba(0, 0, 0, 0.20);
+    background: #eee;
+    border-color: rgba(0, 0, 0, 0.05);
 }
 
 #the_navbar .button:hover {
-    border-color: rgba(0, 0, 0, 0.30);
+    border-color: rgba(0, 0, 0, 0.10);
 }
 
 h1,
@@ -64,7 +64,6 @@ h2,
 h1,
 h1 * {
     color: #888;
-    text-shadow: 0px 0px 16px rgba(0, 0, 0, 0.15);
 }
 
 h2,
@@ -73,7 +72,7 @@ h2,
     font-size: 14pt;
 
     padding: 0px;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 #the_code,
@@ -172,7 +171,7 @@ h2,
 #the_bg {
     background: #ddd;
     padding:        10px;
-    padding-top:     1px;
+    padding-top:    10px;
     padding-bottom: 15px;
     border: 0px solid rgba(0, 0, 0, 0.15);
 
@@ -271,9 +270,9 @@ h2,
     font-weight: bold;
     font-size:   12px;
 
-    color: #888;
+    color: #666;
 
-    text-shadow: 0px 0px 16px rgba(0, 0, 0, 0.50);
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
 }
 
 .footer * {
@@ -283,7 +282,7 @@ h2,
 }
 
 .footer .option:hover {
-    color: #fff;
+    color: #000;
     cursor: pointer;
 }
 
