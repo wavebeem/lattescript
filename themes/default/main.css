@@ -16,8 +16,8 @@ body {
 
 body {
     color:      #000;
+    background: #fff;
     background: url(bg.png);
-    background: #ddd;
 
     font-family: sans-serif;
     font-size: 10.5pt;
@@ -25,14 +25,24 @@ body {
 
     margin:   0px;
     padding: 20px;
+
+    padding-left:  0px;
+    padding-right: 0px;
 }
 
 #the_navbar {
     text-align: center;
+    padding-bottom: 20px;
 }
 
-#the_navbar > * {
+#the_navbar .button {
     display: inline-block;
+    background: #888;
+    border-color: rgba(0, 0, 0, 0.20);
+}
+
+#the_navbar .button:hover {
+    border-color: rgba(0, 0, 0, 0.30);
 }
 
 h1,
@@ -44,11 +54,17 @@ h2,
     color: #666;
 
     padding-top:     0px;
-    padding-bottom: 20px;
+    padding-bottom:  0px;
 
     text-decoration: none;
 
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
+}
+
+h1,
+h1 * {
+    color: #888;
+    text-shadow: 0px 0px 16px rgba(0, 0, 0, 0.15);
 }
 
 h2,
@@ -66,7 +82,7 @@ h2,
     color:            #222;
     background:       #ffffff;
 
-    border: 0px solid rgba(0, 0, 0, 0.10);
+    border: 0px solid rgba(0, 0, 0, 0.05);
     border-bottom-width: 6px;
     /*
     border-left-width:  0px;
@@ -97,7 +113,7 @@ h2,
 #the_code:hover,
 #the_input:hover,
 #the_term:hover {
-    border-color: rgba(0, 0, 0, 0.15);
+    border-color: rgba(0, 0, 0, 0.10);
 }
 
 #the_code:focus,
@@ -153,9 +169,21 @@ h2,
     box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
 }
 
+#the_bg {
+    background: #ddd;
+    padding-top:     1px;
+    padding-bottom: 10px;
+    border: 6px solid rgba(0, 0, 0, 0.15);
+
+    border-left-width:  0px;
+    border-right-width: 0px;
+
+    box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.35);
+}
+
 #the_workspace {
     width: 100%;
-    max-width: 800px;
+    max-width: 1024px;
     margin-left:  auto;
     margin-right: auto;
     text-align: center;
@@ -197,6 +225,7 @@ h2,
 }
 
 #the_text {
+    /*
     color:            #111;
     background:       #ccc;
 
@@ -204,26 +233,28 @@ h2,
     border-left-width:  6px;
     border-right-width: 6px;
 
+    padding:     0px;
+    padding-top: 1px;
+
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
+    */
+
     max-width: 1024px;
 
     font-size: 12pt;
 
-    padding:     9px;
-    padding-top: 1px;
-
     margin: auto;
-    margin-top: 40px;
 
     box-sizing:         border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing:    border-box;
-
-    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
 }
 
 #the_text h2 {
+    /*
     color: #333;
     text-shadow: none;
+    */
     margin-left: 3px;
 }
 
@@ -236,9 +267,9 @@ h2,
     font-weight: bold;
     font-size:   12px;
 
-    color: #666;
+    color: #888;
 
-    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
+    text-shadow: 0px 0px 16px rgba(0, 0, 0, 0.50);
 }
 
 .footer * {
@@ -248,7 +279,7 @@ h2,
 }
 
 .footer .option:hover {
-    color: #000;
+    color: #fff;
     cursor: pointer;
 }
 
