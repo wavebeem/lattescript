@@ -156,10 +156,10 @@ h2,
     border-color: rgba(0, 0, 0, 0.10);
 }
 
-#the_run_button    { background: #8c8; }
-#the_clear_button  { background: #dd8; }
-#the_save_button   { background: #aaf; }
-#the_submit_button { background: #eae; }
+#the_run_button    { background: #9d9; }
+#the_clear_button  { background: #faa; }
+#the_save_button   { background: #ee9; }
+#the_submit_button { background: #ccf; }
 
 #the_run_button,
 #the_clear_button,
