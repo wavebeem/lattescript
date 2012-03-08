@@ -1,6 +1,6 @@
 body *::-webkit-scrollbar {
-    width:  8px;
-    height: 8px;
+    width:  10px;
+    height: 10px;
 
     border-width: 0px;
 }
@@ -18,16 +18,16 @@ body *::-webkit-scrollbar-corner {
 }
 
 body *::-webkit-scrollbar-thumb {
-    border-width: 0px;
+    border-width: 1px;
 
     border-style: solid;
 
-    border-color: #181818;
-    background:   #444444;
+    border-color: #ffffff;
+    background:   rgba(0, 0, 0, 0.45);
 }
 
 body *::-webkit-scrollbar-thumb:hover {
-    background: #666666;
+    background: rgba(0, 0, 0, 0.55);
 }
 
 body *::-webkit-scrollbar-track:horizontal,
