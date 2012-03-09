@@ -21,21 +21,21 @@
 <div id="the_workspace">
 
     <h2 class="label">Code</h2>
-    <textarea id="the_code" spellcheck="false"></textarea>
+    <textarea id="the_code" class="textarea" spellcheck="false"></textarea>
 
     <div class="toolbar">
-        <button id="the_run_button"   class="button" onclick="on_run_button_clicked(this);">Run</button>
-        <button id="the_save_button"  class="button" onclick="on_save_button_clicked(this);">Save</button>
-        <button id="the_clear_button" class="button" onclick="on_clear_button_clicked(this);">Clear</button>
+        <button id="the_run_button"   class="colored button" onclick="on_run_button_clicked(this);">Run</button>
+        <button id="the_save_button"  class="colored button" onclick="on_save_button_clicked(this);">Save</button>
+        <button id="the_clear_button" class="colored button" onclick="on_clear_button_clicked(this);">Clear</button>
     </div>
 
     <h2 class="label">Output</h2>
-    <textarea id="the_term" readonly="readonly" spellcheck="false"></textarea>
+    <textarea id="the_term" class="textarea" readonly="readonly" spellcheck="false"></textarea>
 
     <h2 class="label">Input</h2>
-    <input type="text" id="the_input" spellcheck="false">
+    <input type="text" id="the_input" class="textarea" spellcheck="false">
     <div class="toolbar">
-        <button id="the_submit_button" class="button" onclick="on_run_button_clicked(this);">Submit</button>
+        <button id="the_submit_button" class="colored button" onclick="on_run_button_clicked(this);">Submit</button>
     </div>
 </div>
 
