@@ -190,8 +190,9 @@ evaluate = function(node) {
 }
 
 function show_stack_trace() {
-    for (var i = 0; i < call_stack.length; i++) {
-        var map   = {PROC: "procedure", FUNC: "function"};
+    var i = call_stack.length;
+    while (i--) {
+        var map   = {PROC: "procedure", FUNC: "function "};
         var call  = call_stack[i];
         var type  = map[call.type] || "<oops>";
         var line  = call.lineno === undefined? "???": call.lineno;
