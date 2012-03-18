@@ -15,10 +15,12 @@ var _latte = {
 var latte = {
     write: function() {
         var out = _latte.the_term;
+        var i;
 
-        for (var i = 0; i < arguments.length; i++) {
-            out.value += String(arguments[i]);
+        for (i = 0; i < arguments.length - 1; i++) {
+            out.value += String(arguments[i]) + " ";
         }
+        out.value += String(arguments[i]);
 
         function scrollDown() {
             out.scrollTop = out.scrollHeight;

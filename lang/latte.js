@@ -195,7 +195,7 @@ function show_stack_trace() {
         var call  = call_stack[i];
         var type  = map[call.type] || "<oops>";
         var line  = call.lineno === undefined? "???": call.lineno;
-        console.log("  at line", line, "in", type, call.name);
+        latte.print("  at line", line, "in", type, call.name);
     }
 }
 
@@ -215,7 +215,7 @@ main = function() {
         }
         catch (e) {
             if (e.type === "ERROR") {
-                console.log("Error:", e.message);
+                latte.print("Error:", e.message);
                 show_stack_trace();
             }
             else {
@@ -224,7 +224,7 @@ main = function() {
         }
     }
     else {
-        debug("Please define a main procedure.");
+        latte.print("Please define a main procedure.");
     }
 }
 
