@@ -9,7 +9,6 @@ DEBUG_PREFIX = "DEBUG: ";
 
 debug = function() {
     if (DEBUG) {
-        process.stdout.write(DEBUG_PREFIX);
         console.log.apply(console, arguments);
     }
 }
@@ -160,9 +159,11 @@ evaluate = function(node) {
         var t = node.op;
         var e = evaluate;
 
-        // Implement short-circuit behavior for AND and OR
-        if (t === "AND") { var l = e(node.left); return l && e(node.right) }
-        if (t === "OR")  { var l = e(node.left); return l || e(node.right) }
+        debug(">>>>>>>>>>>>>>>>>>> HELP ME");
+
+        // Pass unevaluated nodes so AND and OR can short-circuit.
+        if (t === "AND") return ops.AND(node.left, node.right);
+        if (t === "OR")  return ops .OR(node.left, node.right);
 
         var l = node.left;
         var r = node.right;

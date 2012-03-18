@@ -21,18 +21,41 @@ ops.MUL = math_op_maker("multiply",     function(a, b) { return a * b });
 ops.DIV = math_op_maker("divide",       function(a, b) { return a / b });
 ops.EXP = math_op_maker("exponentiate", function(a, b) { return exp(a, b) });
 
-var bool_op_maker = function(word, f) { return function(a, b) {
-    if (a.type === "BOOL" && b.type === "BOOL") {
-        debug("DOING>>>", a.value, word, b.value);
-        return {type: "BOOL", value: f(a.value, b.value)};
-    }
-    else {
-        helpers.error("Cannot", word, "arguments: incorrect types");
-    }
-}};
+ops.AND = function(a, b) {
+    var va = evaluate(a);
+    var vb;
 
-ops.AND = bool_op_maker("and", function(a, b) { return a && b; });
-ops.OR  = bool_op_maker("or",  function(a, b) { return a || b; });
+    if (va.type !== "BOOL")
+        helpers.error("Cannot and arguments: incorrect types");
+
+    if (!va.value)
+        return va;
+
+    vb = evaluate(b);
+
+    if (vb.type !== "BOOL")
+        helpers.error("Cannot and arguments: incorrect types");
+
+    return vb;
+}
+
+ops.OR = function(a, b) {
+    var va = evaluate(a);
+    var vb;
+
+    if (va.type !== "BOOL")
+        helpers.error("Cannot or arguments: incorrect types");
+
+    if (va.value)
+        return va;
+
+    vb = evaluate(b);
+
+    if (vb.type !== "BOOL")
+        helpers.error("Cannot or arguments: incorrect types");
+
+    return vb;
+}
 
 var cmp_op_maker = function(word, f) { return function(a, b) {
     if (a.type === b.type) {
