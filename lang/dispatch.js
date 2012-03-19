@@ -133,7 +133,7 @@ function call_proc(node, args) {
         vars[bound_proc.args[i]] = evaluate(args[i]);
     }
     // Insert the "with" variables into the vars mapping,
-    // but leave them "undefind" by mapping them to null.
+    // but leave them "undefined" by mapping them to null.
     for (var i = 0; i < node.vars.length; i++) {
         vars[node.vars[i]] = {type: "NOTHING"};
     }
@@ -142,13 +142,8 @@ function call_proc(node, args) {
     call_stack.push(bound_proc);
     debug("PUSHING", node.name, "ONTO CALL STACK");
     debug("CURRENT CALL =", current_call().name);
-    //debug("call stack =", to_json(call_stack));
-    //debug("call args =", to_json(bound_proc.args));
-    //debug("current vars =", current_call().vars);
     for (var i = 0; i < bound_proc.body.length; i++) {
         try {
-            //debug("<<<RUNNING>>>", to_json(bound_proc.body[i]));
-            //debug("<<<RUNNING>>>", pretty_print(bound_proc.body[i]));
             run(bound_proc.body[i]);
         }
         catch (e) {

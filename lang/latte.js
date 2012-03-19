@@ -59,58 +59,6 @@ set_var = function(id, val) {
     }
 }
 
-pretty_expr = function(node) {
-    var ops = {
-        CAT: "~",
-        EXP: "^",
-        ADD: "+",
-        SUB: "-",
-        MUL: "*",
-        DIV: "/",
-        AND: "and",
-        OR:  "or",
-        AT:  "@",
-        EQ:  "=",
-        LT:  "<",
-        GT:  ">",
-        LE:  "<=",
-        GE:  ">="
-    }
-
-    var uops = {
-        LEN: "#",
-        POS: "+",
-        NEG: "-"
-    }
-
-    if (node.type === "OP") {
-        var l  = pretty_expr(node.left);
-        var r  = pretty_expr(node.right);
-        var op = ops[node.op];
-        return ["(", l, " ", op, " ", r, ")"].join("");
-    }
-    else if (uops[node.type]) {
-        var v = pretty_expr(node.arg);
-        return ["(", uops[node.type], v, ")"].join("");
-    }
-    else if (node.type === "ID") {
-        return node.value;
-    }
-    else if (node.type === "TEXT") {
-        return '"' + helpers.textify(node) + '"';
-    }
-    else if (node.type === "ASSIGN") {
-        return [pretty_expr(node.left), ":=", pretty_expr(node.right)].join(" ");
-    }
-    else {
-        return helpers.textify(node);
-    }
-}
-
-pretty_print = function(node) {
-    debug(pretty_expr(node));
-}
-
 evaluate = function(node) {
     var atomic_types = {
         ID:      true,
@@ -120,8 +68,6 @@ evaluate = function(node) {
         LIST:    true,
         NOTHING: true
     };
-
-    //pretty_print(node);
 
     if (node.type === "LIST" && node.immutable) {
         return helpers.mutable_list_copy(node);
@@ -158,16 +104,16 @@ evaluate = function(node) {
         // Apply the operation
         var t = node.op;
         var e = evaluate;
-
-        debug(">>>>>>>>>>>>>>>>>>> HELP ME");
-
-        // Pass unevaluated nodes so AND and OR can short-circuit.
-        if (t === "AND") return ops.AND(node.left, node.right);
-        if (t === "OR")  return ops .OR(node.left, node.right);
-
         var l = node.left;
         var r = node.right;
-        if (t in ops) return ops[t](e(l), e(r));
+
+        if (t in ops) {
+            // Pass unevaluated nodes so AND and OR can short-circuit.
+            if (t === "AND" || t === "OR")
+                e = helpers.identity;
+
+            return ops[t](e(l), e(r));
+        }
 
         helpers.error("Unsupported operation:", t);
     }

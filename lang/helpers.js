@@ -15,6 +15,8 @@ helpers.list_eq = function(a, b) {
     return true;
 };
 
+helpers.identity = function(x) { return x; };
+
 helpers.error = function() {
     var msg = [].join.call(arguments, " ");
     throw {type: "ERROR", message: msg};
