@@ -139,9 +139,11 @@ function call_proc(node, args) {
     }
     bound_proc.vars = vars;
 
-    call_stack.push(bound_proc);
+    show_stack_trace();
     debug("PUSHING", node.name, "ONTO CALL STACK");
+    call_stack.push(bound_proc);
     debug("CURRENT CALL =", current_call().name);
+    show_stack_trace();
     for (var i = 0; i < bound_proc.body.length; i++) {
         try {
             run(bound_proc.body[i]);
@@ -291,16 +293,34 @@ dispatch.IF = function(node) {
     else {
         helpers.error("If condition shoud be true or false.");
     }
-}
-
-dispatch.NOOP = function(node) {
 };
 
-function run(node) {
+dispatch.NOOP = function(node) {};
+
+thing_q = [];
+
+var run = function run_later(node) {
+    var t = node.type;
+    if (t === "SUB_DEFS" || t === "PROC_DEF" || t === "FUNC_DEF") {
+        run_now(node);
+    }
+    else {
+        thing_q.push(function() { run_now(node); });
+        setTimeout(function() {
+            debug("CALL STACK =", to_json(call_stack));
+            debug("THING Q =", thing_q);
+
+            thing_q[0]();
+            thing_q.shift();
+        }, 10);
+    }
+};
+
+function run_now(node) {
     if (node && dispatch[node.type]) {
         return dispatch[node.type](node);
     }
     else {
         helpers.error("No rule defined to run:", to_json(node));
     }
-};
+}

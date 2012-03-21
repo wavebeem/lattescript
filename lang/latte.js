@@ -4,7 +4,7 @@ compile = (function(code) {
 //var parser = require("./parser").parser;
 //var lexer  = require("./lexer").lexer;
 
-DEBUG = false;
+DEBUG = true;
 DEBUG_PREFIX = "DEBUG: ";
 
 debug = function() {
@@ -135,45 +135,25 @@ evaluate = function(node) {
     helpers.error("Couldn't evaluate");
 }
 
-function show_stack_trace() {
+show_stack_trace = function() {
     var i = call_stack.length;
+    console.log("Call Stack [");
     while (i--) {
         var map   = {PROC: "procedure", FUNC: "function "};
         var call  = call_stack[i];
         var type  = map[call.type] || "<oops>";
         var line  = call.lineno === undefined? "???": call.lineno;
-        latte.print("  at line", line, "in", type, call.name);
+        console.log("  at line", line, "in", type, call.name);
     }
-}
+    console.log("]");
+};
 
 main = function() {
     var ast = parser.parse(code);
-
-    console.log("[Abstract Syntax Tree]");
     console.log(to_json(ast));
-
     run(ast);
-
-    console.log("[Program Execution]");
-    console.log();
-    if (procs.main) {
-        try {
-            run({type: "PROC_CALL", name:"main", args: []});
-        }
-        catch (e) {
-            if (e.type === "ERROR") {
-                latte.print("Error:", e.message);
-                show_stack_trace();
-            }
-            else {
-                throw e;
-            }
-        }
-    }
-    else {
-        latte.print("Please define a main procedure.");
-    }
-}
+    run({type: "PROC_CALL", name:"main", args: []});
+};
 
 return main;
 })

@@ -19,6 +19,7 @@ helpers.identity = function(x) { return x; };
 
 helpers.error = function() {
     var msg = [].join.call(arguments, " ");
+    latte.print(msg);
     throw {type: "ERROR", message: msg};
 }
 
