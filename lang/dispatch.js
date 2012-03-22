@@ -146,6 +146,8 @@ function call_proc(node, args) {
     show_stack_trace();
     for (var i = 0; i < bound_proc.body.length; i++) {
         try {
+            //// XXX THIS USED TO "BLOCK"
+            //// BUT NOW IT DOESN'T
             run(bound_proc.body[i]);
         }
         catch (e) {
@@ -156,6 +158,8 @@ function call_proc(node, args) {
             }
         }
     }
+    //// XXX SO IT GETS HERE BEFORE IT'S ACTUALLY DONE
+    debug("POPPING THE CALL STACK");
     call_stack.pop();
 }
 
