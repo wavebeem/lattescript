@@ -17,13 +17,14 @@ dispatch.WHILE = function(node) {
         helpers.error("Loop conditional must be true or false");
     }
 
-    while (cond.value) {
-        run({type: "BLOCK", body: node.statements});
+    ///// XXX TRANSFORM THIS INTO SET_INTERVAL CALL
+    ///// XXX AND CLEAR_TIMEOUT LATER
+    ///// XXX OTHERWISE IT'S INFINITE RECURSION LOL
 
-        cond = evaluate(node.condition);
-        if (cond.type !== "BOOL") {
-            helpers.error("Loop conditional must be true or false");
-        }
+    if (cond.value) {
+        add_to_thing_q(function() {
+            run(node);
+        });
     }
 };
 
