@@ -144,23 +144,25 @@ function call_proc(node, args) {
     call_stack.push(bound_proc);
     debug("CURRENT CALL =", current_call().name);
     show_stack_trace();
-    for (var i = 0; i < bound_proc.body.length; i++) {
-        try {
-            //// XXX THIS USED TO "BLOCK"
-            //// BUT NOW IT DOESN'T
-            run(bound_proc.body[i]);
-        }
-        catch (e) {
-            if (e.type === "RETURN") {
+    add_to_thing_q(function() {
+        for (var i = 0; i < bound_proc.body.length; i++) {
+            try {
+                //// XXX THIS USED TO "BLOCK"
+                //// BUT NOW IT DOESN'T
+                run(bound_proc.body[i]);
             }
-            else {
-                throw e;
+            catch (e) {
+                if (e.type === "RETURN") {
+                }
+                else {
+                    throw e;
+                }
             }
         }
-    }
-    //// XXX SO IT GETS HERE BEFORE IT'S ACTUALLY DONE
-    debug("POPPING THE CALL STACK");
-    call_stack.pop();
+        //// XXX SO IT GETS HERE BEFORE IT'S ACTUALLY DONE
+        debug("POPPING THE CALL STACK");
+        call_stack.pop();
+    });
 }
 
 dispatch.FUNC_CALL = function(node) {
@@ -309,16 +311,20 @@ var run = function run_later(node) {
         run_now(node);
     }
     else {
-        thing_q.push(function() { run_now(node); });
-        setTimeout(function() {
-            debug("CALL STACK =", to_json(call_stack));
-            debug("THING Q =", thing_q);
-
-            thing_q[0]();
-            thing_q.shift();
-        }, 10);
+        add_to_thing_q(function() { run_now(node); });
     }
 };
+
+var add_to_thing_q = function(fun) {
+    thing_q.push(fun);
+    setTimeout(function() {
+        debug("CALL STACK =", to_json(call_stack));
+        debug("THING Q =", thing_q);
+
+        thing_q[0]();
+        thing_q.shift();
+    }, 10);
+}
 
 function run_now(node) {
     if (node && dispatch[node.type]) {
