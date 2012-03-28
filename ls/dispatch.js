@@ -1,4 +1,20 @@
-dispatch = {};
+ls.dispatch = (function() {
+var dispatch = {};
+var procs = {};
+var funcs = {};
+
+var debug = ls.helpers.debug;
+var error = ls.helpers.error;
+
+var clear = function() {
+    procs = {};
+    funcs = {};
+};
+
+var define = function(sub) {
+    var table = {PROC: procs, FUNC: funcs};
+    table[sub.type][sub.name] = sub;
+};
 
 dispatch.BLOCK = function(node) {
     for (var n = 0; n < node.body.length; n++) {
@@ -14,17 +30,16 @@ dispatch.WHILE = function(node) {
     debug("While loop");
     var cond = evaluate(node.condition);
     if (cond.type !== "BOOL") {
-        helpers.error("Loop conditional must be true or false");
+        error("Loop conditional must be true or false");
     }
 
-    ///// XXX TRANSFORM THIS INTO SET_INTERVAL CALL
-    ///// XXX AND CLEAR_TIMEOUT LATER
-    ///// XXX OTHERWISE IT'S INFINITE RECURSION LOL
+    while (cond.value) {
+        run({type: "BLOCK", body: node.statements});
 
-    if (cond.value) {
-        add_to_thing_q(function() {
-            run(node);
-        });
+        cond = evaluate(node.condition);
+        if (cond.type !== "BOOL") {
+            error("Loop conditional must be true or false");
+        }
     }
 };
 
@@ -32,7 +47,7 @@ dispatch.UNTIL = function(node) {
     debug("While loop");
     var cond = evaluate(node.condition);
     if (cond.type !== "BOOL") {
-        helpers.error("Loop conditional must be true or false");
+        error("Loop conditional must be true or false");
     }
 
     while (! cond.value) {
@@ -40,12 +55,12 @@ dispatch.UNTIL = function(node) {
 
         cond = evaluate(node.condition);
         if (cond.type !== "BOOL") {
-            helpers.error("Loop conditional must be true or false");
+            error("Loop conditional must be true or false");
         }
     }
 };
 
-dispatch.FORRANGE = function(node) {
+dispatch.FOR_RANGE = function(node) {
     var begin = evaluate(node.from);
     var end   = evaluate(node.to);
     var step  = evaluate(node.by);
@@ -53,13 +68,13 @@ dispatch.FORRANGE = function(node) {
     if (begin.type !== "NUM"
     ||  end  .type !== "NUM"
     ||  step .type !== "NUM") {
-        helpers.error("For-loop indices must be numbers!");
+        error("For-loop indices must be numbers!");
     }
 
     var var_name = node["var"].value;
 
     if (step.value === 0) {
-        helpers.error("Step size cannot be 0");
+        error("Step size cannot be 0");
     }
 
     if (step.value > 0) {
@@ -76,7 +91,7 @@ dispatch.FORRANGE = function(node) {
     }
 }
 
-dispatch.FOREACH = function(node) {
+dispatch.FOR_EACH = function(node) {
     var list = evaluate(node.list);
 
     var var_name = node["var"].value;
@@ -98,7 +113,7 @@ dispatch.FOREACH = function(node) {
         }
     }
     else {
-        helpers.error("Foreach loop only works on text and lists");
+        error("Foreach loop only works on text and lists");
     }
 }
 
@@ -108,7 +123,7 @@ dispatch.PROC_CALL = function(node) {
         call_proc(procs[node.name], node.args);
     }
     else {
-        helpers.error("Procedure", node.name, "is undefined");
+        error("Procedure", node.name, "is undefined");
     }
 };
 
@@ -124,7 +139,7 @@ function call_proc(node, args) {
     //debug("call_proc(node, args) where args =", node.args);
 
     if (node.args.length != args.length) {
-        helpers.error("Incorrect number of arguments to", node.name);
+        error("Incorrect number of arguments to", node.name);
     }
 
     // Bind the arguments passed in to the procedure call to the names
@@ -145,25 +160,23 @@ function call_proc(node, args) {
     call_stack.push(bound_proc);
     debug("CURRENT CALL =", current_call().name);
     show_stack_trace();
-    add_to_thing_q(function() {
-        for (var i = 0; i < bound_proc.body.length; i++) {
-            try {
-                //// XXX THIS USED TO "BLOCK"
-                //// BUT NOW IT DOESN'T
-                run(bound_proc.body[i]);
+    for (var i = 0; i < bound_proc.body.length; i++) {
+        try {
+            //// XXX THIS USED TO "BLOCK"
+            //// BUT NOW IT DOESN'T
+            run(bound_proc.body[i]);
+        }
+        catch (e) {
+            if (e.type === "RETURN") {
             }
-            catch (e) {
-                if (e.type === "RETURN") {
-                }
-                else {
-                    throw e;
-                }
+            else {
+                throw e;
             }
         }
-        //// XXX SO IT GETS HERE BEFORE IT'S ACTUALLY DONE
-        debug("POPPING THE CALL STACK");
-        call_stack.pop();
-    });
+    }
+    //// XXX SO IT GETS HERE BEFORE IT'S ACTUALLY DONE
+    debug("POPPING THE CALL STACK");
+    call_stack.pop();
 }
 
 dispatch.FUNC_CALL = function(node) {
@@ -172,7 +185,7 @@ dispatch.FUNC_CALL = function(node) {
         return call_func(funcs[node.name], node.args);
     }
     else {
-        helpers.error("Function", node.name, "is undefined");
+        error("Function", node.name, "is undefined");
     }
 };
 
@@ -191,7 +204,7 @@ function call_func(node, args) {
     debug("node.vars =", node.vars);
 
     if (node.args.length != args.length) {
-        helpers.error("Incorrect number of arguments to", node.name);
+        error("Incorrect number of arguments to", node.name);
     }
 
     // Bind the arguments passed in to the procedure call to the names
@@ -229,7 +242,7 @@ function call_func(node, args) {
         }
     }
 
-    helpers.error("Function ended without returning a value");
+    error("Function ended without returning a value");
 }
 
 dispatch.PROC_DEF = function(node) {
@@ -283,7 +296,7 @@ dispatch.ASSIGN = function(node) {
         set_var(name, val);
     }
     else {
-        helpers.error("Unable to assign:", to_json(node));
+        error("Unable to assign:", to_json(node));
     }
 };
 
@@ -298,40 +311,22 @@ dispatch.IF = function(node) {
         }
     }
     else {
-        helpers.error("If condition shoud be true or false.");
+        error("If condition shoud be true or false.");
     }
 };
 
 dispatch.NOOP = function(node) {};
 
-thing_q = [];
-
-var run = function run_later(node) {
-    var t = node.type;
-    if (t === "SUB_DEFS" || t === "PROC_DEF" || t === "FUNC_DEF") {
-        run_now(node);
-    }
-    else {
-        add_to_thing_q(function() { run_now(node); });
-    }
-};
-
-var add_to_thing_q = function(fun) {
-    thing_q.push(fun);
-    setTimeout(function() {
-        debug("CALL STACK =", to_json(call_stack));
-        debug("THING Q =", thing_q);
-
-        thing_q[0]();
-        thing_q.shift();
-    }, 10);
-}
-
-function run_now(node) {
-    if (node && dispatch[node.type]) {
+function run(node) {
+    if (node && dispatch[node.type])
         return dispatch[node.type](node);
-    }
-    else {
-        helpers.error("No rule defined to run:", to_json(node));
-    }
+
+    error("No rule defined to run:", to_json(node));
 }
+
+return {
+    run:    run,
+    define: define,
+    clear:  clear
+};
+})();

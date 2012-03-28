@@ -1,7 +1,4 @@
-funcs = {};
-procs = {};
-
-procs.print = {
+ls.dispatch.define({
     type: "PROC",
     name: "print",
     args: ["str"],
@@ -18,9 +15,9 @@ procs.print = {
             }
         }
     }]
-};
+});
 
-procs.append = {
+ls.dispatch.define({
     type: "PROC",
     name: "append",
     args: ["list", "item"],
@@ -39,4 +36,4 @@ procs.append = {
             }
         }
     }]
-};
+});

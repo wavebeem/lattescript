@@ -1,6 +1,8 @@
 /* Jison generated parser */
 var parser = (function(){
-var parser = {trace: function trace() { },
+var parser = {trace: function trace() {
+        Jison.print.apply(null, arguments);
+    },
 yy: {},
 symbols_: {"error":2,"program":3,"sub_defs":4,"eof":5,"sub_def":6,"newline":7,"proc_def":8,"func_def":9,"id_list":10,"nonempty_id_list":11,"empty_id_list":12,"comma":13,"id":14,"procedure":15,"maybe_with":16,"block":17,"function":18,"lparen":19,"rparen":20,"with":21,"indent":22,"statements":23,"dedent":24,"until_statement":25,"until":26,"expr":27,"while_statement":28,"while":29,"forrange_statement":30,"for_helper":31,"by":32,"for":33,"from":34,"to":35,"foreach_statement":36,"in":37,"if_statement":38,"if_helper":39,"else":40,"if":41,"statement":42,"block_statement":43,"single_statement":44,"proc_call":45,"return_statement":46,"pass":47,"assignment":48,"list_set":49,"return":50,"assign":51,"at_list":52,"at":53,"prefix_expr":54,"args_list":55,"nonempty_args_list":56,"empty_args_list":57,"cat_expr":58,"cat":59,"and_expr":60,"and":61,"or_expr":62,"or":63,"cmp_expr":64,"lt":65,"add_expr":66,"gt":67,"le":68,"ge":69,"eq":70,"add":71,"mul_expr":72,"sub":73,"mul":74,"exp_expr":75,"div":76,"exp":77,"at_expr":78,"len":79,"simple_expr":80,"func_call":81,"basic":82,"literal":83,"bool":84,"num":85,"text":86,"list":87,"nothing":88,"lbracket":89,"list_internals":90,"rbracket":91,"empty_list_internals":92,"nonempty_list_internals":93,"true":94,"false":95,"TRUE":96,"FALSE":97,"NOTHING":98,"ID":99,"PASS":100,"NUM":101,"AT":102,"EQ":103,"LT":104,"GT":105,"LE":106,"GE":107,"OR":108,"AND":109,"CAT":110,"ADD":111,"SUB":112,"MUL":113,"DIV":114,"EXP":115,"RETURN":116,"TEXT":117,"ASSIGN":118,"WITH":119,"FROM":120,"BY":121,"IN":122,"TO":123,"IF":124,"ELSE":125,"FOR":126,"LEN":127,"UNTIL":128,"WHILE":129,"COMMA":130,"NEWLINE":131,"INDENT":132,"DEDENT":133,"EOF":134,"LPAREN":135,"RPAREN":136,"LBRACKET":137,"RBRACKET":138,"FUNCTION":139,"PROCEDURE":140,"$accept":0,"$end":1},
 terminals_: {2:"error",96:"TRUE",97:"FALSE",98:"NOTHING",99:"ID",100:"PASS",101:"NUM",102:"AT",103:"EQ",104:"LT",105:"GT",106:"LE",107:"GE",108:"OR",109:"AND",110:"CAT",111:"ADD",112:"SUB",113:"MUL",114:"DIV",115:"EXP",116:"RETURN",117:"TEXT",118:"ASSIGN",119:"WITH",120:"FROM",121:"BY",122:"IN",123:"TO",124:"IF",125:"ELSE",126:"FOR",127:"LEN",128:"UNTIL",129:"WHILE",130:"COMMA",131:"NEWLINE",132:"INDENT",133:"DEDENT",134:"EOF",135:"LPAREN",136:"RPAREN",137:"LBRACKET",138:"RBRACKET",139:"FUNCTION",140:"PROCEDURE"},
@@ -57,9 +59,9 @@ case 20: this.$.by = {type: "NUM", value: 1};
   this.$.statements = $$[$0];
 
 break;
-case 21: this.$ = {type: "FORRANGE", "var": $$[$0-4], from: $$[$0-2], to: $$[$0]}; 
+case 21: this.$ = {type: "FOR_RANGE", "var": $$[$0-4], from: $$[$0-2], to: $$[$0]}; 
 break;
-case 22: this.$ = {type: "FOREACH", "var": $$[$0-4], list: $$[$0-2], statements: $$[$0]}; 
+case 22: this.$ = {type: "FOR_EACH", "var": $$[$0-4], list: $$[$0-2], statements: $$[$0]}; 
 break;
 case 23: this.$["else"] = $$[$0]; 
 break;
@@ -150,7 +152,7 @@ case 100: this.$ = {type: "BOOL", value: false};
 break;
 case 101: this.$ = {type: "NOTHING"}; 
 break;
-case 102: this.$ = {type: "ID", value: $$[$0]}; 
+case 102: console.log("WTF IS GOING ON?", $$[$0], "WTF?", yytext); this.$ = {type: "ID", value: $$[$0]}; 
 break;
 case 103: this.$ = {type: "NOOP"}; 
 break;

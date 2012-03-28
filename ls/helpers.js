@@ -1,6 +1,20 @@
-helpers = {};
+ls.helpers = (function() {
+h = {};
 
-helpers.list_eq = function(a, b) {
+var DEBUG = true;
+var DEBUG_PREFIX = "DEBUG: ";
+
+h.debug = function() {
+    if (DEBUG) {
+        console.log.apply(console, arguments);
+    }
+}
+
+h.to_json = function(obj) {
+    return JSON.stringify(obj, null, 2);
+}
+
+h.list_eq = function(a, b) {
     if (a.values.length !== b.values.length) {
         return false;
     }
@@ -15,15 +29,15 @@ helpers.list_eq = function(a, b) {
     return true;
 };
 
-helpers.identity = function(x) { return x; };
+h.identity = function(x) { return x; };
 
-helpers.error = function() {
+h.error = function() {
     var msg = [].join.call(arguments, " ");
     latte.print(msg);
     throw {type: "ERROR", message: msg};
 }
 
-helpers.textify = function(x, parent_lists) {
+h.textify = function(x, parent_lists) {
     // This variable helps to avoid printing circular lists forever.
     parent_lists = parent_lists === undefined? []: parent_lists;
     try {
@@ -32,16 +46,16 @@ helpers.textify = function(x, parent_lists) {
         if (t === "TEXT"   ) return x.value;
         if (t === "BOOL"   ) return x.value? "true": "false";
         if (t === "NUM"    ) return "" + x.value;
-        if (t === "LIST"   ) return helpers.textify_list(x.values, parent_lists.concat(x));
+        if (t === "LIST"   ) return h.textify_list(x.values, parent_lists.concat(x));
         if (t === "NOTHING") return "nothing";
         throw "up";
     }
     catch (e) {
-        helpers.error("Couldn't textify the", t);
+        h.error("Couldn't textify the", t);
     }
 };
 
-helpers.textify_list = function(xs, parent_lists) {
+h.textify_list = function(xs, parent_lists) {
     var ts = [];
     for (var i = 0; i < xs.length; i++) {
         var x = xs[i];
@@ -50,15 +64,15 @@ helpers.textify_list = function(xs, parent_lists) {
                 ts.push("[...]");
             }
             else {
-                ts.push(helpers.textify(x, parent_lists.concat(x)));
+                ts.push(h.textify(x, parent_lists.concat(x)));
             }
         }
         else {
             if (x.type === "TEXT") {
-                ts.push('"' + helpers.unescape(x.value) + '"');
+                ts.push('"' + h.unescape(x.value) + '"');
             }
             else {
-                ts.push(helpers.textify(x, parent_lists));
+                ts.push(h.textify(x, parent_lists));
             }
         }
     }
@@ -66,7 +80,7 @@ helpers.textify_list = function(xs, parent_lists) {
     return "[" + ts.join(", ") + "]";
 };
 
-helpers.unescape = function(str) {
+h.unescape = function(str) {
     return (str
         .replace(/\\/, "\\\\")
         .replace(/\n/, "\\n")
@@ -74,7 +88,7 @@ helpers.unescape = function(str) {
     );
 }
 
-helpers.mutable_list_copy = function(node) {
+h.mutable_list_copy = function(node) {
     debug("attempting to make mutable_list_copy of:", node);
 
     if (node.type !== "LIST" || !node.immutable) return node;
@@ -89,3 +103,6 @@ helpers.mutable_list_copy = function(node) {
 
     return result;
 }
+
+return h;
+})();

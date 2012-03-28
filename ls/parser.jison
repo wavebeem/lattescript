@@ -92,12 +92,12 @@ forrange_statement
 
 for_helper
 : for id from expr to expr
-{ $$ = {type: "FORRANGE", "var": $id, from: $expr1, to: $expr2}; }
+{ $$ = {type: "FOR_RANGE", "var": $id, from: $expr1, to: $expr2}; }
 ;
 
 foreach_statement
 : for id in expr newline block
-{ $$ = {type: "FOREACH", "var": $id, list: $expr, statements: $block}; }
+{ $$ = {type: "FOR_EACH", "var": $id, list: $expr, statements: $block}; }
 ;
 
 if_statement
@@ -295,7 +295,7 @@ false: 'FALSE' { $$ = {type: "BOOL", value: false}; };
 
 nothing: 'NOTHING' { $$ = {type: "NOTHING"}; };
 
-id: 'ID' { $$ = {type: "ID", value: $1}; };
+id: 'ID' { console.log("WTF IS GOING ON?", $1, "WTF?", yytext); $$ = {type: "ID", value: $1}; };
 
 pass: 'PASS' { $$ = {type: "NOOP"}; };
 

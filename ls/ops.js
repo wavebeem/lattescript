@@ -1,4 +1,5 @@
-ops = {};
+ls.ops = (function() {
+var ops = {};
 
 ops.CAT = function(a, b) {
     return {type: "TEXT", value: (helpers.textify(a) + helpers.textify(b))};
@@ -119,3 +120,19 @@ ops.AT = function(a, b) {
         helpers.error("Cannot index argument: incorrect types");
     }
 };
+
+var apply = function(op, l, r) {
+    var e = evaluate;
+    if (op in ops) {
+        // Pass unevaluated nodes so AND and OR can short-circuit.
+        if (t === "AND" || t === "OR")
+            e = helpers.identity;
+
+        return ops[t](e(l), e(r));
+    }
+
+    helpers.error("Unsupported operation:", t);
+}
+
+return {apply: apply};
+})();
