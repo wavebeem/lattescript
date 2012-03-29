@@ -1,4 +1,4 @@
-var DELAY = 30;
+var DELAY = 100;
 
 var constant = function(k){return function(){return k}};
 var noop = function(){};
@@ -10,20 +10,21 @@ var Push = function(x) { ret_stack.push(x) };
 var Pop  = function() { return ret_stack.pop() };
 
 var WHILE = function(node, c) {
-    var nextc;
-    var cond = node.condition();
+    node.condition(function() {
+        var nextc;
+        var cond = Pop();
+        if (cond) {
+            console.log(counter++);
+            nextc = function() {
+                WHILE(node, c);
+            };
+        }
+        else {
+            nextc = c;
+        }
 
-    if (cond) {
-        console.log(counter++);
-        nextc = function() {
-            WHILE(node, c);
-        };
-    }
-    else {
-        nextc = c;
-    }
-
-    setTimeout(nextc, DELAY);
+        setTimeout(nextc, DELAY);
+    });
 }
 
 var FACTORIAL = function(n, c) {
@@ -31,31 +32,30 @@ var FACTORIAL = function(n, c) {
 
     if (n < 2) {
         nextc = function() {
+            console.log("> 1");
             Push(1);
             c();
         };
     }
     else {
         nextc = function() {
-            FACTORIAL(n - 1, c);
-            Push(Pop() * n);
+            FACTORIAL(n - 1, function() {
+                var m = Pop();
+                console.log(">", m, "*", n);
+                Push(m * n);
+                c();
+            });
         };
     }
+
+    setTimeout(nextc, DELAY);
 };
 
-var ast = (function() {
-//  var x = 10;
-//  return {condition: function() {
-//      return x --> 0;
-//  }};
-
-//  return {condition: constant(true)};
-
+var TEST = (function() {
     var n = 0;
-    return {condition: function() {
-        FACTORIAL(n++, noop);
-        return Pop();
-    }};
+    return function(c) {
+        FACTORIAL(n++, c);
+    };
 })();
 
 var browser = function browser() {
@@ -66,5 +66,6 @@ var browser = function browser() {
 //WHILE(ast, noop);
 //browser();
 
-FACTORIAL(5);
-console.log(Pop());
+FACTORIAL(5, function() {
+    console.log(Pop());
+});
