@@ -1,20 +1,62 @@
-var DELAY = 100;
+var say = function() {
+    var time = new Date().toJSON();
+    var msg  = [].join.call(arguments, " ");
+    console.log(time + ":", msg);
+};
 
-var constant = function(k){return function(){return k}};
-var noop = function(){};
+var DELAY = 0;
+var do_later = (function() {
+    var q = [];
+
+    function nq(x) {
+        q.push(x);
+    }
+
+    function dq() {
+        var x = q[0];
+        q.shift();
+
+        return x;
+    }
+
+    function process() {
+        var f = dq();
+
+        if (f)
+            f();
+        else
+            throw new Error("Tried to overprocess the event queue!");
+    }
+
+    function do_later(f) {
+        nq(f);
+        setTimeout(process, DELAY);
+    }
+
+    return do_later;
+})();
+
+var done = function(c) {
+    say("ALL DONE");
+};
+
+var results = (function() {
+    var stack = [];
+
+    function push(x) { stack.push(x); }
+    function pop() { return stack.pop(); }
+
+    return {push: push, pop: pop};
+})();
 
 var counter = 0;
-var ret_stack = [];
-
-var Push = function(x) { ret_stack.push(x) };
-var Pop  = function() { return ret_stack.pop() };
 
 var WHILE = function(node, c) {
-    node.condition(function() {
+    TEST(function() {
         var nextc;
-        var cond = Pop();
+        var cond = results.pop();
         if (cond) {
-            console.log(counter++);
+           say("while>", counter++);
             nextc = function() {
                 WHILE(node, c);
             };
@@ -23,7 +65,7 @@ var WHILE = function(node, c) {
             nextc = c;
         }
 
-        setTimeout(nextc, DELAY);
+        do_later(nextc);
     });
 }
 
@@ -32,40 +74,44 @@ var FACTORIAL = function(n, c) {
 
     if (n < 2) {
         nextc = function() {
-            console.log("> 1");
-            Push(1);
+            say("factorial> base case");
+            results.push(1);
             c();
         };
     }
     else {
         nextc = function() {
+            say("factorial> recursive case");
             FACTORIAL(n - 1, function() {
-                var m = Pop();
-                console.log(">", m, "*", n);
-                Push(m * n);
+                var m = results.pop();
+                say("factorial>", m, "*", n);
+                results.push(m * n);
                 c();
             });
         };
     }
 
-    setTimeout(nextc, DELAY);
+    do_later(nextc);
 };
 
 var TEST = (function() {
     var n = 0;
-    return function(c) {
-        FACTORIAL(n++, c);
-    };
+
+    function always_true(c) {
+        results.push(true);
+        do_later(c);
+    }
+
+    function check_factorial(c) {
+        FACTORIAL(n++, function() {
+            var ans = results.pop();
+            results.push(ans < 8000);
+            do_later(c);
+        });
+    }
+
+    return always_true;
+    //return check_factorial;
 })();
 
-var browser = function browser() {
-    console.log("####################");
-    setTimeout(browser, 100);
-};
-
-//WHILE(ast, noop);
-//browser();
-
-FACTORIAL(5, function() {
-    console.log(Pop());
-});
+WHILE({}, done);
