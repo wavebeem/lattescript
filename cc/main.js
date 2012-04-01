@@ -94,6 +94,24 @@ var FACTORIAL = function(n, c) {
     do_later(nextc);
 };
 
+var input = (function() {
+    var cb;
+
+    function on_input(f) {
+        cb = f;
+    }
+
+    function set(text) {
+        results.push(text);
+        if (cb) {
+            cb();
+            cb = undefined;
+        }
+    }
+
+    return {on_input: on_input, set: set};
+})();
+
 var TEST = (function() {
     var n = 0;
 
@@ -110,7 +128,17 @@ var TEST = (function() {
         });
     }
 
-    return always_true;
+    function wait_for_input(c) {
+        input.on_input(function() {
+            var text = results.pop();
+            say("Got input:", text);
+            results.push(text !== 'q');
+            do_later(c);
+        });
+    }
+
+    return wait_for_input;
+    //return always_true;
     //return check_factorial;
 })();
 
