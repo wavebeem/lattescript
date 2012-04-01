@@ -116,7 +116,7 @@ evaluate.POS = function(node) {
 };
 
 evaluate.OP = function(node) {
-    return ls.ops.apply(node.op, node.left, node.right);
+    return ls.ops.apply_op(node.op, node.left, node.right);
 }
 
 evaluate.FUNC_CALL = function(node) {

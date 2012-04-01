@@ -115,7 +115,7 @@ ops.AT = function(a, b) {
     helpers.error("Cannot index argument: incorrect types");
 };
 
-var apply = function(op, l, r) {
+var apply_op = function(op, l, r) {
     var e = evaluate;
     if (op in ops) {
         // Pass unevaluated nodes so AND and OR can short-circuit.
