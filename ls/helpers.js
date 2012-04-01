@@ -10,6 +10,8 @@ h.debug = function() {
     }
 }
 
+var debug = h.debug;
+
 h.to_json = function(obj) {
     return JSON.stringify(obj, null, 2);
 }
@@ -34,7 +36,7 @@ h.identity = function(x) { return x; };
 h.error = function() {
     var msg = [].join.call(arguments, " ");
     latte.print(msg);
-    throw {type: "ERROR", message: msg};
+    throw new Error(msg);
 }
 
 h.textify = function(x, parent_lists) {

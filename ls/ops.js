@@ -1,7 +1,8 @@
 ls.ops = (function() {
 var ops = {};
 
-var evaluate = ls.latte.evaluate;
+var evaluate = ls.dispatch.evaluate;
+var debug    = ls.helpers.debug;
 
 ops.CAT = function(a, b) {
     return {type: "TEXT", value: (helpers.textify(a) + helpers.textify(b))};
@@ -118,10 +119,10 @@ var apply = function(op, l, r) {
     var e = evaluate;
     if (op in ops) {
         // Pass unevaluated nodes so AND and OR can short-circuit.
-        if (t === "AND" || t === "OR")
+        if (op === "AND" || op === "OR")
             e = helpers.identity;
 
-        return ops[t](e(l), e(r));
+        return ops[op](e(l), e(r));
     }
 
     helpers.error("Unsupported operation:", t);

@@ -16,6 +16,117 @@ var define = function(sub) {
     table[sub.type][sub.name] = sub;
 };
 
+var call_stack = (function() {
+    var stack = [];
+
+    function peek() { return stack[stack.length - 1] }
+    function pop()  { return stack.pop() }
+
+    function push(x) { stack.push(x) }
+
+    function trace() {
+        var i = stack.length;
+        console.log("Call Stack [");
+        while (i--) {
+            var map   = {PROC: "procedure", FUNC: "function "};
+            var call  = stack[i];
+            var type  = map[call.type] || "<oops>";
+            var line  = call.lineno === undefined? "???": call.lineno;
+            //console.log("  at line", line, "in", type, call.name);
+            console.log("  in", type, call.name);
+        }
+        console.log("]");
+    }
+
+    function get_var(id) {
+        var vars = peek().vars;
+        if (id in vars)
+            return vars[id];
+
+        debug("current variables:", vars);
+        error("Unable to get value of undeclared variable:", id);
+    }
+
+    function set_var(id, val) {
+        var vars = peek().vars;
+        if (id in vars)
+            vars[id] = val;
+
+        debug("current variables:", vars);
+        error("Unable to set value of undeclared variable:", id);
+    }
+
+    return {
+        get_var: get_var,
+        set_var: set_var,
+        trace:   trace,
+        peek:    peek,
+        push:    push,
+        pop:     pop
+    };
+})();
+
+var evaluate = function eval(node) {
+    var atomic_types = {
+        ID:      true,
+        BOOL:    true,
+        NUM:     true,
+        TEXT:    true,
+        LIST:    true,
+        NOTHING: true
+    };
+
+    if (node && node.type in eval)
+        return eval[node.type](node);
+
+    return node;
+}
+
+evaluate.LIST = function(node) {
+    var copy = ls.helpers.mutable_list_copy;
+
+    return node.immutable? copy(node): node;
+};
+
+evaluate.LEN = function(node) {
+    var val = evaluate(node.arg);
+
+    if (val.type === "LIST")
+        return {type: "NUM", value: val.values.length};
+
+    error("Unable to determine the length of a", val.type);
+};
+
+evaluate.NEG = function(node) {
+    var val = evaluate(node.arg);
+
+    if (val.type === "NUM")
+        return {type: "NUM", value: -val.value};
+
+    error("Cannot negate a", val.type);
+};
+
+evaluate.POS = function(node) {
+    var val = evaluate(node.arg);
+
+    if (val.type === "NUM")
+        return val;
+
+    error("Cannot apply unary plus to a", val.type);
+};
+
+evaluate.OP = function(node) {
+    return ls.ops.apply(node.op, node.left, node.right);
+}
+
+evaluate.FUNC_CALL = function(node) {
+    return run(node);
+};
+
+evaluate.ID = function(node) {
+    return get_var(node.value);
+};
+
 dispatch.BLOCK = function(node) {
     for (var n = 0; n < node.body.length; n++) {
         run(node.body[n]);
@@ -155,15 +266,10 @@ function call_proc(node, args) {
     }
     bound_proc.vars = vars;
 
-    show_stack_trace();
     debug("PUSHING", node.name, "ONTO CALL STACK");
     call_stack.push(bound_proc);
-    debug("CURRENT CALL =", current_call().name);
-    show_stack_trace();
     for (var i = 0; i < bound_proc.body.length; i++) {
         try {
-            //// XXX THIS USED TO "BLOCK"
-            //// BUT NOW IT DOESN'T
             run(bound_proc.body[i]);
         }
         catch (e) {
@@ -174,7 +280,6 @@ function call_proc(node, args) {
             }
         }
     }
-    //// XXX SO IT GETS HERE BEFORE IT'S ACTUALLY DONE
     debug("POPPING THE CALL STACK");
     call_stack.pop();
 }
@@ -223,10 +328,6 @@ function call_func(node, args) {
 
     call_stack.push(bound_func);
     debug("PUSHING", node.name, "ONTO CALL STACK");
-    debug("CURRENT CALL =", current_call().name);
-    //debug("call stack =", to_json(call_stack));
-    //debug("call args =", to_json(bound_proc.args));
-    //debug("current vars =", current_call().vars);
     for (var i = 0; i < bound_func.body.length; i++) {
         try {
             run(bound_func.body[i]);
@@ -286,7 +387,6 @@ dispatch.SET = function(node) {
 
 
 dispatch.ASSIGN = function(node) {
-    // Simple assignment
     if (node.left.type === "ID") {
         var name = node.left.value;
         var val  = evaluate(node.right);
@@ -325,8 +425,10 @@ function run(node) {
 }
 
 return {
-    run:    run,
+    call_stack: call_stack,
+    evaluate: evaluate,
     define: define,
-    clear:  clear
+    clear: clear,
+    run: run
 };
 })();

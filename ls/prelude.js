@@ -1,3 +1,7 @@
+(function() {
+var get_var = ls.dispatch.call_stack.get_var;
+var helpers = ls.helpers;
+
 ls.dispatch.define({
     type: "PROC",
     name: "print",
@@ -7,12 +11,7 @@ ls.dispatch.define({
         type: "JS",
         js: function() {
             var str = get_var("str");
-            if (DEBUG) {
-                latte.print("PRINTPRINTPRINT>>>:", helpers.textify(str));
-            }
-            else {
-                latte.print(helpers.textify(str));
-            }
+            latte.print(helpers.textify(str));
         }
     }]
 });
@@ -37,3 +36,4 @@ ls.dispatch.define({
         }
     }]
 });
+})();
