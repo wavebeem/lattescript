@@ -241,8 +241,8 @@ patterns = [
     spaced_pattern("ID", /(\w+)/),
 ];
 
-return {
-    lex:      lex,
-    setInput: set_input
-};
+lexer.lex = lex;
+lexer.setInput = set_input;
+
+return lexer;
 })();
