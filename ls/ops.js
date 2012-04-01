@@ -1,6 +1,8 @@
 ls.ops = (function() {
 var ops = {};
 
+var evaluate = ls.latte.evaluate;
+
 ops.CAT = function(a, b) {
     return {type: "TEXT", value: (helpers.textify(a) + helpers.textify(b))};
 };
@@ -10,9 +12,8 @@ var math_op_maker = function(word, f) { return function(a, b) {
         debug("DOING>>>", a.value, word, b.value);
         return {type: "NUM", value: f(a.value, b.value)};
     }
-    else {
-        helpers.error("Cannot", word, "arguments: incorrect types");
-    }
+
+    helpers.error("Cannot", word, "arguments: incorrect types");
 }};
 
 var exp = Math.pow;
@@ -63,17 +64,15 @@ var cmp_op_maker = function(word, f) { return function(a, b) {
         var t = a.type;
         var type_ok = t === "TEXT" || t === "NUM";
 
-        if (! type_ok) {
+        if (! type_ok)
             helpers.error(word, "not supported for type", t);
-        }
 
         var result = f(a.value, b.value);
 
         return {type: "BOOL", value: result};
     }
-    else {
-        helpers.error("Cannot", word, "arguments: incorrect types");
-    }
+
+    helpers.error("Cannot", word, "arguments: incorrect types");
 }};
 
 ops.LT = cmp_op_maker("<", function(a, b) { return a <  b; });
@@ -84,24 +83,21 @@ ops.GE = cmp_op_maker("≥", function(a, b) { return a >= b; });
 ops.EQ = function(a, b) {
     if (a.type === b.type) {
         var result;
-        if (a.type === "LIST") {
+        if (a.type === "LIST")
             result = a === b || helpers.list_eq(a, b);
-        }
-        else {
+        else
             result = a.value === b.value;
-        }
 
         return {type: "BOOL", value: result};
     }
-    else if (a.type === "NOTHING") {
+
+    if (a.type === "NOTHING")
         return {type: "BOOL", value: b.type === "NOTHING"};
-    }
-    else if (b.type === "NOTHING") {
+
+    if (b.type === "NOTHING")
         return {type: "BOOL", value: a.type === "NOTHING"};
-    }
-    else {
-        helpers.error("Cannot compare equality for arguments: incorrect types");
-    }
+
+    helpers.error("Cannot compare equality for arguments: incorrect types");
 };
 
 ops.AT = function(a, b) {
@@ -109,16 +105,13 @@ ops.AT = function(a, b) {
         var n = a.values.length;
         var i = b.value;
 
-        if (1 <= i && i <= n) {
+        if (1 <= i && i <= n)
             return a.values[i - 1];
-        }
-        else {
-            helpers.error("Index out of range");
-        }
+
+        helpers.error("Index out of range");
     }
-    else {
-        helpers.error("Cannot index argument: incorrect types");
-    }
+
+    helpers.error("Cannot index argument: incorrect types");
 };
 
 var apply = function(op, l, r) {

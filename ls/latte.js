@@ -1,4 +1,5 @@
-ls.compile = (function(code) {
+ls.latte = (function(code) {
+var error = ls.helpers.error;
 parser.lexer = ls.lexer;
 parser.yy.parseError = function(err, hash) {
     debug("err =", err);
@@ -18,7 +19,7 @@ var get_var = function(id) {
 
     debug("current sub:", current_call().name);
     debug("current variables:", vars);
-    helpers.error("Unable to get value of undeclared variable:", id);
+    error("Unable to get value of undeclared variable:", id);
 }
 
 var set_var = function(id, val) {
@@ -27,7 +28,7 @@ var set_var = function(id, val) {
         vars[id] = val;
 
     debug("current variables:", vars);
-    helpers.error("Unable to set value of undeclared variable:", id);
+    error("Unable to set value of undeclared variable:", id);
 }
 
 var evaluate = function eval(node) {
@@ -47,7 +48,7 @@ var evaluate = function eval(node) {
 }
 
 evaluate.LIST = function(node) {
-    var copy = helpers.mutable_list_copy;
+    var copy = ls.helpers.mutable_list_copy;
 
     return node.immutable? copy(node): node;
 };
@@ -58,7 +59,7 @@ evaluate.LEN = function(node) {
     if (val.type === "LIST")
         return {type: "NUM", value: val.values.length};
 
-    helpers.error("Unable to determine the length of a", val.type);
+    error("Unable to determine the length of a", val.type);
 };
 
 evaluate.NEG = function(node) {
@@ -67,7 +68,7 @@ evaluate.NEG = function(node) {
     if (val.type === "NUM")
         return {type: "NUM", value: -val.value};
 
-    helpers.error("Cannot negate a", val.type);
+    error("Cannot negate a", val.type);
 };
 
 evaluate.POS = function(node) {
@@ -76,7 +77,7 @@ evaluate.POS = function(node) {
     if (val.type === "NUM")
         return val;
 
-    helpers.error("Cannot apply unary plus to a", val.type);
+    error("Cannot apply unary plus to a", val.type);
 };
 
 evaluate.OP = function(node) {
@@ -109,10 +110,9 @@ compile = function(code) {
     var ast = parser.parse(code);
     console.log(ls.helpers.to_json(ast));
     COOL_AST = ast;
-    throw "up";
     ls.dispatch.run(ast);
     ls.dispatch.run({type: "PROC_CALL", name:"main", args: []});
 };
 
-return compile;
+return {evaluate: evaluate, compile: compile};
 })();
