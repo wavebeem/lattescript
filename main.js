@@ -1,83 +1,68 @@
-var _latte = {
-    the_term: document.getElementById("the_term"),
-    the_code: document.getElementById("the_code"),
-    DEBUG: true,
-    DEBUG_PREFIX: "DEBUG: ",
-    autoscroll: null,
-    size_mapping: {
-        s:  "10em",
-        m:  "15em",
-        l:  "24em",
-        xl: "30em"
-    }
-};
+var latte = (function() {
+    var the_term = document.getElementById("the_term");
+    var the_code = document.getElementById("the_code");
 
-var latte = {
-    write: function() {
-        var out = _latte.the_term;
+    var write = function() {
         var i;
 
         for (i = 0; i < arguments.length - 1; i++) {
-            out.value += String(arguments[i]) + " ";
+            the_term.value += String(arguments[i]) + " ";
         }
-        out.value += String(arguments[i]);
+        the_term.value += String(arguments[i]);
 
         // Scroll down
-        out.scrollTop = out.scrollHeight;
+        the_term.scrollTop = the_term.scrollHeight;
+    };
 
-        /*
-        function scrollDown() {
-            out.scrollTop = out.scrollHeight;
-            _latte.autoscroll = undefined;
-        }
+    var print = function() {
+        write.apply(this, arguments);
+        write("\n");
+    };
 
-        if (! _latte.autoscroll) {
-            _latte.autoscroll = setTimeout(scrollDown, 50);
-        }
-        */
-    },
-
-    print: function() {
-        this.write.apply(this, arguments);
-        this.write("\n");
-    },
-
-    debug: function() {
-        if (! _latte.DEBUG)
+    var debug = function() {
+        if (! DEBUG)
             return;
 
-        this.write(_latte.DEBUG_PREFIX);
-        this.print.apply(this, arguments);
-    },
+        write(DEBUG_PREFIX);
+        print.apply(this, arguments);
+    };
 
-    clear_output: function() {
-        var out = _latte.the_term;
+    var clear_output = function() {
+        the_term.value = "";
+    };
 
-        out.value = "";
-    }
-};
+    var get_size = function(size) {
+        return {
+            s:  "10em",
+            m:  "15em",
+            l:  "24em",
+            xl: "30em"
+        }[size];
+    };
 
-var x = 0;
+    var get_code = function() {
+        return the_code.value;
+    };
 
-function on_test_button_clicked(widget) {
-    x += 1;
-    latte.clear_output();
-    latte.write(">>> ");
-    latte.print("iteration ", "number ", x);
-    latte.write("You said \"");
-    latte.write(_latte.the_code.value);
-    latte.print("\"");
-}
+    return {
+        clear_output: clear_output,
 
-function on_save_button_clicked(widget) {
-    latte.debug("Saved!");
-}
+        get_size: get_size,
+        get_code: get_code,
+
+        write: write,
+        print: print,
+        debug: debug
+    };
+})();
 
 function on_run_button_clicked(widget) {
     latte.clear_output();
+
     // Clear previous subroutine definitions.
     ls.dispatch.clear();
-    var func = ls.latte.compile(_latte.the_code.value);
+
+    var func = ls.latte.compile(latte.get_code());
     func();
 }
 
@@ -86,14 +71,7 @@ function on_input_submitted(widget) {
     alert("You submitted my input!");
 }
 
-function on_clear_button_clicked(widget) {
-    latte.clear_output();
-}
-
-function set_code_size(size) {
-    _latte.the_code.style.height = _latte.size_mapping[size];
-}
-
-function set_term_size(size) {
-    _latte.the_term.style.height = _latte.size_mapping[size];
+function set_size(id, size) {
+    var widget = document.getElementById(id);
+    widget.style.height = latte.get_size(size);
 }
