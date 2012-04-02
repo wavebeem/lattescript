@@ -16,6 +16,11 @@ h.do_later = (function() {
         }
     }
 
+    function schedule(f) {
+        q.push(f);
+        setTimeout(process, DELAY);
+    }
+
     function do_later(f) {
         if (f === null) {
             throw new Error("do_later cannot take null");
@@ -29,8 +34,7 @@ h.do_later = (function() {
 
             //f();
 
-            q.push(f);
-            setTimeout(process, DELAY);
+            schedule(f);
         }
         else {
             throw new Error("do_later takes a FUNCTION as its argument");

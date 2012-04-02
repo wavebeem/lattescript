@@ -104,18 +104,22 @@ ops.EQ = function(a, b, c) {
             result = a.value === b.value;
 
         results.push({type: "BOOL", value: result});
+        do_later(c);
     }
     else if (a.type === "NOTHING") {
         results.push({type: "BOOL", value: b.type === "NOTHING"});
+        do_later(c);
     }
     else if (b.type === "NOTHING") {
         results.push({type: "BOOL", value: a.type === "NOTHING"});
+        do_later(c);
     }
     else {
+        debug("a = b where...");
+        debug("a is", a);
+        debug("b is", b);
         helpers.error("Cannot compare equality for arguments: incorrect types");
     }
-
-    do_later(c);
 };
 
 ops.AT = function(a, b, c) {
@@ -145,10 +149,10 @@ var apply_op = function(op, l, r, c) {
         }
         else {
             evaluate(l, function() {
-                var l = results.pop();
+                var el = results.pop();
                 evaluate(r, function() {
-                    var r = results.pop();
-                    ops[op](l, r, c);
+                    var er = results.pop();
+                    ops[op](el, er, c);
                 });
             });
         }

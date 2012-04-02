@@ -553,7 +553,6 @@ dispatch.ASSIGN = function(node, c) {
 };
 
 dispatch.IF = function(node, c) {
-    var val = evaluate(node.condition);
     evaluate(node.condition, function() {
         var val = results.pop();
         if (val.type === "BOOL") {
