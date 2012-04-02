@@ -374,7 +374,8 @@ function call_sub(sub_type, node, args, c) {
         name: node.name,
         body: node.body,
         args: node.args,
-        vars: {}
+        vars: {},
+        c: c
     };
 
     debug("call_sub(node, args) where");
@@ -434,19 +435,9 @@ function do_bound_func(bound_func, i, c) {
     // If we still have instructions to run
     if (0 <= i && i < bound_func.body.length) {
         var node = bound_func.body[i];
-        if (node.type === "RETURN") {
-            evaluate(node.value, function() {
-                // Leave the evaluation on the results stack
-                // because we're returning.
-                call_stack.pop();
-                do_later(c);
-            });
-        }
-        else {
-            run(node, function() {
-                do_bound_func(bound_func, i + 1, c);
-            });
-        }
+        run(node, function() {
+            do_bound_func(bound_func, i + 1, c);
+        });
     }
     // Throw error if the user forgets to return
     else if (! bound_func.has_returned) {
@@ -462,15 +453,9 @@ function do_bound_proc(bound_proc, i, c) {
     // If we still have instructions to run
     if (0 <= i && i < bound_proc.body.length) {
         var node = bound_proc.body[i];
-        if (node.type === "RETURN") {
-            call_stack.pop();
-            do_later(c);
-        }
-        else {
-            run(node, function() {
-                do_bound_proc(bound_proc, i + 1, c);
-            });
-        }
+        run(node, function() {
+            do_bound_proc(bound_proc, i + 1, c);
+        });
     }
     else {
         call_stack.pop();
@@ -480,8 +465,19 @@ function do_bound_proc(bound_proc, i, c) {
 
 dispatch.RETURN = function(node, c) {
     debug("RETURNING", node.value);
-    results.push(node);
-    do_later(c);
+    var frame = call_stack.pop();
+    if (frame.type === "FUNC") {
+        results.push(node);
+    }
+    else if (frame.type === "PROC") {
+    }
+    else {
+        throw new Error("What kind of call stack frame type is this? "
+            + frame.type);
+    }
+    // Call the continuation for after the current call
+    // (i.e. jump out of the current call).
+    do_later(frame.c);
 }
 
 dispatch.PROC_DEF = function(node, c) {
