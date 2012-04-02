@@ -4,15 +4,25 @@ h = {};
 h.do_later = (function() {
     var DELAY = 0;
     var q = [];
+    var done = false;
 
     function process() {
+        if (done)
+            return;
+
         if (q === []) {
             h.debug(q);
             throw new Error("Tried to overprocess the event queue!");
         }
         else {
-            //h.debug("EVENT Q", q);
-            q.shift()();
+            var f = q.shift();
+
+            if (typeof(f) === "function") {
+                f();
+            }
+            else {
+                throw new Error("process() cannot execute a non-function");
+            }
         }
     }
 
@@ -21,28 +31,31 @@ h.do_later = (function() {
         setTimeout(process, DELAY);
     }
 
-    function do_later(f) {
-        if (f === null) {
-            throw new Error("do_later cannot take null");
-        }
-        else if (f === undefined) {
-            throw new Error("do_later cannot take undefined");
-        }
-        else if (typeof(f) === "function") {
-            // Switch implementations here if
-            // a full call stack is needed for debugging.
-
-            //f();
-
-            schedule(f);
-        }
-        else {
-            throw new Error("do_later takes a FUNCTION as its argument");
-        }
+    function quit() {
+        done = true;
+        q = [];
     }
+
+    function reset() {
+        done = false;
+        q = [];
+    }
+
+    function do_later(f) {
+        if (done)
+            return;
+
+        schedule(f);
+    }
+
+    do_later.quit  = quit;
+    do_later.reset = reset;
 
     return do_later;
 })();
+
+h.quit  = h.do_later.quit;
+h.reset = h.do_later.reset;
 
 var DEBUG = true;
 var DEBUG_PREFIX = "DEBUG: ";

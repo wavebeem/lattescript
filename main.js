@@ -62,8 +62,15 @@ function on_run_button_clicked(widget) {
     // Clear previous subroutine definitions.
     ls.dispatch.clear();
 
+    // Enable the event queue.
+    ls.helpers.reset();
+
     var func = ls.latte.compile(latte.get_code());
     func();
+}
+
+function on_stop_button_clicked(widget) {
+    ls.helpers.quit();
 }
 
 function on_input_submitted(widget) {
