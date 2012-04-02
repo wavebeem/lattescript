@@ -22,11 +22,19 @@ var latte = {
         }
         out.value += String(arguments[i]);
 
+        // Scroll down
+        out.scrollTop = out.scrollHeight;
+
+        /*
         function scrollDown() {
             out.scrollTop = out.scrollHeight;
+            _latte.autoscroll = undefined;
         }
-        clearTimeout(_latte.autoscroll);
-        _latte.autoscroll = setTimeout(scrollDown, 100);
+
+        if (! _latte.autoscroll) {
+            _latte.autoscroll = setTimeout(scrollDown, 50);
+        }
+        */
     },
 
     print: function() {
