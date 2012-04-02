@@ -262,7 +262,7 @@ function for_range_helper(node, var_name, begin, end, step, i, c) {
     if ((step > 0 && i <= end) || (steps < 0 && i >= end)) {
         set_var(var_name, {type: "NUM", value: i});
         run(node, function() {
-            for_range_helper(var_name, begin, end, step, i + step, c);
+            for_range_helper(node, var_name, begin, end, step, i + step, c);
         });
     }
     else {
@@ -288,11 +288,11 @@ dispatch.FOR_EACH = function(node, c) {
     });
 }
 
-function for_each_helper(var_name, list, i, c) {
+function for_each_helper(node, var_name, list, i, c) {
     if (0 <= i && i < list.length) {
         set_var(var_name, list[i]);
         run(node, function() {
-            for_each_helper(var_name, list, i + 1, c);
+            for_each_helper(node, var_name, list, i + 1, c);
         });
     }
     else {
