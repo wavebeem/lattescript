@@ -11,7 +11,7 @@ h.do_later = (function() {
             throw new Error("Tried to overprocess the event queue!");
         }
         else {
-            h.debug("EVENT Q", q);
+            //h.debug("EVENT Q", q);
             q.shift()();
         }
     }

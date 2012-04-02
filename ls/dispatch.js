@@ -31,10 +31,20 @@ var results = (function() {
 var call_stack = (function() {
     var stack = [];
 
-    function peek() { return stack[stack.length - 1] }
-    function pop()  { return stack.pop() }
+    function peek() {
+        return stack[stack.length - 1];
+    }
+    function pop() {
+        debug("POPPING THE STACK");
+        trace();
+        return stack.pop();
+    }
 
-    function push(x) { stack.push(x) }
+    function push(x) {
+        debug("PUSHING THE STACK");
+        trace();
+        stack.push(x);
+    }
 
     function trace() {
         var i = stack.length;
@@ -52,20 +62,26 @@ var call_stack = (function() {
 
     function get_var(id) {
         var vars = peek().vars;
-        if (id in vars)
+        if (id in vars) {
             return vars[id];
-
-        debug("current variables:", vars);
-        error("Unable to get value of undeclared variable:", id);
+        }
+        else {
+            debug("in:", peek().name);
+            debug("current variables:", vars);
+            error("Unable to get value of undeclared variable:", id);
+        }
     }
 
     function set_var(id, val) {
         var vars = peek().vars;
-        if (id in vars)
+        if (id in vars) {
             vars[id] = val;
-
-        debug("current variables:", vars);
-        error("Unable to set value of undeclared variable:", id);
+        }
+        else {
+            debug("in:", peek().name);
+            debug("current variables:", vars);
+            error("Unable to set value of undeclared variable:", id);
+        }
     }
 
     return {
@@ -79,8 +95,9 @@ var call_stack = (function() {
 })();
 
 var get_var = call_stack.get_var;
+var set_var = call_stack.set_var;
 
-var evaluate = function eval(node, c) {
+var evaluate = function e(node, c) {
     var atomic_types = {
         ID:      true,
         BOOL:    true,
@@ -90,8 +107,8 @@ var evaluate = function eval(node, c) {
         NOTHING: true
     };
 
-    if (node && node.type in eval) {
-        eval[node.type](node, c);
+    if (node && node.type in e) {
+        e[node.type](node, c);
     }
     else {
         results.push(node);
@@ -151,13 +168,13 @@ evaluate.FUNC_CALL = function(node, c) {
     run(node, c);
 };
 
-evaluate.ID = function(node) {
+evaluate.ID = function(node, c) {
     results.push(get_var(node.value));
     do_later(c);
 };
 
 dispatch.BLOCK = function(node, c) {
-    block_helper(body, c);
+    block_helper(node.body, c);
 };
 
 function block_helper(body, c) {
@@ -231,27 +248,25 @@ dispatch.FOR_RANGE = function(node, c) {
                     error("Step size cannot be 0");
                 }
 
-                for_range_helper(var_name, begin, end, step, begin, c);
+                begin = begin.value;
+                end   = end  .value;
+                step  = step .value;
+                node  = {type: "BLOCK", body: node.statements};
+                for_range_helper(node, var_name, begin, end, step, begin, c);
             });
         });
     });
 }
 
-function for_range_helper(var_name, begin, end, step, i, c) {
-    if (step > 0) {
-        if (i <= end.value) {
-            set_var(var_name, {type: "NUM", value: i});
-            run({type: "BLOCK", body: node.statements}, function() {
-                for_range_helper(var_name, begin, end, step, i + step, c);
-            });
-        }
+function for_range_helper(node, var_name, begin, end, step, i, c) {
+    if ((step > 0 && i <= end) || (steps < 0 && i >= end)) {
+        set_var(var_name, {type: "NUM", value: i});
+        run(node, function() {
+            for_range_helper(var_name, begin, end, step, i + step, c);
+        });
     }
     else {
-        if (i >= end.value) {
-            run({type: "BLOCK", body: node.statements}, function() {
-                for_range_helper(var_name, begin, end, step, i + step, c);
-            });
-        }
+        do_later(c);
     }
 }
 
@@ -268,14 +283,15 @@ dispatch.FOR_EACH = function(node, c) {
         else
             error("Foreach loop only works on text and lists");
 
-        for_each_helper(var_name, list, 0, c);
+        node = {type: "BLOCK", body: node.statements};
+        for_each_helper(node, var_name, list, 0, c);
     });
 }
 
 function for_each_helper(var_name, list, i, c) {
     if (0 <= i && i < list.length) {
         set_var(var_name, list[i]);
-        run({type: "BLOCK", body: node.statements}, function() {
+        run(node, function() {
             for_each_helper(var_name, list, i + 1, c);
         });
     }
@@ -332,7 +348,7 @@ function call_sub(sub_type, node, args, c) {
         // Insert the "with" variables into the vars mapping,
         // but leave them "undefind" by mapping them to null.
         for (var i = 0; i < node.vars.length; i++) {
-            vars[node.vars[i]] = {type: "NOTHING"};
+            bound_sub.vars[node.vars[i]] = {type: "NOTHING"};
         }
 
         call_stack.push(bound_sub);
@@ -393,6 +409,7 @@ function do_bound_func(bound_func, i, c) {
         error("Function ended without returning a value");
     }
     else {
+        call_stack.pop();
         do_later(c);
     }
 }
@@ -412,6 +429,7 @@ function do_bound_proc(bound_proc, i, c) {
         }
     }
     else {
+        call_stack.pop();
         do_later(c);
     }
 }
