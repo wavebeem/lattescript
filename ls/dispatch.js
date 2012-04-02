@@ -557,10 +557,18 @@ dispatch.IF = function(node, c) {
         var val = results.pop();
         if (val.type === "BOOL") {
             if (val.value) {
+                debug("THE IF WAS TRUE");
                 run({type: "BLOCK", body: node.body}, c);
             }
-            else if ("else" in node) {
-                run(node["else"], c);
+            else {
+                if ("else" in node) {
+                    debug("THE IF WAS ELSE");
+                    run(node["else"], c);
+                }
+                else {
+                    debug("THE IF WAS FALSE AND HAD NO ELSE");
+                    do_later(c);
+                }
             }
         }
         else {

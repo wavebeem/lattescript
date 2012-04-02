@@ -96,6 +96,9 @@ ops.LE = cmp_op_maker("≤", function(a, b) { return a <= b; });
 ops.GE = cmp_op_maker("≥", function(a, b) { return a >= b; });
 
 ops.EQ = function(a, b, c) {
+    debug("a = b where...");
+    debug("a is", a);
+    debug("b is", b);
     if (a.type === b.type) {
         var result;
         if (a.type === "LIST")
@@ -103,6 +106,7 @@ ops.EQ = function(a, b, c) {
         else
             result = a.value === b.value;
 
+        debug("ANSWER IS", result);
         results.push({type: "BOOL", value: result});
         do_later(c);
     }
@@ -115,9 +119,6 @@ ops.EQ = function(a, b, c) {
         do_later(c);
     }
     else {
-        debug("a = b where...");
-        debug("a is", a);
-        debug("b is", b);
         helpers.error("Cannot compare equality for arguments: incorrect types");
     }
 };
