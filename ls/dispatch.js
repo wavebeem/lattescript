@@ -279,7 +279,7 @@ dispatch.FOR_EACH = function(node, c) {
             // Copy the list so we don't loop forever if the loop body modifies the list
             list = list.values.slice(0);
         else if (list.type === "TEXT")
-            list == list.value;
+            list = list.value;
         else
             error("Foreach loop only works on text and lists");
 
