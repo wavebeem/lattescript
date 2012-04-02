@@ -11,13 +11,19 @@ h.do_later = (function() {
             throw new Error("Tried to overprocess the event queue!");
         }
         else {
+            h.debug("EVENT Q", q);
             q.shift()();
         }
     }
 
     function do_later(f) {
-        q.push(x);
-        setTimeout(process, DELAY);
+        if (f !== null && f !== undefined && typeof f === "function") {
+            q.push(f);
+            setTimeout(process, DELAY);
+        }
+        else {
+            throw new Error("do_later takes a FUNCTION as its argument");
+        }
     }
 
     return do_later;

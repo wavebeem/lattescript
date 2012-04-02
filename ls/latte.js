@@ -1,5 +1,6 @@
 ls.latte = (function(code) {
 var debug = ls.helpers.debug;
+var main  = ls.dispatch.main;
 var run   = ls.dispatch.run;
 parser.lexer = ls.lexer;
 parser.yy.parseError = function(err, hash) {
@@ -14,7 +15,7 @@ function compile(code) {
     console.log(ls.helpers.to_json(ast));
     return function() {
         run(ast, function() {
-            run({type: "PROC_CALL", name: "main", args: []}, noop);
+            main();
         });
     };
 };

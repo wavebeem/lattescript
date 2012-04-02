@@ -78,6 +78,8 @@ var call_stack = (function() {
     };
 })();
 
+var get_var = call_stack.get_var;
+
 var evaluate = function eval(node, c) {
     var atomic_types = {
         ID:      true,
@@ -164,18 +166,20 @@ function block_helper(body, c) {
     }
     else {
         run(body[0], function() {
-            block_helper(body.slice(0));
+            block_helper(body.slice(0), c);
         });
     }
 }
 
 dispatch.JS = function(node, c) {
-    do_later(node.js);
+    do_later(function() {
+        node.js();
+        do_later(c);
+    });
 }
 
 dispatch.WHILE = function WHILE(node, c) {
     debug("While loop");
-    var cond = evaluate(node.condition);
     evaluate(node.condition, function() {
         var cond = results.pop();
 
@@ -193,7 +197,6 @@ dispatch.WHILE = function WHILE(node, c) {
 
 dispatch.UNTIL = function UNTIL(node, c) {
     debug("Until loop");
-    var cond = evaluate(node.condition);
     evaluate(node.condition, function() {
         var cond = results.pop();
 
@@ -210,10 +213,6 @@ dispatch.UNTIL = function UNTIL(node, c) {
 };
 
 dispatch.FOR_RANGE = function(node, c) {
-    var begin = evaluate(node.from);
-    var end   = evaluate(node.to);
-    var step  = evaluate(node.by);
-
     evaluate(node.from, function() {
         var begin = results.pop();
         evaluate(node.to, function() {
@@ -289,7 +288,7 @@ dispatch.PROC_CALL = function(node, c) {
     if (procs[node.name]) {
         debug("Calling function:", node.name);
         do_later(function() {
-            call_sub("PROC", funcs[node.name], node.args, c);
+            call_sub("PROC", procs[node.name], node.args, c);
         });
     }
     else {
@@ -339,9 +338,11 @@ function call_sub(sub_type, node, args, c) {
         call_stack.push(bound_sub);
         debug("PUSHING", node.name, "ONTO CALL STACK");
         if (sub_type === "FUNC") {
+            debug("DO_BOUND_FUNC TIME");
             do_bound_func(bound_sub, 0, c);
         }
         else if (sub_type === "PROC") {
+            debug("DO_BOUND_PROC TIME");
             do_bound_proc(bound_sub, 0, c);
         }
         else {
@@ -351,8 +352,9 @@ function call_sub(sub_type, node, args, c) {
 }
 
 function bind_args_to_sub(bound_sub, node, args, i, c) {
-    if (0 <= i && i < node.vars.length) {
-        // TODO TODO TODO
+    debug("WANT TO BIND: i =", i);
+    debug("WANT TO BIND: len =", node.args.length);
+    if (0 <= i && i < node.args.length) {
         debug("BINDING", node.args[i]);
         evaluate(args[i], function() {
             var evald_arg = results.pop();
@@ -363,6 +365,7 @@ function bind_args_to_sub(bound_sub, node, args, i, c) {
         });
     }
     else {
+        debug("NOT BINDING");
         do_later(c);
     }
 }
@@ -380,7 +383,9 @@ function do_bound_func(bound_func, i, c) {
             });
         }
         else {
-            run(bound_func, i + 1, c);
+            run(node, function() {
+                do_bound_func(bound_func, i + 1, c);
+            });
         }
     }
     // Throw error if the user forgets to return
@@ -394,14 +399,16 @@ function do_bound_func(bound_func, i, c) {
 
 function do_bound_proc(bound_proc, i, c) {
     // If we still have instructions to run
-    if (0 <= i && i < bound_func.body.length) {
-        var node = bound_func.body[i];
+    if (0 <= i && i < bound_proc.body.length) {
+        var node = bound_proc.body[i];
         if (node.type === "RETURN") {
             call_stack.pop();
             do_later(c);
         }
         else {
-            run(bound_func, i + 1, c);
+            run(node, function() {
+                do_bound_proc(bound_proc, i + 1, c);
+            });
         }
     }
     else {
@@ -440,21 +447,21 @@ dispatch.FUNC_DEF = function(node, c) {
 },
 
 dispatch.SUB_DEFS = function(node, c) {
-    if (node.sub_defs.length > 0) {
-        run(node.sub_defs[0]);
-        var node_slice = {
-            type: "SUB_DEFS",
-            sub_defs: node.sub_defs.slice(1)
-        };
-        run(node_slice, c);
+    sub_defs_helper(node.sub_defs, c);
+};
+
+function sub_defs_helper(defs, c) {
+    if (defs.length > 0) {
+        run(defs[0], function() {
+            sub_defs_helper(defs.slice(1), c);
+        });
+    }
+    else {
+        do_later(c);
     }
 };
 
 dispatch.SET = function(node, c) {
-    var left  = evaluate(node.left).values;
-    var idx   = evaluate(node.at).value;
-    var right = evaluate(node.right);
-
     evaluate(node.left, function() {
         var left = results.pop().values;
         evaluate(node.at, function() {
@@ -519,15 +526,19 @@ function run(node, c) {
     }
 }
 
+var noop = function(){};
+
 function main() {
-    ls.dispatch.run({type: "PROC_CALL", name:"main", args: []});
+    ls.dispatch.run({type: "PROC_CALL", name: "main", args: []}, noop);
 }
 
 return {
     call_stack: call_stack,
     evaluate: evaluate,
+    results: results,
     define: define,
     clear: clear,
+    main: main,
     run: run
 };
 })();
