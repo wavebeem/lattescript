@@ -17,7 +17,18 @@ h.do_later = (function() {
     }
 
     function do_later(f) {
-        if (f !== null && f !== undefined && typeof(f) === "function") {
+        if (f === null) {
+            throw new Error("do_later cannot take null");
+        }
+        else if (f === undefined) {
+            throw new Error("do_later cannot take undefined");
+        }
+        else if (typeof(f) === "function") {
+            // Switch implementations here if
+            // a full call stack is needed for debugging.
+
+            //f();
+
             q.push(f);
             setTimeout(process, DELAY);
         }
@@ -116,22 +127,6 @@ h.unescape = function(str) {
         .replace(/\n/, "\\n")
         .replace(/\"/, "\\\"")
     );
-}
-
-h.mutable_list_copy = function(node) {
-    debug("attempting to make mutable_list_copy of:", node);
-
-    if (node.type !== "LIST" || !node.immutable) return node;
-
-    var result = {type: "LIST", values: []};
-
-    for (var i = 0; i < node.values.length; i++) {
-        var value = node.values[i];
-
-        result.values[i] = evaluate(value);
-    }
-
-    return result;
 }
 
 return h;

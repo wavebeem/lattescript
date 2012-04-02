@@ -131,8 +131,9 @@ ops.AT = function(a, b, c) {
             helpers.error("Index out of range");
         }
     }
-
-    helpers.error("Cannot index argument: incorrect types");
+    else {
+        helpers.error("Cannot index argument: incorrect types");
+    }
 };
 
 var apply_op = function(op, l, r, c) {

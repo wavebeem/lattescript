@@ -37,14 +37,15 @@ var call_stack = (function() {
     }
     function pop() {
         debug("POPPING THE STACK");
+        var call = stack.pop();
         trace();
-        return stack.pop();
+        return call;
     }
 
     function push(x) {
         debug("PUSHING THE STACK");
-        trace();
         stack.push(x);
+        trace();
     }
 
     function trace() {
@@ -98,6 +99,35 @@ var call_stack = (function() {
 var get_var = call_stack.get_var;
 var set_var = call_stack.set_var;
 
+function mutable_list_copy(node, c) {
+    debug("attempting to make mutable_list_copy of:", node);
+
+    if (node.type !== "LIST" || !node.immutable) return node;
+
+    var result = {type: "LIST", values: []};
+
+    var src  = node.values;
+    var dest = result.values;
+
+    list_copy_helper(src, dest, function() {
+        results.push(result);
+        do_later(c);
+    });
+}
+
+function list_copy_helper(src, dest, c) {
+    if (src.length > 0) {
+        evaluate(src[0], function() {
+            var item = results.pop();
+            dest.push(item);
+            list_copy_helper(src.slice(1), dest, c);
+        });
+    }
+    else {
+        do_later(c);
+    }
+}
+
 var evaluate = function e(node, c) {
     var atomic_types = {
         ID:      true,
@@ -118,10 +148,16 @@ var evaluate = function e(node, c) {
 }
 
 evaluate.LIST = function(node, c) {
-    var copy = ls.helpers.mutable_list_copy;
+    if (! node.immutable)
+        return node;
 
-    results.push(node.immutable? copy(node): node);
-    do_later(c);
+    var copy = mutable_list_copy;
+
+    copy(node, function() {
+        var list = results.pop();
+        results.push(list);
+        do_later(c);
+    });
 };
 
 evaluate.LEN = function(node, c) {
@@ -175,11 +211,12 @@ evaluate.ID = function(node, c) {
 };
 
 dispatch.BLOCK = function(node, c) {
+    debug("RUNNING BLOCK:", to_json(node));
     block_helper(node.body, c);
 };
 
 function block_helper(body, c) {
-    if (body === []) {
+    if (body.length === 0) {
         do_later(c);
     }
     else {
@@ -190,10 +227,9 @@ function block_helper(body, c) {
 }
 
 dispatch.JS = function(node, c) {
-    do_later(function() {
-        node.js();
-        do_later(c);
-    });
+    node.js();
+    debug("RAN. JS");
+    do_later(c);
 }
 
 dispatch.WHILE = function WHILE(node, c) {
@@ -543,7 +579,7 @@ dispatch.NOOP = function(node, c) {
 };
 
 function run(node, c) {
-    debug("RUN!", node.type);
+    //debug("RUN!", node.type);
     if (node && dispatch[node.type]) {
         do_later(function() {
             dispatch[node.type](node, c);
