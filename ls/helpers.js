@@ -5,28 +5,18 @@ h.do_later = (function() {
     var DELAY = 0;
     var q = [];
 
-    function nq(x) {
-        q.push(x);
-    }
-
-    function dq() {
-        var x = q[0];
-        q.shift();
-
-        return x;
-    }
-
     function process() {
-        var f = dq();
-
-        if (f)
-            f();
-        else
+        if (q === []) {
+            h.debug(q);
             throw new Error("Tried to overprocess the event queue!");
+        }
+        else {
+            q.shift()();
+        }
     }
 
     function do_later(f) {
-        nq(f);
+        q.push(x);
         setTimeout(process, DELAY);
     }
 
