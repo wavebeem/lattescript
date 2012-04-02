@@ -2,16 +2,17 @@ ls.dispatch = (function() {
 var dispatch = {};
 var procs = {};
 var funcs = {};
-PROCS=procs;
-FUNCS=funcs;
 
 var debug = ls.helpers.debug;
 var error = ls.helpers.error;
 var do_later = ls.helpers.do_later;
+var to_json  = ls.helpers.to_json;
 
 var clear = function() {
     procs = {};
     funcs = {};
+
+    ls.prelude();
 };
 
 var define = function(sub) {
@@ -183,7 +184,7 @@ function block_helper(body, c) {
     }
     else {
         run(body[0], function() {
-            block_helper(body.slice(0), c);
+            block_helper(body.slice(1), c);
         });
     }
 }
@@ -197,6 +198,7 @@ dispatch.JS = function(node, c) {
 
 dispatch.WHILE = function WHILE(node, c) {
     debug("While loop");
+    latte.print("While loop");
     evaluate(node.condition, function() {
         var cond = results.pop();
 
@@ -205,9 +207,14 @@ dispatch.WHILE = function WHILE(node, c) {
         }
 
         if (cond.value) {
+            latte.print("node.condition =", to_json(node.condition));
+            latte.print("cond.value =", cond.value);
             run({type: "BLOCK", body: node.statements}, function() {
-                WHILE(node, c);
+                run(node, c);
             });
+        }
+        else {
+            do_later(c);
         }
     });
 };
@@ -223,8 +230,11 @@ dispatch.UNTIL = function UNTIL(node, c) {
 
         if (! cond.value) {
             run({type: "BLOCK", body: node.statements}, function() {
-                UNTIL(node, c);
+                run(node, c);
             });
+        }
+        else {
+            do_later(c);
         }
     });
 };
@@ -252,20 +262,26 @@ dispatch.FOR_RANGE = function(node, c) {
                 end   = end  .value;
                 step  = step .value;
                 node  = {type: "BLOCK", body: node.statements};
-                for_range_helper(node, var_name, begin, end, step, begin, c);
+                i     = begin;
+                for_range_helper(node, var_name, begin, end, step, i, c);
             });
         });
     });
 }
 
 function for_range_helper(node, var_name, begin, end, step, i, c) {
-    if ((step > 0 && i <= end) || (steps < 0 && i >= end)) {
+    if ((step > 0 && i <= end) || (step < 0 && i >= end)) {
+        latte.print("FOR RANGE LOOP: SETTING", var_name, "=", i);
+        latte.print("FOR RANGE LOOP: BEGIN =", begin);
+        latte.print("FOR RANGE LOOP: END   =", end);
+        latte.print("FOR RANGE LOOP: STEP  =", step);
         set_var(var_name, {type: "NUM", value: i});
         run(node, function() {
             for_range_helper(node, var_name, begin, end, step, i + step, c);
         });
     }
     else {
+        latte.print("DONE FOR RANGE HELPER");
         do_later(c);
     }
 }
@@ -530,7 +546,9 @@ dispatch.IF = function(node, c) {
     });
 };
 
-dispatch.NOOP = function(node) {};
+dispatch.NOOP = function(node, c) {
+    do_later(c);
+};
 
 function run(node, c) {
     debug("RUN!", node.type);

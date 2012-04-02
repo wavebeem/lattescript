@@ -17,7 +17,7 @@ h.do_later = (function() {
     }
 
     function do_later(f) {
-        if (f !== null && f !== undefined && typeof f === "function") {
+        if (f !== null && f !== undefined && typeof(f) === "function") {
             q.push(f);
             setTimeout(process, DELAY);
         }

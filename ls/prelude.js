@@ -1,4 +1,4 @@
-(function() {
+ls.prelude = (function() {
 var get_var = ls.dispatch.call_stack.get_var;
 var helpers = ls.helpers;
 
@@ -36,4 +36,6 @@ ls.dispatch.define({
         }
     }]
 });
-})();
+});
+
+ls.prelude();

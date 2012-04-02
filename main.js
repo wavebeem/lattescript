@@ -67,7 +67,8 @@ function on_save_button_clicked(widget) {
 
 function on_run_button_clicked(widget) {
     latte.clear_output();
-    //eval(_latte.the_code.value);
+    // Clear previous subroutine definitions.
+    ls.dispatch.clear();
     var func = ls.latte.compile(_latte.the_code.value);
     func();
 }
