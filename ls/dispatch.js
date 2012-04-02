@@ -198,7 +198,6 @@ dispatch.JS = function(node, c) {
 
 dispatch.WHILE = function WHILE(node, c) {
     debug("While loop");
-    latte.print("While loop");
     evaluate(node.condition, function() {
         var cond = results.pop();
 
@@ -207,8 +206,6 @@ dispatch.WHILE = function WHILE(node, c) {
         }
 
         if (cond.value) {
-            latte.print("node.condition =", to_json(node.condition));
-            latte.print("cond.value =", cond.value);
             run({type: "BLOCK", body: node.statements}, function() {
                 run(node, c);
             });
@@ -271,17 +268,12 @@ dispatch.FOR_RANGE = function(node, c) {
 
 function for_range_helper(node, var_name, begin, end, step, i, c) {
     if ((step > 0 && i <= end) || (step < 0 && i >= end)) {
-        latte.print("FOR RANGE LOOP: SETTING", var_name, "=", i);
-        latte.print("FOR RANGE LOOP: BEGIN =", begin);
-        latte.print("FOR RANGE LOOP: END   =", end);
-        latte.print("FOR RANGE LOOP: STEP  =", step);
         set_var(var_name, {type: "NUM", value: i});
         run(node, function() {
             for_range_helper(node, var_name, begin, end, step, i + step, c);
         });
     }
     else {
-        latte.print("DONE FOR RANGE HELPER");
         do_later(c);
     }
 }
