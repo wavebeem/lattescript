@@ -3,19 +3,25 @@ var ops = {};
 
 var evaluate = ls.dispatch.evaluate;
 var debug    = ls.helpers.debug;
+var helpers  = ls.helpers;
+var results  = ls.dispatch.results;
 
-ops.CAT = function(a, b) {
-    return {type: "TEXT", value: (helpers.textify(a) + helpers.textify(b))};
+ops.CAT = function(a, b, c) {
+    results.push({type: "TEXT", value: (helpers.textify(a) + helpers.textify(b))});
 };
 
-var math_op_maker = function(word, f) { return function(a, b) {
-    if (a.type === "NUM" && b.type === "NUM") {
-        debug("DOING>>>", a.value, word, b.value);
-        return {type: "NUM", value: f(a.value, b.value)};
-    }
-
-    helpers.error("Cannot", word, "arguments: incorrect types");
-}};
+var math_op_maker = function(word, f) {
+    return function(a, b, c) {
+        if (a.type === "NUM" && b.type === "NUM") {
+            debug("DOING>>>", a.value, word, b.value);
+            results.push({type: "NUM", value: f(a.value, b.value)});
+            do_later(c);
+        }
+        else {
+            helpers.error("Cannot", word, "arguments: incorrect types");
+        }
+    };
+};
 
 var exp = Math.pow;
 ops.ADD = math_op_maker("add",          function(a, b) { return a + b });
@@ -24,64 +30,71 @@ ops.MUL = math_op_maker("multiply",     function(a, b) { return a * b });
 ops.DIV = math_op_maker("divide",       function(a, b) { return a / b });
 ops.EXP = math_op_maker("exponentiate", function(a, b) { return exp(a, b) });
 
-ops.AND = function(a, b) {
-    var va = evaluate(a);
-    var vb;
+var and_or_maker = function(type) {
+    var cond;
+    if (type === "AND")
+        cond = function(x) { return !x };
+    else if (type === "OR")
+        cond = function(x) { return  x };
+    else
+        throw new Error("Wrong argument to and_or_maker: " + type);
 
-    if (va.type !== "BOOL")
-        helpers.error("Cannot and arguments: incorrect types");
+    return function(a, b, c) {
+        evaluate(a, function() {
+            var va = result.pop();
 
-    if (!va.value)
-        return va;
+            if (va.type !== "BOOL")
+                helpers.error("Cannot", type, "arguments: incorrect types");
 
-    vb = evaluate(b);
+            if (cond(va.value)) {
+                results.push(va);
+                do_later(c);
+            }
+            else {
+                evaluate(b, function() {
+                    var vb = results.pop();
+                    if (vb.type !== "BOOL") {
+                        helpers.error("Cannot", type, "arguments: incorrect types");
+                    }
+                    else {
+                        results.push(vb);
+                        do_later(c);
+                    }
+                });
+            }
+        });
+    };
+};
 
-    if (vb.type !== "BOOL")
-        helpers.error("Cannot and arguments: incorrect types");
+ops.AND = and_or_maker("AND");
+ops.OR  = and_or_maker("OR");
 
-    return vb;
-}
+var cmp_op_maker = function(word, f) {
+    return function(a, b, c) {
+        if (a.type === b.type) {
+            var t = a.type;
+            var type_ok = t === "TEXT" || t === "NUM";
 
-ops.OR = function(a, b) {
-    var va = evaluate(a);
-    var vb;
+            if (! type_ok)
+                helpers.error(word, "not supported for type", t);
 
-    if (va.type !== "BOOL")
-        helpers.error("Cannot or arguments: incorrect types");
+            var result = f(a.value, b.value);
 
-    if (va.value)
-        return va;
-
-    vb = evaluate(b);
-
-    if (vb.type !== "BOOL")
-        helpers.error("Cannot or arguments: incorrect types");
-
-    return vb;
-}
-
-var cmp_op_maker = function(word, f) { return function(a, b) {
-    if (a.type === b.type) {
-        var t = a.type;
-        var type_ok = t === "TEXT" || t === "NUM";
-
-        if (! type_ok)
-            helpers.error(word, "not supported for type", t);
-
-        var result = f(a.value, b.value);
-
-        return {type: "BOOL", value: result};
-    }
-
-    helpers.error("Cannot", word, "arguments: incorrect types");
-}};
+            results.push({type: "BOOL", value: result});
+            do_later(c);
+        }
+        else {
+            helpers.error("Cannot", word, "arguments: incorrect types");
+        }
+    };
+};
 
 ops.LT = cmp_op_maker("<", function(a, b) { return a <  b; });
 ops.GT = cmp_op_maker(">", function(a, b) { return a >  b; });
 ops.LE = cmp_op_maker("≤", function(a, b) { return a <= b; });
 ops.GE = cmp_op_maker("≥", function(a, b) { return a >= b; });
 
-ops.EQ = function(a, b) {
+ops.EQ = function(a, b, c) {
     if (a.type === b.type) {
         var result;
         if (a.type === "LIST")
@@ -89,44 +102,51 @@ ops.EQ = function(a, b) {
         else
             result = a.value === b.value;
 
-        return {type: "BOOL", value: result};
+        results.push({type: "BOOL", value: result});
+    }
+    else if (a.type === "NOTHING") {
+        results.push({type: "BOOL", value: b.type === "NOTHING"});
+    }
+    else if (b.type === "NOTHING") {
+        results.push({type: "BOOL", value: a.type === "NOTHING"});
+    }
+    else {
+        helpers.error("Cannot compare equality for arguments: incorrect types");
     }
 
-    if (a.type === "NOTHING")
-        return {type: "BOOL", value: b.type === "NOTHING"};
-
-    if (b.type === "NOTHING")
-        return {type: "BOOL", value: a.type === "NOTHING"};
-
-    helpers.error("Cannot compare equality for arguments: incorrect types");
+    do_later(c);
 };
 
-ops.AT = function(a, b) {
+ops.AT = function(a, b, c) {
     if (a.type === "LIST" && b.type === "NUM") {
         var n = a.values.length;
         var i = b.value;
 
-        if (1 <= i && i <= n)
-            return a.values[i - 1];
-
-        helpers.error("Index out of range");
+        if (1 <= i && i <= n) {
+            results.push(a.values[i - 1]);
+            do_later(c);
+        }
+        else {
+            helpers.error("Index out of range");
+        }
     }
 
     helpers.error("Cannot index argument: incorrect types");
 };
 
-var apply_op = function(op, l, r) {
+var apply_op = function(op, l, r, c) {
     var e = evaluate;
     if (op in ops) {
         // Pass unevaluated nodes so AND and OR can short-circuit.
         if (op === "AND" || op === "OR")
             e = helpers.identity;
 
-        return ops[op](e(l), e(r));
+        ops[op](e(l), e(r), c);
     }
-
-    helpers.error("Unsupported operation:", t);
+    else {
+        helpers.error("Unsupported operation:", t);
+    }
 }
 
-return {apply: apply};
+return {apply_op: apply_op};
 })();

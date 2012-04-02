@@ -1,6 +1,38 @@
 ls.helpers = (function() {
 h = {};
 
+h.do_later = (function() {
+    var DELAY = 0;
+    var q = [];
+
+    function nq(x) {
+        q.push(x);
+    }
+
+    function dq() {
+        var x = q[0];
+        q.shift();
+
+        return x;
+    }
+
+    function process() {
+        var f = dq();
+
+        if (f)
+            f();
+        else
+            throw new Error("Tried to overprocess the event queue!");
+    }
+
+    function do_later(f) {
+        nq(f);
+        setTimeout(process, DELAY);
+    }
+
+    return do_later;
+})();
+
 var DEBUG = true;
 var DEBUG_PREFIX = "DEBUG: ";
 
