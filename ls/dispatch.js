@@ -595,8 +595,8 @@ function run(node, c) {
 
 var noop = function(){};
 
-function main() {
-    ls.dispatch.run({type: "PROC_CALL", name: "main", args: []}, noop);
+function main(c) {
+    ls.dispatch.run({type: "PROC_CALL", name: "main", args: []}, c);
 }
 
 return {
