@@ -254,6 +254,7 @@ func_call
 
 basic
 : literal
+| read
 | id
 ;
 
@@ -295,7 +296,7 @@ false: 'FALSE' { $$ = {type: "BOOL", value: false}; };
 
 nothing: 'NOTHING' { $$ = {type: "NOTHING"}; };
 
-id: 'ID' { console.log("WTF IS GOING ON?", $1, "WTF?", yytext); $$ = {type: "ID", value: $1}; };
+id: 'ID' { $$ = {type: "ID", value: $1}; };
 
 pass: 'PASS' { $$ = {type: "NOOP"}; };
 
@@ -319,6 +320,7 @@ exp: 'EXP' { $$ = {type: "OP", op: "EXP"}; };
 return: 'RETURN';
 
 text: 'TEXT' { $$ = {type: "TEXT", value: $1}; };
+read: 'READ' { $$ = {type: "READ"}; };
 
 assign: 'ASSIGN';
 

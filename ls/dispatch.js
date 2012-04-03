@@ -1,4 +1,5 @@
 ls.dispatch = (function() {
+var exports = {};
 var dispatch = {};
 var procs = {};
 var funcs = {};
@@ -7,6 +8,27 @@ var debug = ls.helpers.debug;
 var error = ls.helpers.error;
 var do_later = ls.helpers.do_later;
 var to_json  = ls.helpers.to_json;
+
+(function() {
+    var noop = function(){};
+    var cb = noop;
+
+    function set_input_callback(c) {
+        cb = c;
+    }
+
+    function set_input(txt) {
+        var c = cb;
+        cb = noop;
+
+        var obj = {type: "TEXT", value: txt};
+        results.push(obj);
+        do_later(c);
+    }
+
+    exports.set_input_callback = set_input_callback;
+    exports.set_input = set_input;
+})();
 
 var clear = function() {
     procs = {};
@@ -129,15 +151,6 @@ function list_copy_helper(src, dest, c) {
 }
 
 var evaluate = function e(node, c) {
-    var atomic_types = {
-        ID:      true,
-        BOOL:    true,
-        NUM:     true,
-        TEXT:    true,
-        LIST:    true,
-        NOTHING: true
-    };
-
     if (node && node.type in e) {
         e[node.type](node, c);
     }
@@ -146,6 +159,10 @@ var evaluate = function e(node, c) {
         do_later(c);
     }
 }
+
+evaluate.READ = function(node, c) {
+    ls.dispatch.set_input_callback(c);
+};
 
 evaluate.LIST = function(node, c) {
     if (! node.immutable)
@@ -601,13 +618,13 @@ function main(c) {
     ls.dispatch.run({type: "PROC_CALL", name: "main", args: []}, c);
 }
 
-return {
-    call_stack: call_stack,
-    evaluate: evaluate,
-    results: results,
-    define: define,
-    clear: clear,
-    main: main,
-    run: run
-};
+exports.call_stack = call_stack;
+exports.evaluate = evaluate;
+exports.results = results;
+exports.define = define;
+exports.clear = clear;
+exports.main = main;
+exports.run = run;
+
+return exports;
 })();

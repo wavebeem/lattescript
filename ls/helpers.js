@@ -1,7 +1,7 @@
 ls.helpers = (function() {
 h = {};
 
-h.do_later = (function() {
+(function() {
     var DELAY = 0;
     var q = [];
     var done = false;
@@ -60,14 +60,10 @@ h.do_later = (function() {
         schedule(f);
     }
 
-    do_later.quit  = quit;
-    do_later.reset = reset;
-
-    return do_later;
+    h.do_later = do_later;
+    h.quit     = quit;
+    h.reset    = reset;
 })();
-
-h.quit  = h.do_later.quit;
-h.reset = h.do_later.reset;
 
 var DEBUG = true;
 var DEBUG_PREFIX = "DEBUG: ";

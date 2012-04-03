@@ -6,6 +6,11 @@ var latte = (function() {
 
     var output_buffer = "";
 
+    var submit_input = function() {
+        var txt = the_input.value;
+        ls.dispatch.set_input(txt);
+    };
+
     var write = function() {
         if (output_buffer.length > 0) {
             the_term.value += output_buffer;
@@ -69,6 +74,7 @@ var latte = (function() {
     };
 
     return {
+        submit_input: submit_input,
         clear_output: clear_output,
         clear_input: clear_input,
 
@@ -109,8 +115,7 @@ function on_clear_button_clicked(widget) {
 }
 
 function on_input_submitted(widget) {
-    latte.print("You submitted my input!");
-    alert("You submitted my input!");
+    latte.submit_input();
 }
 
 function set_size(id, size) {

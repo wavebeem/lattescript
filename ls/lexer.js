@@ -193,6 +193,7 @@ patterns = [
     keyword_pattern("PROCEDURE", "procedure"),
     keyword_pattern("IF",        "if"),
     keyword_pattern("ELSE",      "else"),
+    keyword_pattern("READ",      "read"),
 
     keyword_pattern("IN",     "in"),
     keyword_pattern("TO",     "to"),
