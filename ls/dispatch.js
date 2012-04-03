@@ -175,6 +175,7 @@ evaluate.LEN = function(node, c) {
 
 evaluate.NEG = function(node, c) {
     evaluate(node.arg, function() {
+        var val = results.pop();
         if (val.type === "NUM") {
             results.push({type: "NUM", value: -val.value});
             do_later(c);
@@ -187,6 +188,7 @@ evaluate.NEG = function(node, c) {
 
 evaluate.POS = function(node, c) {
     evaluate(node.arg, function() {
+        var val = results.pop();
         if (val.type === "NUM") {
             results.push(val);
             do_later(c);
