@@ -42,7 +42,7 @@ var and_or_maker = function(type) {
 
     return function(a, b, c) {
         evaluate(a, function() {
-            var va = result.pop();
+            var va = results.pop();
 
             if (va.type !== "BOOL")
                 helpers.error("Cannot", type, "arguments: incorrect types");
