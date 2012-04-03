@@ -90,10 +90,10 @@ var cmp_op_maker = function(word, f) {
     };
 };
 
-ops.LT = cmp_op_maker("<", function(a, b) { return a <  b; });
-ops.GT = cmp_op_maker(">", function(a, b) { return a >  b; });
-ops.LE = cmp_op_maker("≤", function(a, b) { return a <= b; });
-ops.GE = cmp_op_maker("≥", function(a, b) { return a >= b; });
+ops.LT = cmp_op_maker("<",  function(a, b) { return a <  b; });
+ops.GT = cmp_op_maker(">",  function(a, b) { return a >  b; });
+ops.LE = cmp_op_maker("<=", function(a, b) { return a <= b; });
+ops.GE = cmp_op_maker(">=", function(a, b) { return a >= b; });
 
 ops.EQ = function(a, b, c) {
     debug("a = b where...");
