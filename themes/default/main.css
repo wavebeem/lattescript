@@ -5,9 +5,14 @@
     -moz-appearance: none !important;
 }
 
+pre,
 p {
     margin:      5px;
     margin-top: 15px;
+}
+
+pre {
+    font-size: 10.5pt;
 }
 
 html,
