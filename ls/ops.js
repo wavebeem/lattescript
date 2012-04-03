@@ -9,6 +9,7 @@ var do_later = ls.helpers.do_later;
 
 ops.CAT = function(a, b, c) {
     results.push({type: "TEXT", value: (helpers.textify(a) + helpers.textify(b))});
+    do_later(c);
 };
 
 var math_op_maker = function(word, f) {
