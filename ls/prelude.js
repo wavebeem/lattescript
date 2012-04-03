@@ -18,6 +18,20 @@ ls.dispatch.define({
 
 ls.dispatch.define({
     type: "PROC",
+    name: "write",
+    args: ["str"],
+    vars: {},
+    body: [{
+        type: "JS",
+        js: function() {
+            var str = get_var("str");
+            latte.write(helpers.textify(str));
+        }
+    }]
+});
+
+ls.dispatch.define({
+    type: "PROC",
     name: "append",
     args: ["list", "item"],
     vars: {},
