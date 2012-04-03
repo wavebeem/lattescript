@@ -1,0 +1,53 @@
+procedure insert node, item
+  if node = nothing
+    pass
+  else
+    if item < node@1
+      if node@2 = nothing
+        node@2 := [item, nothing, nothing]
+      else
+        insert node@2, item
+    else
+      if node@3 = nothing
+        node@3 := [item, nothing, nothing]
+      else
+        insert node@3, item
+        
+procedure walk node
+  if node = nothing
+    pass
+  else
+    walk  node@2
+    print node@1
+    walk  node@3
+
+procedure show node
+  if node = nothing
+    pass
+  else
+    write "("
+    write node@1
+    if node@2 = nothing
+      pass
+    else
+      write " L:"
+      show  node@2
+    if node@3 = nothing
+      pass
+    else
+      write " R:"
+      show  node@3
+    write ")"
+
+procedure main
+with root, items, item
+  root  := ["j", nothing, nothing]
+  items := ["a", "z", "x", "c", "b"]
+  for item in items
+    insert root, item
+  walk  root
+  print ""
+  print "Tree:"
+  print root
+  print "TREE:"
+  show root
