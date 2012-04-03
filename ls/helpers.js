@@ -5,6 +5,8 @@ h.do_later = (function() {
     var DELAY = 0;
     var q = [];
     var done = false;
+    var count = 0;
+    var max = 10;
 
     function process() {
         if (done)
@@ -27,16 +29,26 @@ h.do_later = (function() {
     }
 
     function schedule(f) {
+        count++;
         q.push(f);
-        setTimeout(process, DELAY);
+
+        if (count > max) {
+            count = 0;
+            setTimeout(process, DELAY);
+        }
+        else {
+            process();
+        }
     }
 
     function quit() {
+        count = 0;
         done = true;
         q = [];
     }
 
     function reset() {
+        count = 0;
         done = false;
         q = [];
     }
