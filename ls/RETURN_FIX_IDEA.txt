@@ -1,8 +1,0 @@
-Whenever you call a sub, store a reference to the next continuation in
-the current frame on the call stack, then if anything encounters a
-RETURN node, it can simply make its next continuation be the stored
-reference.
-
-As for a stop button, I could expand the do_later API to include a
-method to unschedule the current setTimeout()'d process() call, and
-clear out the event queue.
