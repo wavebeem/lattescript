@@ -1,6 +1,7 @@
 ls.prelude = (function() {
 var get_var = ls.dispatch.call_stack.get_var;
 var helpers = ls.helpers;
+var debug   = ls.debug;
 
 ls.dispatch.define({
     type: "PROC",

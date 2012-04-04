@@ -185,8 +185,8 @@ evaluate.LIST = function(node, c) {
 };
 
 evaluate.LEN = function(node, c) {
-    var val = evaluate(node.arg);
     evaluate(node.arg, function() {
+        var val = results.pop();
         if (val.type === "LIST") {
             results.push({type: "NUM", value: val.values.length});
             do_later(c);
