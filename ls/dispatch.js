@@ -34,6 +34,9 @@ var clear = function() {
     procs = {};
     funcs = {};
 
+    results.clear();
+    call_stack.clear();
+
     ls.prelude();
 };
 
@@ -45,10 +48,11 @@ var define = function(sub) {
 var results = (function() {
     var stack = [];
 
-    function push(x) { stack.push(x); }
-    function pop() { return stack.pop(); }
+    function push(x) { stack.push(x) }
+    function pop() { return stack.pop() }
+    function clear() { stack = [] }
 
-    return {push: push, pop: pop};
+    return {push: push, pop: pop, clear: clear};
 })();
 
 var call_stack = (function() {
@@ -108,10 +112,13 @@ var call_stack = (function() {
         }
     }
 
+    function clear() { stack = [] }
+
     return {
         get_var: get_var,
         set_var: set_var,
         trace:   trace,
+        clear:   clear,
         peek:    peek,
         push:    push,
         pop:     pop
