@@ -143,7 +143,7 @@ h.textify = function(x, parent_lists) {
         throw "up";
     }
     catch (e) {
-        h.error("Couldn't textify the", t);
+        h.error("Couldn't textify", x);
     }
 };
 

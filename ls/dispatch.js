@@ -103,6 +103,7 @@ var call_stack = (function() {
     function set_var(id, val) {
         var vars = peek().vars;
         if (id in vars) {
+            debug("Setting", id, "to", val);
             vars[id] = val;
         }
         else {
@@ -344,25 +345,36 @@ dispatch.FOR_EACH = function(node, c) {
     evaluate(node.list, function() {
         var list = results.pop();
         var var_name = node["var"].value;
+        var is_string = false;
 
-        if (list.type === "LIST")
+        if (list.type === "LIST") {
             // Copy the list so we don't loop forever if the loop body modifies the list
             list = list.values.slice(0);
-        else if (list.type === "TEXT")
+        }
+        else if (list.type === "TEXT") {
             list = list.value;
-        else
+            is_string = true;
+        }
+        else {
             error("Foreach loop only works on text and lists");
+        }
 
         node = {type: "BLOCK", body: node.statements};
-        for_each_helper(node, var_name, list, 0, c);
+        for_each_helper(node, is_string, var_name, list, 0, c);
     });
 }
 
-function for_each_helper(node, var_name, list, i, c) {
+function for_each_helper(node, is_string, var_name, list, i, c) {
     if (0 <= i && i < list.length) {
-        set_var(var_name, list[i]);
+        if (is_string) {
+            set_var(var_name, {type: "TEXT", value: list[i]});
+        }
+        else {
+            set_var(var_name, list[i]);
+        }
+
         run(node, function() {
-            for_each_helper(node, var_name, list, i + 1, c);
+            for_each_helper(node, is_string, var_name, list, i + 1, c);
         });
     }
     else {
