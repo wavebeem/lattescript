@@ -69,6 +69,7 @@ var latte = (function() {
     };
 
     var blink_input = make_bg_blinker(the_input, "rgba(255, 255, 128, 0.50)");
+    var blink_term  = make_bg_blinker(the_term,  "rgba(255, 255, 128, 0.50)");
 
     var get_size = function(size) {
         return {
@@ -99,6 +100,7 @@ var latte = (function() {
         clear_output: clear_output,
         clear_input: clear_input,
         blink_input: blink_input,
+        blink_term: blink_term,
 
         finish: finish,
         start: start,
