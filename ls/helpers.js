@@ -122,9 +122,10 @@ h.list_eq_helper = function list_eq_helper(as, bs) {
 h.identity = function(x) { return x; };
 
 h.error = function() {
-    var msg = [].join.call(arguments, " ");
+    var msg = "Error: " + [].join.call(arguments, " ");
     latte.print(msg);
     ls.dispatch.call_stack.trace();
+    latte.finish();
     throw new Error(msg);
 }
 
