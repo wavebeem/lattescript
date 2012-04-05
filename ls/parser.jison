@@ -141,6 +141,8 @@ single_statement
 return_statement
 : return expr
 { $$ = {type: "RETURN", value: $expr}; }
+| return
+{ $$ = {type: "RETURN"}; }
 ;
 
 assignment

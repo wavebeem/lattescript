@@ -493,12 +493,18 @@ dispatch.RETURN = function(node, c) {
     debug("RETURNING", node.value);
     var frame = call_stack.peek();
     if (frame.type === "FUNC") {
+        if (! ("value" in node)) {
+            error("You forgot your argument to \"return\"");
+        }
         evaluate(node.value, function() {
             var val = results.pop();
             results.push(val);
         });
     }
     else if (frame.type === "PROC") {
+        if ("value" in node) {
+            error("Can't return a value from a procedure");
+        }
     }
     else {
         throw new Error("What kind of call stack frame type is this? "
