@@ -8,6 +8,7 @@ var latte = (function() {
 
     var submit_input = function() {
         var txt = the_input.value;
+        the_input.value = "";
         ls.dispatch.set_input(txt);
     };
 
@@ -49,6 +50,26 @@ var latte = (function() {
         the_input.value = "";
     }
 
+    var make_bg_blinker = function(widget, color) {
+        return function() {
+            var old_bg = widget.style.backgroundColor;
+            var new_bg = color;
+            var state = false;
+
+            var delay = 200;
+
+            var toggle = function() {
+                state = !state;
+                widget.style.backgroundColor = state? new_bg: old_bg;
+            };
+
+            toggle();
+            setTimeout(toggle, delay);
+        };
+    };
+
+    var blink_input = make_bg_blinker(the_input, "rgba(255, 255, 128, 0.50)");
+
     var get_size = function(size) {
         return {
             s:  "10em",
@@ -77,6 +98,7 @@ var latte = (function() {
         submit_input: submit_input,
         clear_output: clear_output,
         clear_input: clear_input,
+        blink_input: blink_input,
 
         finish: finish,
         start: start,
