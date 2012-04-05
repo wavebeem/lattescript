@@ -124,6 +124,7 @@ h.identity = function(x) { return x; };
 h.error = function() {
     var msg = [].join.call(arguments, " ");
     latte.print(msg);
+    ls.dispatch.call_stack.trace();
     throw new Error(msg);
 }
 

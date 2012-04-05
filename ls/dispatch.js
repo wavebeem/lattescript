@@ -491,9 +491,12 @@ function do_bound_proc(bound_proc, i, c) {
 
 dispatch.RETURN = function(node, c) {
     debug("RETURNING", node.value);
-    var frame = call_stack.pop();
+    var frame = call_stack.peek();
     if (frame.type === "FUNC") {
-        results.push(node);
+        evaluate(node.value, function() {
+            var val = results.pop();
+            results.push(val);
+        });
     }
     else if (frame.type === "PROC") {
     }
@@ -503,6 +506,7 @@ dispatch.RETURN = function(node, c) {
     }
     // Call the continuation for after the current call
     // (i.e. jump out of the current call).
+    call_stack.pop();
     do_later(frame.c);
 }
 
