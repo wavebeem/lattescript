@@ -103,12 +103,14 @@ h2,
 
     border-radius: 0px !important;
 
-    -webkit-transition-property: background, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-       -moz-transition-property: background, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-         -o-transition-property: background, box-shadow, -webkit-box-shadow, -moz-box-shadow;
+    -webkit-transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
+       -moz-transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
+         -o-transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
+            transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
     -webkit-transition-duration: 0.25s;
        -moz-transition-duration: 0.25s;
          -o-transition-duration: 0.25s;
+            transition-duration: 0.25s;
 }
 
 /*
@@ -168,12 +170,14 @@ h2,
 
     border-radius: 0px !important;
 
-    -webkit-transition-property: background, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-       -moz-transition-property: background, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-         -o-transition-property: background, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
+    -webkit-transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
+       -moz-transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
+         -o-transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
+            transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
     -webkit-transition-duration: 0.25s;
        -moz-transition-duration: 0.25s;
          -o-transition-duration: 0.25s;
+            transition-duration: 0.25s;
 }
 
 .button:hover {
@@ -311,6 +315,15 @@ h2,
 .footer .option:hover {
     color: #000;
     cursor: pointer;
+
+    -webkit-transition-property: color;
+       -moz-transition-property: color;
+         -o-transition-property: color;
+            transition-property: color;
+    -webkit-transition-duration: 0.25s;
+       -moz-transition-duration: 0.25s;
+         -o-transition-duration: 0.25s;
+            transition-duration: 0.25s;
 }
 
 table.invisible * {
