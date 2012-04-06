@@ -169,6 +169,7 @@ var evaluate = function e(node, c) {
 }
 
 evaluate.READ = function(node, c) {
+    latte.blink_input();
     ls.dispatch.set_input_callback(c);
 };
 
