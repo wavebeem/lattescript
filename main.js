@@ -50,24 +50,28 @@ var latte = (function() {
         the_input.value = "";
     }
 
-    var make_css_class_blinker = function(widget, css_class) {
+    var make_css_classes_blinker = function(widget, css_classes) {
         return function() {
             var delay = 400;
 
             var toggle = function() {
-                var classes = widget.className.split(/\s+/);
-                var idx = classes.indexOf(css_class);
+                var i;
+                for (i = 0; i < css_classes.length; i++) {
+                    var css_class = css_classes[i];
+                    var classes = widget.className.split(/\s+/);
+                    var idx = classes.indexOf(css_class);
 
-                if (idx < 0) {
-                    classes.push(css_class);
-                }
-                else {
-                    classes = classes.filter(function(x) {
-                        return x !== css_class
-                    });
-                }
+                    if (idx < 0) {
+                        classes.push(css_class);
+                    }
+                    else {
+                        classes = classes.filter(function(x) {
+                            return x !== css_class
+                        });
+                    }
 
-                widget.className = classes.join(" ");
+                    widget.className = classes.join(" ");
+                }
             };
 
             toggle();
@@ -75,8 +79,8 @@ var latte = (function() {
         };
     };
 
-    var blink_input = make_css_class_blinker(the_input, "warning");
-    var blink_term  = make_css_class_blinker(the_term,  "error");
+    var blink_input = make_css_classes_blinker(the_input, ["colored", "notification"]);
+    var blink_term  = make_css_classes_blinker(the_term,  ["colored", "error"]);
 
     var get_size = function(size) {
         return {

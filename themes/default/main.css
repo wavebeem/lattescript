@@ -119,10 +119,11 @@ h2,
 #the_term  { border-color: rgba(  0,   0, 192, 0.15); }
 */
 
-.warning { background: #ffa; }
-.error   { background: #faa; }
+.notification { background: #fda; }
+.warning      { background: #ffa; }
+.error        { background: #faa; }
 
-.textarea.error {
+.textarea.colored {
             box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
     -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
        -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
