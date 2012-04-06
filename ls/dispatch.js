@@ -76,16 +76,16 @@ var call_stack = (function() {
 
     function trace() {
         var i = stack.length;
-        console.log("Call Stack [");
+        debug("Call Stack [");
         while (i--) {
             var map   = {PROC: "procedure", FUNC: "function "};
             var call  = stack[i];
             var type  = map[call.type] || "<oops>";
             var line  = call.lineno === undefined? "???": call.lineno;
             //console.log("  at line", line, "in", type, call.name);
-            console.log("  in", type, call.name);
+            debug("  in", type, call.name);
         }
-        console.log("]");
+        debug("]");
     }
 
     function get_var(id) {

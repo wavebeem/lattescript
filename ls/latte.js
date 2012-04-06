@@ -12,7 +12,7 @@ var noop = function(){};
 
 function compile(code) {
     var ast = parser.parse(code);
-    console.log(ls.helpers.to_json(ast));
+    debug(ls.helpers.to_json(ast));
     return function(c) {
         run(ast, function() {
             main(c);

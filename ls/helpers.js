@@ -65,7 +65,7 @@ h = {};
     h.reset    = reset;
 })();
 
-var DEBUG = true;
+var DEBUG = false;
 var DEBUG_PREFIX = "DEBUG: ";
 
 h.debug = function() {
