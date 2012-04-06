@@ -504,6 +504,12 @@ function do_bound_proc(bound_proc, i, c) {
 
 dispatch.RETURN = function(node, c) {
     debug("RETURNING", node.value);
+    var its_popping_time = function() {
+        // Call the continuation for after the current call
+        // (i.e. jump out of the current call).
+        call_stack.pop();
+        do_later(frame.c);
+    };
     var frame = call_stack.peek();
     if (frame.type === "FUNC") {
         if (! ("value" in node)) {
@@ -512,21 +518,19 @@ dispatch.RETURN = function(node, c) {
         evaluate(node.value, function() {
             var val = results.pop();
             results.push(val);
+            its_popping_time();
         });
     }
     else if (frame.type === "PROC") {
         if ("value" in node) {
             error("Can't return a value from a procedure");
         }
+        its_popping_time();
     }
     else {
         throw new Error("What kind of call stack frame type is this? "
             + frame.type);
     }
-    // Call the continuation for after the current call
-    // (i.e. jump out of the current call).
-    call_stack.pop();
-    do_later(frame.c);
 }
 
 dispatch.PROC_DEF = function(node, c) {
