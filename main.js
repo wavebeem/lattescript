@@ -153,6 +153,17 @@ function on_input_submitted(widget) {
     latte.submit_input();
 }
 
+// Submit the input when you hit Enter.
+(function() {
+    var key_enter = 13;
+    var the_input = document.getElementById("the_input");
+    the_input.onkeypress = function(evt) {
+        if (evt.keyCode === key_enter) {
+            on_input_submitted();
+        }
+    };
+})();
+
 function set_size(id, size) {
     var widget = document.getElementById(id);
     widget.style.height = latte.get_size(size);
