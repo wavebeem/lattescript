@@ -44,6 +44,7 @@ body {
 }
 
 #the_navbar .button:hover {
+    background: #f8f8f8;
     border-color: rgba(0, 0, 0, 0.10);
 }
 
@@ -107,10 +108,10 @@ h2,
        -moz-transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
          -o-transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
             transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-    -webkit-transition-duration: 0.25s;
-       -moz-transition-duration: 0.25s;
-         -o-transition-duration: 0.25s;
-            transition-duration: 0.25s;
+    -webkit-transition-duration: 0.15s;
+       -moz-transition-duration: 0.15s;
+         -o-transition-duration: 0.15s;
+            transition-duration: 0.15s;
 }
 
 /*
@@ -175,10 +176,10 @@ h2,
        -moz-transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
          -o-transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
             transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-    -webkit-transition-duration: 0.25s;
-       -moz-transition-duration: 0.25s;
-         -o-transition-duration: 0.25s;
-            transition-duration: 0.25s;
+    -webkit-transition-duration: 0.15s;
+       -moz-transition-duration: 0.15s;
+         -o-transition-duration: 0.15s;
+            transition-duration: 0.15s;
 }
 
 .button:hover {
