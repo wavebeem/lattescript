@@ -15,21 +15,39 @@ pre {
     font-size: 10.5pt;
 }
 
+html {
+    height: 100%;
+}
+
 html,
 body {
 }
 
 body {
-    color:      #000;
-    background: #fff;
-    background: url(bg.png);
+    color:            #000;
+    background-color: #888;
+    background-image: url(bg.png);
+
+    height: 100%;
 
     font-family: sans-serif;
     font-size: 10.5pt;
 
-
     margin:   0px;
     padding:  0px;
+}
+
+#title {
+    text-align: center;
+    font-size: 30pt;
+    color: #888;
+
+    padding-top:     0px;
+    padding-bottom:  0px;
+
+    text-decoration: none;
+
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.50);
 }
 
 #the_navbar {
@@ -39,13 +57,19 @@ body {
 
 #the_navbar .button {
     display: inline-block;
-    background: #eee;
-    border-color: rgba(0, 0, 0, 0.05);
+    background: #666;
+    color: #aaa;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.50);
+    border-color: rgba(0, 0, 0, 0.10);
 }
 
 #the_navbar .button:hover {
-    background: #f8f8f8;
-    border-color: rgba(0, 0, 0, 0.10);
+    background: #777;
+}
+
+#the_header {
+    border: 3px solid #fff;
+    background: #555;
 }
 
 h1,
@@ -227,15 +251,12 @@ h2,
        -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.13) !important;
 }
 
-#the_bg {
-    background: #ddd;
+#the_bg,
+#the_header {
+    border: 0px solid #aaa;
     padding:        10px;
     padding-top:    10px;
     padding-bottom: 15px;
-    border: 0px solid rgba(0, 0, 0, 0.15);
-
-    border-top-width:    0px;
-    border-bottom-width: 6px;
 
     max-width: 1024px;
     margin-left:  auto;
@@ -244,6 +265,20 @@ h2,
             box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
     -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
        -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
+}
+
+#the_bg {
+    background: #ddd;
+    border-top-width:    0px;
+    border-top-color:    #eee;
+    border-bottom-width: 6px;
+}
+
+#the_header {
+    border-color: #444;
+    border-color: #888;
+    border-top-width:    0px;
+    border-bottom-width: 6px;
 }
 
 #the_workspace {
@@ -362,4 +397,8 @@ table.invisible th {
 #the_copyright a {
     text-decoration: none;
     color: #3465a4;
+}
+
+#the_copyright a:hover {
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50), 0px 0px 8px rgba(0, 64, 255, 0.75);
 }
