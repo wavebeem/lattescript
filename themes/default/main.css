@@ -241,9 +241,9 @@ h2,
     margin-left:  auto;
     margin-right: auto;
 
-            box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.35);
-    -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.35);
-       -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.35);
+            box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
+       -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
 }
 
 #the_workspace {
