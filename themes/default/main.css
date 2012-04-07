@@ -106,10 +106,10 @@ h2,
 
     outline: 0px solid transparent;
 
-    -webkit-transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-       -moz-transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-         -o-transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-            transition-property: background-color, box-shadow, -webkit-box-shadow, -moz-box-shadow;
+    -webkit-transition-property: background-color;
+       -moz-transition-property: background-color;
+         -o-transition-property: background-color;
+            transition-property: background-color;
     -webkit-transition-duration: 0.15s;
        -moz-transition-duration: 0.15s;
          -o-transition-duration: 0.15s;
@@ -170,10 +170,10 @@ h2,
 
     border-radius: 0px !important;
 
-    -webkit-transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-       -moz-transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-         -o-transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
-            transition-property: background-color, border, box-shadow, -webkit-box-shadow, -moz-box-shadow;
+    -webkit-transition-property: background-color, border;
+       -moz-transition-property: background-color, border;
+         -o-transition-property: background-color, border;
+            transition-property: background-color, border;
     -webkit-transition-duration: 0.15s;
        -moz-transition-duration: 0.15s;
          -o-transition-duration: 0.15s;
@@ -205,7 +205,7 @@ h2,
 #the_submit_button { background: #bbf; }
 #the_clear_button  { background: #fbf; }
 
-#the_run_button:hover    { background: #bdb; }
+#the_run_button:hover    { background: #beb; }
 #the_stop_button:hover   { background: #fbb; }
 #the_submit_button:hover { background: #ccf; }
 #the_clear_button:hover  { background: #fcf; }
@@ -241,9 +241,9 @@ h2,
     margin-left:  auto;
     margin-right: auto;
 
-            box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.35);
-    -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.35);
-       -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.35);
+            box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
+       -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
 }
 
 #the_workspace {
