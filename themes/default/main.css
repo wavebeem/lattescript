@@ -182,18 +182,32 @@ h2,
 }
 
 .button:hover {
+    background: #fff;
     border-color: rgba(0, 0, 0, 0.10);
 }
 
 .colored.button:hover {
-    border-color: rgba(0, 0, 0, 0.15);
+    border-color: rgba(0, 0, 0, 0.10);
 }
 
-#the_run_button    { background: #9d9; }
+.textarea:focus,
+.textarea:focus:hover {
+    border-color: rgba(32, 64, 128, 0.20);
+}
+
+.textarea:hover {
+    border-color: rgba(32, 64, 128, 0.15);
+}
+
+#the_run_button    { background: #ada; }
 #the_stop_button   { background: #faa; }
-#the_save_button   { background: #ee9; }
-#the_submit_button { background: #ccf; }
-#the_clear_button  { background: #fcf; }
+#the_submit_button { background: #aaf; }
+#the_clear_button  { background: #faf; }
+
+#the_run_button:hover    { background: #bdb; }
+#the_stop_button:hover   { background: #fbb; }
+#the_submit_button:hover { background: #bbf; }
+#the_clear_button:hover  { background: #fbf; }
 
 .colored.button {
             box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
