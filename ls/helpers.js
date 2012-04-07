@@ -6,7 +6,7 @@ h = {};
     var q = [];
     var done = false;
     var count = 0;
-    var max = 500;
+    var max = 50;
 
     function process() {
         if (done)
