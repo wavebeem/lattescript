@@ -24,7 +24,13 @@
 <div id="the_bg">
 <div id="the_workspace">
 
-    <h2 class="label">Code</h2>
+    <h2 class="label">Code
+        <span class="resize_container">
+        <span class="resizer" onclick="grow_by_id('the_code')">Grow</span>
+        <span class="resizer" onclick="shrink_by_id('the_code')">Shrink</span>
+        <span class="resizer" onclick="reset_by_id('the_code')">Reset</span>
+        </span>
+    </h2>
     <textarea id="the_code" class="textarea" spellcheck="false"></textarea>
 
     <div class="toolbar">
@@ -38,29 +44,17 @@
             <button id="the_clear_button"  class="colored button" onclick="on_clear_button_clicked(this);">Clear</button>
     </div>
 
-    <h2 class="label">Output</h2>
+    <h2 class="label">Output
+        <span class="resize_container">
+        <span class="resizer" onclick="grow_by_id('the_term')">Grow</span>
+        <span class="resizer" onclick="shrink_by_id('the_term')">Shrink</span>
+        <span class="resizer" onclick="reset_by_id('the_term')">Reset</span>
+        </span>
+    </h2>
     <textarea id="the_term" class="textarea" readonly="readonly" spellcheck="false"></textarea>
 </div>
 
 <div class="footer">
-    <table id="the_options" class="invisible">
-    <tr>
-        <th>Code size:</th>
-        <td><span class="option" onclick="set_size('the_code', 's');">Small</a></td>
-        <td><span class="option" onclick="set_size('the_code', 'm');">Medium</a></td>
-        <td><span class="option" onclick="set_size('the_code', 'l');">Large</a></td>
-        <td><span class="option" onclick="set_size('the_code', 'xl');">Huge</a></td>
-    </tr>
-
-    <tr>
-        <th>Output size:</th>
-        <td><span class="option" onclick="set_size('the_term', 's');">Small</a></td>
-        <td><span class="option" onclick="set_size('the_term', 'm');">Medium</a></td>
-        <td><span class="option" onclick="set_size('the_term', 'l');">Large</a></td>
-        <td><span class="option" onclick="set_size('the_term', 'xl');">Huge</a></td>
-    </tr>
-    </table>
-
     <div class="footer" id="the_copyright">
         Copyright &copy;
         <a href="http://saikobee.github.com/">Brian Mock</a>

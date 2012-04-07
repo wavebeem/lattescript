@@ -12,6 +12,29 @@ var latte = (function() {
         ls.dispatch.set_input(txt);
     };
 
+    var height_delta_by_id = (function() {
+        var defc = 15;
+        var deft = 10;
+        the_code.style.height = defc + "em";
+        the_term.style.height = deft + "em";
+
+        var heights    = {the_code: defc,     the_term: deft};
+        var defaults   = {the_code: defc,     the_term: deft};
+        var resizables = {the_code: the_code, the_term: the_term};
+
+        var max = Math.max;
+        var smallest = 5;
+
+        return function(id, delta) {
+            if (delta !== 0)
+                heights[id] = max(smallest, heights[id] + delta);
+            else
+                heights[id] = defaults[id];
+
+            resizables[id].style.height = heights[id] + "em";
+        };
+    })();
+
     var write = function() {
         if (output_buffer.length > 0) {
             the_term.value += output_buffer;
@@ -107,6 +130,7 @@ var latte = (function() {
     };
 
     return {
+        height_delta_by_id: height_delta_by_id,
         submit_input: submit_input,
         clear_output: clear_output,
         clear_input: clear_input,
@@ -152,6 +176,10 @@ function on_clear_button_clicked(widget) {
 function on_input_submitted(widget) {
     latte.submit_input();
 }
+
+function   grow_by_id(id) { latte.height_delta_by_id(id, +5); }
+function shrink_by_id(id) { latte.height_delta_by_id(id, -5); }
+function  reset_by_id(id) { latte.height_delta_by_id(id,  0); }
 
 // Submit the input when you hit Enter.
 (function() {

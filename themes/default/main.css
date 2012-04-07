@@ -384,7 +384,16 @@ h2 { clear: both; }
     margin-right: auto;
 }
 
-.footer .option:hover {
+h2 .resize_container {
+    font-size: 9.5pt;
+    margin-left: 2em;
+}
+
+.resizer {
+    margin-right: 1em;
+}
+
+.resizer:hover {
     color: #000;
     cursor: pointer;
 
