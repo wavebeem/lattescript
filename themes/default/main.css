@@ -83,6 +83,8 @@ h2,
     padding-top:     0px;
     padding-bottom:  0px;
 
+    font-weight: bold;
+
     text-decoration: none;
 
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
@@ -289,7 +291,11 @@ h2,
 }
 
 .toolbar {
-    text-align: left;
+    text-align: center;
+}
+
+.toolbar * {
+    display: inline-block;
 }
 
 .toolbar .separator {
@@ -298,8 +304,23 @@ h2,
     margin-right: 16px;
 }
 
+.toolbar .label {
+    margin-left:  8px;
+    margin-right: 8px;
+}
+
+.toolbar #the_input {
+    margin-right: 8px !important;
+    width: 30% !important;
+    min-width: 10% !important;
+}
+
+.toolbar .group {
+}
+
+h2 { clear: both; }
+
 #the_code,
-#the_input,
 #the_term {
     width: 100%;
 }
