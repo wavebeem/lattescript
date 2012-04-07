@@ -358,3 +358,8 @@ table.invisible th {
 #the_copyright {
     margin-top: 20px;
 }
+
+#the_copyright a {
+    text-decoration: none;
+    color: #3465a4;
+}
