@@ -75,6 +75,7 @@ body {
 h1,
 h1 *,
 h2,
+h2 *,
 .label {
     text-align: center;
     font-size: 30pt;
@@ -272,13 +273,13 @@ h2,
 #the_bg {
     background: #ddd;
     border-top-width:    0px;
-    border-top-color:    #eee;
+    border-bottom-color: #ccc;
     border-bottom-width: 6px;
 }
 
 #the_header {
     border-color: #444;
-    border-color: #888;
+    border-color: #666;
     border-top-width:    0px;
     border-bottom-width: 6px;
 }
@@ -292,6 +293,7 @@ h2,
 
 .toolbar {
     text-align: center;
+    margin-top: 8px;
 }
 
 .toolbar * {
@@ -302,17 +304,6 @@ h2,
     margin:        0px;
     margin-left:  16px;
     margin-right: 16px;
-}
-
-.toolbar .label {
-    margin-left:  8px;
-    margin-right: 8px;
-}
-
-.toolbar #the_input {
-    margin-right: 8px !important;
-    width: 30% !important;
-    min-width: 10% !important;
 }
 
 .toolbar .group {
@@ -334,6 +325,7 @@ h2 { clear: both; }
 #the_input {
     min-height: 24px;
     margin-top: 10px !important;
+    width: 100%;
 }
 
 #the_term,
@@ -384,27 +376,36 @@ h2 { clear: both; }
     margin-right: auto;
 }
 
-h2 .resize_container {
+h2 .resize_container,
+h2 .resize_container * {
     font-size: 9.5pt;
     margin-left: 2em;
 }
 
 .resizer {
     margin-right: 1em;
-}
+    background: transparent;
+    text-decoration: none;
 
-.resizer:hover {
-    color: #000;
-    cursor: pointer;
+    padding: 2px;
+    padding-left:  4px;
+    padding-right: 4px;
+    border-radius: 4px;
 
-    -webkit-transition-property: color;
-       -moz-transition-property: color;
-         -o-transition-property: color;
-            transition-property: color;
+    -webkit-transition-property: color, background-color;
+       -moz-transition-property: color, background-color;
+         -o-transition-property: color, background-color;
+            transition-property: color, background-color;
     -webkit-transition-duration: 0.25s;
        -moz-transition-duration: 0.25s;
          -o-transition-duration: 0.25s;
             transition-duration: 0.25s;
+}
+
+.resizer:hover {
+    cursor: pointer;
+
+    background: rgba(0, 0, 0, 0.10);
 }
 
 table.invisible * {
@@ -427,8 +428,22 @@ table.invisible th {
 #the_copyright a {
     text-decoration: none;
     color: #3465a4;
+
+    padding: 2px;
+    padding-left:  4px;
+    padding-right: 4px;
+    border-radius: 4px;
+
+    -webkit-transition-property: color, background-color;
+       -moz-transition-property: color, background-color;
+         -o-transition-property: color, background-color;
+            transition-property: color, background-color;
+    -webkit-transition-duration: 0.25s;
+       -moz-transition-duration: 0.25s;
+         -o-transition-duration: 0.25s;
+            transition-duration: 0.25s;
 }
 
 #the_copyright a:hover {
-    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50), 0px 0px 8px rgba(0, 64, 255, 0.75);
+    background: rgba(0, 0, 0, 0.10);
 }
