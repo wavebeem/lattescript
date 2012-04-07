@@ -28,8 +28,8 @@ body {
     font-size: 10.5pt;
 
 
-    margin:  10px;
-    padding: 15px;
+    margin:   0px;
+    padding:  0px;
 }
 
 #the_navbar {
@@ -232,10 +232,10 @@ h2,
     padding:        10px;
     padding-top:    10px;
     padding-bottom: 15px;
-    border: 6px solid rgba(0, 0, 0, 0.15);
+    border: 0px solid rgba(0, 0, 0, 0.15);
 
     border-top-width:    0px;
-    border-bottom-width: 0px;
+    border-bottom-width: 6px;
 
     max-width: 1024px;
     margin-left:  auto;
