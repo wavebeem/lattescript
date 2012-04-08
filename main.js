@@ -88,8 +88,6 @@ var latte = (function() {
             else
                 heights[id] = defaults[id];
 
-            console.log(heights[id]);
-
             resizables[id].style.height = heights[id] + "em";
 
             // Store the new value later.
