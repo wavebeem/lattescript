@@ -76,6 +76,34 @@ with root, items, item
 </pre>
 </p>
 
+<p>
+The following code implements a bubble sort and uses it
+to sort a list of integers.
+<pre>
+procedure bubble_sort xs
+with swapped, i
+  swapped := true
+  while swapped
+    swapped := false
+    for i from 2 to #xs
+      if xs@(i - 1) > xs@i
+        swap xs, i - 1, i
+        swapped := true
+
+procedure swap xs, i, j
+with x
+  x := xs@i
+  xs@i := xs@j
+  xs@j := x
+
+procedure main
+with xs
+  xs := [3, 4, 5, 1, 2]
+  bubble_sort xs
+  print xs
+</pre>
+</p>
+
 <h2>How can I learn how to program?</h2>
 
 <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
@@ -113,5 +141,4 @@ facilisis luctus, metus</p>
 </div>
 
 </body>
-<script type="text/javascript" src="main.js"></script>
 </html>
