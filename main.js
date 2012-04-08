@@ -19,7 +19,9 @@ var latte = (function() {
     var save = function() {
         if (window.localStorage) {
             var loc = window.localStorage;
-            var txt = loc.setItem("code", the_code.value);
+            var txt = the_code.value
+            if (txt.length > 0)
+                loc.setItem("code", txt);
         }
     };
 
