@@ -4,6 +4,13 @@ var latte = (function() {
     var the_input = document.getElementById("the_input");
     var the_run_button = document.getElementById("the_run_button");
 
+    var widgets = {
+        the_term:  the_term,
+        the_code:  the_code,
+        the_input: the_input,
+        the_run_button: the_run_button
+    };
+
     var output_buffer = "";
 
     var load = function() {
@@ -41,12 +48,30 @@ var latte = (function() {
     var height_delta_by_id = (function() {
         var defc = 15;
         var deft = 10;
-        the_code.style.height = defc + "em";
-        the_term.style.height = deft + "em";
 
         var heights    = {the_code: defc,     the_term: deft};
         var defaults   = {the_code: defc,     the_term: deft};
         var resizables = {the_code: the_code, the_term: the_term};
+
+        // Load last used values if possible.
+        if (window.localStorage) {
+            var loc = window.localStorage;
+
+            var load_for_id = function(id) {
+                var n = Number(loc.getItem("height." + id));
+                if (! isNaN(n)) {
+                    heights[id] = n;
+                    widgets[id].style.height = n + "em";
+                }
+            };
+
+            load_for_id("the_code");
+            load_for_id("the_term");
+        }
+        else {
+            the_code.style.height = defc;
+            the_term.style.height = deft;
+        }
 
         var max = Math.max;
         var smallest = 5;
@@ -57,7 +82,17 @@ var latte = (function() {
             else
                 heights[id] = defaults[id];
 
+            console.log(heights[id]);
+
             resizables[id].style.height = heights[id] + "em";
+
+            // Store the new value later.
+            setTimeout(function() {
+                if (window.localStorage) {
+                    var loc = window.localStorage;
+                    loc.setItem("height." + id, "" + heights[id]);
+                }
+            }, 0);
         };
     })();
 
@@ -152,15 +187,6 @@ var latte = (function() {
     var blink_input = make_css_classes_blinker(the_input, ["colored", "notification"]);
     var blink_term  = make_css_classes_blinker(the_term,  ["colored", "error"]);
 
-    var get_size = function(size) {
-        return {
-            s:  "10em",
-            m:  "15em",
-            l:  "24em",
-            xl: "30em"
-        }[size];
-    };
-
     var start = function() {
         the_run_button.disabled = true;
         var f = ls.latte.compile(latte.get_code());
@@ -187,7 +213,6 @@ var latte = (function() {
         finish: finish,
         start: start,
 
-        get_size: get_size,
         get_code: get_code,
 
         write: write,
@@ -227,8 +252,8 @@ function on_input_submitted(widget) {
     latte.submit_input();
 }
 
-function   grow_by_id(id) { latte.height_delta_by_id(id, +5); }
-function shrink_by_id(id) { latte.height_delta_by_id(id, -5); }
+function   grow_by_id(id) { latte.height_delta_by_id(id, +3); }
+function shrink_by_id(id) { latte.height_delta_by_id(id, -3); }
 function  reset_by_id(id) { latte.height_delta_by_id(id,  0); }
 
 // Submit the input when you hit Enter.
@@ -241,10 +266,5 @@ function  reset_by_id(id) { latte.height_delta_by_id(id,  0); }
         }
     };
 })();
-
-function set_size(id, size) {
-    var widget = document.getElementById(id);
-    widget.style.height = latte.get_size(size);
-}
 
 latte.load();
