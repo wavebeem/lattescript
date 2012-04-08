@@ -1,0 +1,21 @@
+procedure bubble_sort xs
+with swapped, i
+  swapped := true
+  while swapped
+    swapped := false
+    for i from 2 to #xs
+      if xs@(i - 1) > xs@i
+        swap xs, i - 1, i
+        swapped := true
+
+procedure swap xs, i, j
+with x
+  x := xs@i
+  xs@i := xs@j
+  xs@j := x
+
+procedure main
+with xs
+  xs := [3, 4, 5, 1, 2]
+  bubble_sort xs
+  print xs
