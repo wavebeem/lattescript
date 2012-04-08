@@ -53,16 +53,25 @@ var latte = (function() {
         var defaults   = {the_code: defc,     the_term: deft};
         var resizables = {the_code: the_code, the_term: the_term};
 
+        var max = Math.max;
+        var smallest = 5;
+
         // Load last used values if possible.
         if (window.localStorage) {
             var loc = window.localStorage;
 
             var load_for_id = function(id) {
-                var n = Number(loc.getItem("height." + id));
-                if (! isNaN(n)) {
-                    heights[id] = n;
-                    widgets[id].style.height = n + "em";
-                }
+                var key = "height." + id;
+                var val = loc.getItem(key);
+                var n;
+
+                if (! val)
+                    n = defaults[id];
+                else
+                    n = max(smallest, Number(val));
+
+                heights[id] = n;
+                widgets[id].style.height = n + "em";
             };
 
             load_for_id("the_code");
@@ -72,9 +81,6 @@ var latte = (function() {
             the_code.style.height = defc;
             the_term.style.height = deft;
         }
-
-        var max = Math.max;
-        var smallest = 5;
 
         return function(id, delta) {
             if (delta !== 0)
