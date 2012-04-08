@@ -6,6 +6,30 @@ var latte = (function() {
 
     var output_buffer = "";
 
+    var load = function() {
+        if (window.localStorage) {
+            var loc = window.localStorage;
+            var txt = loc.getItem("code");
+            if (typeof(txt) === "string") {
+                the_code.value = txt;
+            }
+        }
+    };
+
+    var save = function() {
+        if (window.localStorage) {
+            var loc = window.localStorage;
+            var txt = loc.setItem("code", the_code.value);
+        }
+    };
+
+    // Save upon blurring the code textarea...
+    // ...and unloading the page...
+    // ...and periodically.
+    the_code.onblur = save;
+    window.onunload = save;
+    setInterval(save, 10 * 1000);
+
     var submit_input = function() {
         var txt = the_input.value;
         the_input.value = "";
@@ -166,7 +190,10 @@ var latte = (function() {
 
         write: write,
         print: print,
-        debug: debug
+        debug: debug,
+
+        save: save,
+        load: load
     };
 })();
 
@@ -217,3 +244,5 @@ function set_size(id, size) {
     var widget = document.getElementById(id);
     widget.style.height = latte.get_size(size);
 }
+
+latte.load();
