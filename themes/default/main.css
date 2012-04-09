@@ -173,6 +173,8 @@ h2,
     padding-top:    4px;
     padding-bottom: 4px;
 
+    cursor: pointer;
+
     border-width: 0px;
     border-style: solid;
     background:   #eee;
