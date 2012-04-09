@@ -78,9 +78,14 @@ var call_stack = (function() {
             var map   = {PROC: "procedure", FUNC: "function "};
             var call  = stack[i];
             var type  = map[call.type] || "<oops>";
-            var line  = call.lineno === undefined? "???": call.lineno;
-            //latte.print("  at line", line, "in", type, call.name);
-            latte.print("  in", type, call.name);
+            var line  = call.lineno;
+            var len   = ("" + line).length;
+            var pad   = len === 3? "": len === 2? " ": "  ";
+
+            if (line === undefined)
+                latte.print("  in", type, call.name);
+            else
+                latte.print("  at line", pad + line, "in", type, call.name);
         }
     }
 
@@ -405,6 +410,7 @@ dispatch.FUNC_CALL = function(node, c) {
 
 function call_sub(sub_type, node, args, c) {
     var bound_sub = {
+        lineno: undefined,
         type: sub_type,
         name: node.name,
         body: node.body,
@@ -470,6 +476,7 @@ function do_bound_func(bound_func, i, c) {
     // If we still have instructions to run
     if (0 <= i && i < bound_func.body.length) {
         var node = bound_func.body[i];
+        call_stack.peek().lineno = node.lineno;
         run(node, function() {
             do_bound_func(bound_func, i + 1, c);
         });
@@ -488,6 +495,7 @@ function do_bound_proc(bound_proc, i, c) {
     // If we still have instructions to run
     if (0 <= i && i < bound_proc.body.length) {
         var node = bound_proc.body[i];
+        call_stack.peek().lineno = node.lineno;
         run(node, function() {
             do_bound_proc(bound_proc, i + 1, c);
         });

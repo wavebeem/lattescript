@@ -89,14 +89,14 @@ function set_input(str) {
         last_line:    1,
         last_column:  1
     };
-    lexer.yylineno = 1;
+    lexer.yylineno = 0;
     lexer.lineno = 1;
     lexer.colno  = 1;
 }
 
 function inc_line(line) {
     lexer.lineno++;
-    lexer.yylineno = lexer.lineno;
+    lexer.yylineno = lexer.lineno - 1;
 }
 
 function inc_column() {

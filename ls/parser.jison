@@ -126,8 +126,11 @@ block_statement
 
 statement
 : single_statement newline
+{ $$ = $1; $$.lineno = yylineno; }
 | block_statement
-| newline { $$ = {type: "NOOP"}; }
+{ $$ = $1; $$.lineno = yylineno; }
+| newline
+{ $$ = {type: "NOOP", lineno: yylineno }; }
 ;
 
 single_statement
