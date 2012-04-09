@@ -125,7 +125,10 @@ h.error = function() {
     var msg = "Error: " + [].join.call(arguments, " ");
     latte.print(msg);
     latte.blink_term();
+    console.log("TRYING TO STACK TRACE");
+    console.log(ls.dispatch.call_stack.trace);
     ls.dispatch.call_stack.trace();
+    console.log("TRIED TO STACK TRACE");
     latte.finish();
     throw new Error(msg);
 }

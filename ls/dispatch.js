@@ -64,28 +64,24 @@ var call_stack = (function() {
     function pop() {
         debug("POPPING THE STACK");
         var call = stack.pop();
-        trace();
         return call;
     }
 
     function push(x) {
         debug("PUSHING THE STACK");
         stack.push(x);
-        trace();
     }
 
     function trace() {
         var i = stack.length;
-        debug("Call Stack [");
         while (i--) {
             var map   = {PROC: "procedure", FUNC: "function "};
             var call  = stack[i];
             var type  = map[call.type] || "<oops>";
             var line  = call.lineno === undefined? "???": call.lineno;
-            //console.log("  at line", line, "in", type, call.name);
-            debug("  in", type, call.name);
+            //latte.print("  at line", line, "in", type, call.name);
+            latte.print("  in", type, call.name);
         }
-        debug("]");
     }
 
     function get_var(id) {
