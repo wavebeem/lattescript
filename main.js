@@ -275,22 +275,15 @@ var latte = (function() {
 
     return {
         enable_submit: enable_submit,
-        submit_input: submit_input,
         clear_output: clear_output,
-        clear_input: clear_input,
         blink_input: blink_input,
         blink_term: blink_term,
 
         finish: finish,
-        start: start,
 
         get_code: get_code,
 
         write: write,
-        print: print,
-        debug: debug,
-
-        save: save,
-        load: load
+        print: print
     };
 })();
