@@ -74,19 +74,19 @@ var call_stack = (function() {
 
     function trace() {
         var i = stack.length;
+        var stack_trace = [];
         while (i--) {
-            var map   = {PROC: "procedure", FUNC: "function "};
+            var map   = {PROC: "procedure", FUNC: "function"};
             var call  = stack[i];
             var type  = map[call.type] || "<oops>";
             var line  = call.lineno;
             var len   = ("" + line).length;
             var pad   = len === 3? "": len === 2? " ": "  ";
 
-            if (line === undefined)
-                latte.print("  in", type, call.name);
-            else
-                latte.print("  at line", pad + line, "in", type, call.name);
+            stack_trace.push({line: line, type: type, name: call.name});
         }
+
+        latte.show_stack_trace(stack_trace);
     }
 
     function get_var(id) {

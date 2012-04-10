@@ -148,6 +148,10 @@ h2,
     resize: none;
 }
 
+.textarea a {
+    color: #3465a4;
+}
+
 .notification { background: #fda; }
 .warning      { background: #ffa; }
 .error        { background: #faa; }
@@ -164,6 +168,13 @@ h2,
 
 .textarea:focus {
     outline: 0px solid transparent;
+}
+
+#the_stack {
+    display: none;
+    overflow: auto;
+    white-space: pre;
+    max-height: 10em;
 }
 
 .button {

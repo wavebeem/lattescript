@@ -2,6 +2,7 @@ var latte = (function() {
     var the_term  = document.getElementById("the_term");
     var the_code  = document.getElementById("the_code");
     var the_input = document.getElementById("the_input");
+    var the_stack = document.getElementById("the_stack");
     var the_run_button    = document.getElementById("the_run_button");
     var the_stop_button   = document.getElementById("the_stop_button");
     var the_submit_button = document.getElementById("the_submit_button");
@@ -124,6 +125,36 @@ var latte = (function() {
         };
     })();
 
+    var show_stack_trace = function(stack_trace) {
+        the_stack.style.display = "block";
+        the_stack.innerHTML = "";
+        var i;
+        for (i = 0; i < stack_trace.length; i++) {
+            var frame = stack_trace[i];
+            var line = frame.line;
+            var type = frame.type;
+            var name = frame.name;
+
+            var el = document.createElement("div");
+            var link = document.createElement("a");
+            link.href = "javascript:void 0";
+            link.innerText = "line " + line;
+
+            if (line !== undefined) {
+                el.appendChild(document.createTextNode("at "));
+                el.appendChild(link);
+                el.appendChild(document.createTextNode(" "));
+            }
+            el.appendChild(document.createTextNode("in " + type + " " + name));
+            the_stack.appendChild(el);
+        }
+        blink_stack();
+    };
+
+    var hide_stack_trace = function() {
+        the_stack.style.display = "none";
+    };
+
     var write = function() {
         if (output_buffer.length > 0) {
             the_term.value += output_buffer;
@@ -193,12 +224,14 @@ var latte = (function() {
 
     var blink_input = make_css_classes_blinker(the_input, ["colored", "notification"]);
     var blink_term  = make_css_classes_blinker(the_term,  ["colored", "error"]);
+    var blink_stack = make_css_classes_blinker(the_stack, ["colored", "error"]);
 
     var enable_submit = function() {
         the_submit_button.disabled = false;
     };
 
     var start = function() {
+        hide_stack_trace();
         the_run_button .disabled = true;
         the_stop_button.disabled = false;
         the_code       .disabled = true;
@@ -274,9 +307,11 @@ var latte = (function() {
     load();
 
     return {
+        show_stack_trace: show_stack_trace,
         enable_submit: enable_submit,
         clear_output: clear_output,
         blink_input: blink_input,
+        blink_stack: blink_stack,
         blink_term: blink_term,
 
         finish: finish,
