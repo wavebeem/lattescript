@@ -257,9 +257,7 @@ function block_helper(body, c) {
 }
 
 dispatch.JS = function(node, c) {
-    node.js();
-    debug("RAN. JS");
-    do_later(c);
+    node.js(c);
 }
 
 dispatch.WHILE = function WHILE(node, c) {
