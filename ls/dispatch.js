@@ -40,8 +40,17 @@ var clear = function() {
     ls.prelude();
 };
 
-var define = function(sub) {
+var define = function(type, name, args, func) {
+    var sub = {
+        type: type,
+        name: name,
+        args: args,
+        vars: {},
+        body: [{type: "JS", js: func}]
+    };
+
     var table = {PROC: procs, FUNC: funcs};
+
     table[sub.type][sub.name] = sub;
 };
 
