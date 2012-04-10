@@ -388,7 +388,7 @@ h2 { clear: both; }
 h2 .resize_container,
 h2 .resize_container * {
     font-size: 9.5pt;
-    margin-left: 2em;
+    margin-left: 1em;
 }
 
 .resizer {
