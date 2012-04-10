@@ -224,8 +224,10 @@ add_expr
 ;
 
 mul_expr
-: mul_expr mul exp_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
-| mul_expr div exp_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+: mul_expr mul  exp_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| mul_expr div  exp_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| mul_expr mod  exp_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
+| mul_expr idiv exp_expr { $$ = {type: $2.type, op: $2.op, left: $1, right: $3}; }
 | exp_expr
 ;
 
@@ -307,20 +309,22 @@ pass: 'PASS' { $$ = {type: "NOOP"}; };
 
 num: 'NUM' { $$ = {type: "NUM", value: Number($1)}; };
 
-at:  'AT'  { $$ = {type: "OP", op: "AT" }; };
-eq:  'EQ'  { $$ = {type: "OP", op: "EQ" }; };
-lt:  'LT'  { $$ = {type: "OP", op: "LT" }; };
-gt:  'GT'  { $$ = {type: "OP", op: "GT" }; };
-le:  'LE'  { $$ = {type: "OP", op: "LE" }; };
-ge:  'GE'  { $$ = {type: "OP", op: "GE" }; };
-or:  'OR'  { $$ = {type: "OP", op: "OR" }; };
-and: 'AND' { $$ = {type: "OP", op: "AND"}; };
-cat: 'CAT' { $$ = {type: "OP", op: "CAT"}; };
-add: 'ADD' { $$ = {type: "OP", op: "ADD"}; };
-sub: 'SUB' { $$ = {type: "OP", op: "SUB"}; };
-mul: 'MUL' { $$ = {type: "OP", op: "MUL"}; };
-div: 'DIV' { $$ = {type: "OP", op: "DIV"}; };
-exp: 'EXP' { $$ = {type: "OP", op: "EXP"}; };
+at:   'AT'   { $$ = {type: "OP", op: "AT"  }; };
+eq:   'EQ'   { $$ = {type: "OP", op: "EQ"  }; };
+lt:   'LT'   { $$ = {type: "OP", op: "LT"  }; };
+gt:   'GT'   { $$ = {type: "OP", op: "GT"  }; };
+le:   'LE'   { $$ = {type: "OP", op: "LE"  }; };
+ge:   'GE'   { $$ = {type: "OP", op: "GE"  }; };
+or:   'OR'   { $$ = {type: "OP", op: "OR"  }; };
+and:  'AND'  { $$ = {type: "OP", op: "AND" }; };
+cat:  'CAT'  { $$ = {type: "OP", op: "CAT" }; };
+add:  'ADD'  { $$ = {type: "OP", op: "ADD" }; };
+sub:  'SUB'  { $$ = {type: "OP", op: "SUB" }; };
+mul:  'MUL'  { $$ = {type: "OP", op: "MUL" }; };
+div:  'DIV'  { $$ = {type: "OP", op: "DIV" }; };
+exp:  'EXP'  { $$ = {type: "OP", op: "EXP" }; };
+idiv: 'IDIV' { $$ = {type: "OP", op: "IDIV"}; };
+mod:  'MOD'  { $$ = {type: "OP", op: "MOD" }; };
 
 return: 'RETURN';
 

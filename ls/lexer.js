@@ -200,6 +200,9 @@ patterns = [
     keyword_pattern("BY",     "by"),
     keyword_pattern("FROM",   "from"),
 
+    keyword_pattern("IDIV", "div"),
+    keyword_pattern("MOD",  "mod"),
+
     spaced_pattern("LPAREN",   /(\()/),
     spaced_pattern("RPAREN",   /(\))/),
     spaced_pattern("LBRACKET", /(\[)/),

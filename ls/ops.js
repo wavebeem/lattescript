@@ -26,11 +26,15 @@ var math_op_maker = function(word, f) {
 };
 
 var exp = Math.pow;
-ops.ADD = math_op_maker("add",          function(a, b) { return a + b });
-ops.SUB = math_op_maker("subtract",     function(a, b) { return a - b });
-ops.MUL = math_op_maker("multiply",     function(a, b) { return a * b });
-ops.DIV = math_op_maker("divide",       function(a, b) { return a / b });
-ops.EXP = math_op_maker("exponentiate", function(a, b) { return exp(a, b) });
+var div = function(a, b) { return Math.floor(a / b); };
+var mod = function(a, b) { return ((a % b) + b) % b; };
+ops.ADD  = math_op_maker("add",            function(a, b) { return a + b });
+ops.SUB  = math_op_maker("subtract",       function(a, b) { return a - b });
+ops.MUL  = math_op_maker("multiply",       function(a, b) { return a * b });
+ops.DIV  = math_op_maker("divide",         function(a, b) { return a / b });
+ops.EXP  = math_op_maker("exponentiate",   function(a, b) { return exp(a, b) });
+ops.IDIV = math_op_maker("integer divide", function(a, b) { return div(a, b) });
+ops.MOD  = math_op_maker("modulo",         function(a, b) { return mod(a, b) });
 
 var and_or_maker = function(type) {
     var cond;
