@@ -26,18 +26,18 @@
 
     <h2 class="label">Code
         <span class="resize_container">
-        <a href="javascript:void 0" class="resizer" tabindex="12" onclick="grow_by_id('the_code')">Grow</a>
-        <a href="javascript:void 0" class="resizer" tabindex="13" onclick="shrink_by_id('the_code')">Shrink</a>
-        <a href="javascript:void 0" class="resizer" tabindex="14" onclick="reset_by_id('the_code')">Reset</a>
+        <a href="javascript:void 0" id="the_code_resizer_0" class="resizer" tabindex="12">Grow</a>
+        <a href="javascript:void 0" id="the_code_resizer_1" class="resizer" tabindex="13">Shrink</a>
+        <a href="javascript:void 0" id="the_code_resizer_2" class="resizer" tabindex="14">Reset</a>
         </span>
     </h2>
     <textarea id="the_code" class="textarea" spellcheck="false" tabindex="1"></textarea>
 
     <h2 class="label">Output
         <span class="resize_container">
-        <a href="javascript:void 0" class="resizer" tabindex="15" onclick="grow_by_id('the_term')">Grow</a>
-        <a href="javascript:void 0" class="resizer" tabindex="16" onclick="shrink_by_id('the_term')">Shrink</a>
-        <a href="javascript:void 0" class="resizer" tabindex="17" onclick="reset_by_id('the_term')">Reset</a>
+        <a href="javascript:void 0"  id="the_term_resizer_0"class="resizer" tabindex="15">Grow</a>
+        <a href="javascript:void 0"  id="the_term_resizer_1"class="resizer" tabindex="16">Shrink</a>
+        <a href="javascript:void 0"  id="the_term_resizer_2"class="resizer" tabindex="17">Reset</a>
         </span>
     </h2>
     <textarea id="the_term" class="textarea" readonly="readonly" spellcheck="false" tabindex="7"></textarea>
@@ -48,11 +48,11 @@
     <input type="text" id="the_input" class="textarea" placeholder="Input:" spellcheck="false" tabindex="2">
 
     <div class="toolbar">
-        <button id="the_run_button"  class="colored button" tabindex="3" onclick="on_run_button_clicked(this);">Run</button>
-        <button id="the_stop_button" class="colored button" tabindex="4" onclick="on_stop_button_clicked(this);">Stop</button>
+        <button id="the_run_button"  class="colored button" tabindex="3">Run</button>
+        <button id="the_stop_button" class="colored button" tabindex="4">Stop</button>
 
-        <button id="the_submit_button" class="colored button" tabindex="5" onclick="on_input_submitted(this);">Submit</button>
-        <button id="the_clear_button"  class="colored button" tabindex="6" onclick="on_clear_button_clicked(this);">Clear</button>
+        <button id="the_submit_button" class="colored button" tabindex="5">Submit</button>
+        <button id="the_clear_button"  class="colored button" tabindex="6">Clear</button>
     </div>
 </div>
 

@@ -171,6 +171,7 @@ var evaluate = function e(node, c) {
 
 evaluate.READ = function(node, c) {
     latte.blink_input();
+    latte.enable_submit();
     ls.dispatch.set_input_callback(c);
 };
 

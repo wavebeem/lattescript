@@ -256,6 +256,8 @@ h2,
     color:      #ccc !important;
     border-color: rgba(0, 0, 0, 0.05) !important;
 
+    cursor: default;
+
             box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.13) !important;
     -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.13) !important;
        -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.13) !important;

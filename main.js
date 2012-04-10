@@ -2,7 +2,31 @@ var latte = (function() {
     var the_term  = document.getElementById("the_term");
     var the_code  = document.getElementById("the_code");
     var the_input = document.getElementById("the_input");
-    var the_run_button = document.getElementById("the_run_button");
+    var the_run_button    = document.getElementById("the_run_button");
+    var the_stop_button   = document.getElementById("the_stop_button");
+    var the_submit_button = document.getElementById("the_submit_button");
+    var the_clear_button  = document.getElementById("the_clear_button");
+
+    the_stop_button  .disabled = true;
+    the_submit_button.disabled = true;
+    the_clear_button .disabled = true;
+
+    var manage_input_buttons = function() {
+        var empty = the_input.value.length === 0;
+        the_clear_button.disabled = empty;
+    }
+
+    the_input.onkeypress = function(evt) {
+        var key_enter = 13;
+        if (evt.keyCode === key_enter) {
+            on_input_submitted();
+        }
+
+        manage_input_buttons();
+    };
+
+    the_input.onchange = manage_input_buttons;
+    the_input.onkeyup  = manage_input_buttons;
 
     var widgets = {
         the_term:  the_term,
@@ -136,7 +160,6 @@ var latte = (function() {
 
     var clear_input = function() {
         the_input.value = "";
-        the_input.onblur();
     }
 
     var make_css_classes_blinker = function(widget, css_classes) {
@@ -171,23 +194,87 @@ var latte = (function() {
     var blink_input = make_css_classes_blinker(the_input, ["colored", "notification"]);
     var blink_term  = make_css_classes_blinker(the_term,  ["colored", "error"]);
 
+    var enable_submit = function() {
+        the_submit_button.disabled = false;
+    };
+
     var start = function() {
-        the_run_button.disabled = true;
+        the_run_button .disabled = true;
+        the_stop_button.disabled = false;
+        the_code       .disabled = true;
         var f = ls.latte.compile(latte.get_code());
         f(finish);
     };
 
     var finish = function() {
         ls.helpers.quit();
-        the_run_button.disabled = false;
+        the_run_button   .disabled = false;
+        the_stop_button  .disabled = true;
+        the_submit_button.disabled = true;
+        the_code         .disabled = false;
     };
 
     var get_code = function() {
         return the_code.value;
     };
 
+    the_run_button.onclick = function() {
+        // Quit the previous run.
+        ls.helpers.quit();
+
+        // Clear previous subroutine definitions.
+        ls.dispatch.clear();
+
+        // Enable the event queue.
+        ls.helpers.reset();
+
+        clear_output();
+
+        start();
+    };
+
+    the_stop_button.onclick = function() {
+        print("<QUIT>");
+        finish();
+    };
+
+    the_clear_button.onclick = function() {
+        clear_input();
+        manage_input_buttons();
+    };
+
+    var on_input_submitted = function() {
+        submit_input();
+        manage_input_buttons();
+    };
+
+    (function() {
+        var f      = height_delta_by_id;
+        var ids    = ["the_code", "the_term"];
+        var deltas = [+3, -3, 0];
+        for (var i=0; i < 3; i++) {
+            for (var n=0; n < ids.length; n++) {
+                var id = ids[n];
+                var d  = deltas[i];
+                var e  = document.getElementById(id + "_resizer_" + i);
+                // Two layers deep to capture the VALUES of id and delta,
+                // rather than just references to them.
+                e.onclick = (function(id, d) {
+                    return function() {
+                        f(id, d);
+                    };
+                })(id, d);
+            }
+        }
+    })();
+
+    the_submit_button.onclick = on_input_submitted;
+
+    // Load saved settings from local storage.
+    load();
+
     return {
-        height_delta_by_id: height_delta_by_id,
+        enable_submit: enable_submit,
         submit_input: submit_input,
         clear_output: clear_output,
         clear_input: clear_input,
@@ -207,48 +294,3 @@ var latte = (function() {
         load: load
     };
 })();
-
-function on_run_button_clicked(widget) {
-    // Quit the previous run.
-    ls.helpers.quit();
-
-    // Clear previous subroutine definitions.
-    ls.dispatch.clear();
-
-    // Enable the event queue.
-    ls.helpers.reset();
-
-    latte.clear_output();
-
-    latte.start();
-}
-
-function on_stop_button_clicked(widget) {
-    latte.print("<QUIT>");
-    latte.finish();
-}
-
-function on_clear_button_clicked(widget) {
-    latte.clear_input();
-}
-
-function on_input_submitted(widget) {
-    latte.submit_input();
-}
-
-function   grow_by_id(id) { latte.height_delta_by_id(id, +3); }
-function shrink_by_id(id) { latte.height_delta_by_id(id, -3); }
-function  reset_by_id(id) { latte.height_delta_by_id(id,  0); }
-
-// Submit the input when you hit Enter.
-(function() {
-    var key_enter = 13;
-    var the_input = document.getElementById("the_input");
-    the_input.onkeypress = function(evt) {
-        if (evt.keyCode === key_enter) {
-            on_input_submitted();
-        }
-    };
-})();
-
-latte.load();
