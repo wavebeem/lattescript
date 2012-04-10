@@ -100,26 +100,6 @@ var latte = (function() {
         };
     })();
 
-    // Insert "Input:" text into the input field as a hint.
-    (function() {
-        var default_value = "Input:"
-        the_input.value = default_value;
-
-        the_input.onfocus = function() {
-            if (this.value === default_value)
-                this.value = "";
-
-            return false;
-        };
-
-        the_input.onblur = function() {
-            if (this.value === "")
-                this.value = default_value;
-
-            return false;
-        };
-    })();
-
     var write = function() {
         if (output_buffer.length > 0) {
             the_term.value += output_buffer;
