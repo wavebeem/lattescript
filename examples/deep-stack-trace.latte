@@ -1,0 +1,15 @@
+procedure p x
+  if x > 200
+    print x + ""
+  print "p " ~ x
+  q x + 1
+
+procedure q x
+ print "q " ~ x
+ p x + 1
+
+procedure main
+with n
+ for n from 1 to 10
+  print n
+ p 1

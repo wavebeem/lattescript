@@ -1,0 +1,10 @@
+procedure p x
+  print "p " ~ x
+  q x + 1
+
+procedure q x
+ print "q " ~ x
+ p x + 1
+
+procedure main
+ p 1
