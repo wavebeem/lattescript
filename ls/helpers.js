@@ -80,45 +80,6 @@ h.to_json = function(obj) {
     return JSON.stringify(obj, null, 2);
 }
 
-// NOTE: This will run forever if the lists are recursive.
-// I'm not sure if I want to keep this behavior or not.
-// It's mostly a pedagogical question...
-h.list_eq = function(a, b) {
-    if (a.values.length !== b.values.length) {
-        results.push({type: "BOOL", value: false});
-    }
-    else {
-        for (var i = 0; i < a.values.length; i++) {
-            var eq = ops.EQ(a.values[i], b.values[i]);
-            if (! eq) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-};
-
-h.list_eq_helper = function list_eq_helper(as, bs) {
-    if (as.length === 0 && bs.length === 0) {
-        results.push({type: "BOOL", value: true});
-    }
-    else {
-        ops.EQ(as[0], bs[0], function() {
-            var eq = results.pop();
-
-            if (! eq) {
-                results.push({type: "BOOL", value: false});
-            }
-            else {
-                do_later(function() {
-                    list_eq_helper(as.slice(1), bs.slice(1));
-                });
-            }
-        });
-    }
-};
-
 h.identity = function(x) { return x; };
 
 h.error = function() {

@@ -100,33 +100,73 @@ ops.GT = cmp_op_maker(">",  function(a, b) { return a >  b; });
 ops.LE = cmp_op_maker("<=", function(a, b) { return a <= b; });
 ops.GE = cmp_op_maker(">=", function(a, b) { return a >= b; });
 
-ops.EQ = function(a, b, c) {
-    debug("a = b where...");
-    debug("a is", a);
-    debug("b is", b);
-    if (a.type === b.type) {
-        var result;
-        if (a.type === "LIST")
-            result = a === b || helpers.list_eq(a, b);
-        else
-            result = a.value === b.value;
+ops.EQ = (function() {
+    var list_eq = function(a, b, c) {
+        if (a.values.length !== b.values.length) {
+            results.push({type: "BOOL", value: false});
+            do_later(c);
+        }
+        else {
+            list_eq_helper(a.values, b.values, c);
+        }
+    };
 
-        debug("ANSWER IS", result);
-        results.push({type: "BOOL", value: result});
-        do_later(c);
-    }
-    else if (a.type === "NOTHING") {
-        results.push({type: "BOOL", value: b.type === "NOTHING"});
-        do_later(c);
-    }
-    else if (b.type === "NOTHING") {
-        results.push({type: "BOOL", value: a.type === "NOTHING"});
-        do_later(c);
-    }
-    else {
-        helpers.error("Cannot compare equality for arguments: incorrect types");
-    }
-};
+    var list_eq_helper = function list_eq_helper(as, bs, c) {
+        if (as.length === 0 && bs.length === 0) {
+            results.push({type: "BOOL", value: true});
+            do_later(c);
+        }
+        else {
+            EQ(as[0], bs[0], function() {
+                var eq = results.pop().value; // this is a wrapped bool...
+
+                if (! eq) {
+                    results.push({type: "BOOL", value: false});
+                    do_later(c);
+                }
+                else {
+                    list_eq_helper(as.slice(1), bs.slice(1), c);
+                }
+            });
+        }
+    };
+
+    var EQ = function(a, b, c) {
+        debug("a = b where...");
+        debug("a is", a);
+        debug("b is", b);
+        if (a.type === b.type) {
+            var result;
+            if (a.type === "LIST") {
+                if (a === b) {
+                    results.push({type: "BOOL", value: true});
+                    do_later(c);
+                }
+                else {
+                    list_eq(a, b, c);
+                }
+            }
+            else {
+                result = a.value === b.value;
+                results.push({type: "BOOL", value: result});
+                do_later(c);
+            }
+        }
+        else if (a.type === "NOTHING") {
+            results.push({type: "BOOL", value: b.type === "NOTHING"});
+            do_later(c);
+        }
+        else if (b.type === "NOTHING") {
+            results.push({type: "BOOL", value: a.type === "NOTHING"});
+            do_later(c);
+        }
+        else {
+            helpers.error("Cannot compare equality for arguments: incorrect types");
+        }
+    };
+
+    return EQ;
+})();
 
 ops.AT = function(a, b, c) {
     if (a.type === "LIST" && b.type === "NUM") {
