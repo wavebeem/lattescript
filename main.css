@@ -16,10 +16,14 @@ pre {
 }
 
 html {
-    height: 100%;
     /*
     overflow-y: scroll;
     */
+
+    padding-top:    0px;
+    padding-left:   8px;
+    padding-right:  8px;
+    padding-bottom: 8px;
 }
 
 body {
@@ -39,19 +43,21 @@ body {
 #title {
     text-align: center;
     font-size: 24pt;
-    color: #888;
+    color: #ccc;
 
     padding-left     0px;
     padding-bottom:  4px;
 
     text-decoration: none;
 
-    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.50);
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.33);
 }
 
 #the_header h1 {
     display: inline-block;
     padding-left: 0.5em;
+
+    margin-bottom: -1px;
 }
 
 #the_navbar {
@@ -59,6 +65,8 @@ body {
     padding-bottom: 0px;
     display: inline-block;
     padding-left: 1em;
+
+    margin-bottom: -3px;
 
     vertical-align: bottom;
 }
@@ -69,33 +77,31 @@ body {
     color: #aaa;
     padding: 8px;
 
-    border-bottom: 1px solid transparent;
+    border: 3px solid transparent;
 
-    padding-top:    1px;
+    padding-top:    2px;
     padding-bottom: 3px;
-    padding-left:  16px;
-    padding-right: 16px;
+    padding-left:  12px;
+    padding-right: 12px;
 
-    margin-bottom: 0px;
+    margin-bottom: 3px;
     margin-top: 0px;
 
     margin-left:  4px;
     margin-right: 4px;
     display: inline-block;
 
-    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.50);
-
-    border-top: 3px solid transparent;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.33);
 
     vertical-align: bottom;
 
     border-top-left-radius:  4px;
     border-top-right-radius: 4px;
 
-    -webkit-transition-property: background-color, color;
-       -moz-transition-property: background-color, color;
-         -o-transition-property: background-color, color;
-            transition-property: background-color, color;
+    -webkit-transition-property: background-color, color, border-color;
+       -moz-transition-property: background-color, color, border-color;
+         -o-transition-property: background-color, color, border-color;
+            transition-property: background-color, color, border-color;
     -webkit-transition-duration: 0.15s;
        -moz-transition-duration: 0.15s;
          -o-transition-duration: 0.15s;
@@ -104,27 +110,29 @@ body {
 
 #the_navbar .tab.active,
 #the_navbar .tab.active:hover {
-    color: #555;
+    color: #333;
     background: #ddd;
+    border-color: #eee;
     border-bottom-color: #ddd;
-    border-top-color: #bbb;
+    padding-top:    4px;
+    padding-bottom: 4px;
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
+    margin-bottom: 0px;
 }
 
 #the_navbar .tab:hover {
     color: #ccc;
-    background: #777;
-    border-bottom-color: #555;
+    background: #888;
+    border-color: #999;
 }
 
 #the_navbar .tab:focus {
-    outline-width: 0px;
-    border-top-color: rgba(224, 128, 32, 0.80);
+    outline: 3px solid rgba(224, 128, 32, 0.40);
 }
 
 #the_header {
     border: 3px solid #fff;
-    background: #555;
+    background: #666;
 }
 
 h1,
@@ -164,14 +172,14 @@ h2,
     color:            #222;
     background:       #ffffff;
 
-    border: 0px solid rgba(0, 0, 0, 0.05);
-    border-top-width:    0px;
-    border-bottom-width: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-top-width:    1px;
+    border-bottom-width: 1px;
 
     font-family: "Mono", monospace;
     font-size: 10pt;
 
-    padding: 9px;
+    padding: 6px;
 
     margin: 0px !important;
     margin-top: 10px !important;
@@ -180,18 +188,14 @@ h2,
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
 
-            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
-    -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
-       -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
-
-    border-radius: 0px !important;
+    border-radius: 2px !important;
 
     outline: 0px solid transparent;
 
-    -webkit-transition-property: background-color;
-       -moz-transition-property: background-color;
-         -o-transition-property: background-color;
-            transition-property: background-color;
+    -webkit-transition-property: background-color, border-color;
+       -moz-transition-property: background-color, border-color;
+         -o-transition-property: background-color, border-color;
+            transition-property: background-color, border-color;
     -webkit-transition-duration: 0.15s;
        -moz-transition-duration: 0.15s;
          -o-transition-duration: 0.15s;
@@ -212,13 +216,10 @@ h2,
 .error        { background: #faa; }
 
 .textarea.colored {
-            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
-    -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
-       -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
 }
 
 .textarea:hover {
-    border-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.35);
 }
 
 .textarea:focus {
@@ -244,7 +245,6 @@ h2,
     border-width: 0px;
     border-style: solid;
     background:   #eee;
-    border-bottom-width: 4px;
     border-color: rgba(0, 0, 0, 0.05);
 
     font-size: 11pt;
@@ -264,11 +264,8 @@ h2,
 
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
 
-            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
-    -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
-       -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
 
-    border-radius: 0px !important;
+    border-radius: 2px !important;
 
     -webkit-transition-property: background-color, border;
        -moz-transition-property: background-color, border;
@@ -286,7 +283,7 @@ h2,
 }
 
 .colored.button:hover {
-    border-color: rgba(0, 0, 0, 0.10);
+    border-color: rgba(0, 0, 0, 0.25);
 }
 
 .button:focus {
@@ -295,9 +292,10 @@ h2,
 }
 
 .textarea:focus {
-            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15), 0px 0px 0px 3px rgba(224, 128, 32, 0.40);
-    -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15), 0px 0px 0px 3px rgba(224, 128, 32, 0.40);
-       -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15), 0px 0px 0px 3px rgba(224, 128, 32, 0.40);
+    border-color: rgba(0, 0, 0, 0.45);
+            box-shadow: 0px 0px 0px 3px rgba(224, 128, 32, 0.40);
+    -webkit-box-shadow: 0px 0px 0px 3px rgba(224, 128, 32, 0.40);
+       -moz-box-shadow: 0px 0px 0px 3px rgba(224, 128, 32, 0.40);
 }
 
 #the_run_button    { background: #ada; }
@@ -311,53 +309,52 @@ h2,
 #the_clear_button:hover  { background: #fcf; }
 
 .colored.button {
-            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
-    -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
-       -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.30);
+    border: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 .button:disabled,
 .button:disabled:hover {
     background: #eee !important;
     color:      #ccc !important;
-    border-color: rgba(0, 0, 0, 0.05) !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
 
     cursor: default;
-
-            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.13) !important;
-    -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.13) !important;
-       -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.13) !important;
 }
 
 #the_bg,
 #the_header {
-    border: 0px solid #aaa;
+    border: 0px solid #eee;
     padding:        10px;
     padding-top:     4px;
     padding-bottom:  0px;
 
+    border-width: 3px;
+    border-top-width: 0px;
+
     max-width: 1024px;
     margin-left:  auto;
     margin-right: auto;
-
-            box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
-    -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
-       -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
 }
 
 #the_bg {
     background: #ddd;
-    border-top-width:    0px;
-    border-bottom-color: #ccc;
-    border-bottom-width: 6px;
-    padding-top:    1px;
+
+    padding-top:    0px;
     padding-bottom: 4px;
+
+    border-bottom-left-radius:  4px;
+    border-bottom-right-radius: 4px;
+
+            box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.25);
+       -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.25);
 }
 
 #the_header {
-    border-color: #444;
-    border-color: #666;
+    border-width: 3px;
     border-top-width: 0px;
+    margin-left:  -13px;
+    margin-right: -13px;
 }
 
 #the_workspace {
@@ -425,10 +422,6 @@ h2 { clear: both; }
 }
 
 #the_text h2 {
-    /*
-    color: #333;
-    text-shadow: none;
-    */
     margin-left: 3px;
 }
 
@@ -436,7 +429,8 @@ h2 { clear: both; }
 .footer {
     text-align: center;
 
-    margin-top: 20px;
+    margin-top:    10px;
+    margin-bottom: 10px;
 
     font-weight: bold;
     font-size:   12px;
@@ -447,7 +441,6 @@ h2 { clear: both; }
 }
 
 .footer * {
-    margin-top:   10px;
     margin-left:  auto;
     margin-right: auto;
 }
@@ -498,7 +491,6 @@ table.invisible th {
 }
 
 #the_copyright {
-    margin-top: 20px;
 }
 
 #the_copyright a {
