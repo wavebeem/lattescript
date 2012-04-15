@@ -17,10 +17,9 @@ pre {
 
 html {
     height: 100%;
-}
-
-html,
-body {
+    /*
+    overflow-y: scroll;
+    */
 }
 
 body {
@@ -39,32 +38,83 @@ body {
 
 #title {
     text-align: center;
-    font-size: 30pt;
+    font-size: 24pt;
     color: #888;
 
-    padding-top:     0px;
-    padding-bottom:  0px;
+    padding-left     0px;
+    padding-bottom:  4px;
 
     text-decoration: none;
 
     text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.50);
 }
 
-#the_navbar {
-    text-align: center;
-    padding-bottom: 0px;
-}
-
-#the_navbar .button {
+#the_header h1 {
     display: inline-block;
-    background: #666;
-    color: #aaa;
-    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.50);
-    border-color: rgba(0, 0, 0, 0.10);
+    padding-left: 0.5em;
 }
 
-#the_navbar .button:hover {
+#the_navbar {
+    text-align: left;
+    padding-bottom: 0px;
+    display: inline-block;
+    padding-left: 1em;
+
+    vertical-align: bottom;
+}
+
+#the_navbar .tab {
+    font-weight: bold;
+    text-decoration: none;
+    color: #aaa;
+    padding: 8px;
+
+    border-bottom: 1px solid transparent;
+
+    padding-top:    1px;
+    padding-bottom: 3px;
+    padding-left:  16px;
+    padding-right: 16px;
+
+    margin-bottom: 0px;
+    margin-top: 0px;
+
+    margin-left:  4px;
+    margin-right: 4px;
+    display: inline-block;
+
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.50);
+
+    border-top: 3px solid transparent;
+
+    vertical-align: bottom;
+
+    border-top-left-radius:  4px;
+    border-top-right-radius: 4px;
+
+    -webkit-transition-property: background-color, color;
+       -moz-transition-property: background-color, color;
+         -o-transition-property: background-color, color;
+            transition-property: background-color, color;
+    -webkit-transition-duration: 0.15s;
+       -moz-transition-duration: 0.15s;
+         -o-transition-duration: 0.15s;
+            transition-duration: 0.15s;
+}
+
+#the_navbar .tab.active,
+#the_navbar .tab.active:hover {
+    color: #555;
+    background: #ddd;
+    border-bottom-color: #ddd;
+    border-top-color: #bbb;
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
+}
+
+#the_navbar .tab:hover {
+    color: #ccc;
     background: #777;
+    border-bottom-color: #555;
 }
 
 #the_header {
@@ -278,8 +328,8 @@ h2,
 #the_header {
     border: 0px solid #aaa;
     padding:        10px;
-    padding-top:    10px;
-    padding-bottom: 15px;
+    padding-top:     4px;
+    padding-bottom:  0px;
 
     max-width: 1024px;
     margin-left:  auto;
@@ -295,17 +345,18 @@ h2,
     border-top-width:    0px;
     border-bottom-color: #ccc;
     border-bottom-width: 6px;
+    padding-top:    1px;
+    padding-bottom: 4px;
 }
 
 #the_header {
     border-color: #444;
     border-color: #666;
-    border-top-width:    0px;
-    border-bottom-width: 6px;
+    border-top-width: 0px;
 }
 
 #the_workspace {
-    padding: 16px;
+    padding: 4px;
 
     padding-top:    0px;
     padding-bottom: 0px;

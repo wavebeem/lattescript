@@ -72,7 +72,7 @@ var latte = (function() {
 
     var height_delta_by_id = (function() {
         var defc = 15;
-        var deft = 10;
+        var deft =  7;
 
         var heights    = {the_code: defc,     the_term: deft};
         var defaults   = {the_code: defc,     the_term: deft};
