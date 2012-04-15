@@ -24,6 +24,8 @@ body *::-webkit-scrollbar-thumb {
 
     border-color: #ffffff;
     background:   rgba(0, 0, 0, 0.45);
+
+    min-height: 30px;
 }
 
 body *::-webkit-scrollbar-thumb:hover {
