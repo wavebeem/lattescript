@@ -11,7 +11,14 @@ p {
     margin-top: 15px;
 }
 
-pre {
+h3 {
+    margin:      5px;
+    margin-top: 10px;
+}
+
+code,
+pre,
+tt {
     font-size: 10.5pt;
 }
 
