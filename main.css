@@ -204,9 +204,12 @@ h2,
     color:            #222;
     background:       #ffffff;
 
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    border-top-width:    1px;
-    border-bottom-width: 1px;
+    border-width: 0px;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.10);
+
+            box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.20);
+    -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.20);
+       -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.20);
 
     font-family: "Mono", monospace;
     font-size: 10pt;
@@ -251,7 +254,7 @@ h2,
 }
 
 .textarea:hover {
-    border-color: rgba(0, 0, 0, 0.35);
+    border-color: rgba(0, 0, 0, 0.15);
 }
 
 .textarea:focus {
@@ -282,6 +285,7 @@ h3 code {
     border-style: solid;
     background:   #eee;
     border-color: rgba(0, 0, 0, 0.05);
+    border-bottom-width: 3px;
 
     font-size: 11pt;
 
@@ -345,7 +349,10 @@ h3 code {
 #the_clear_button:hover  { background: #fcf; }
 
 .colored.button {
-    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-color: rgba(0, 0, 0, 0.10);
+            box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
+       -moz-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
 }
 
 .button:disabled,
