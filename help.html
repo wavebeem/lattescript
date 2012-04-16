@@ -18,33 +18,10 @@
         <a href="index.html" class="tab">Home</a>
         <a href="code.html"  class="tab">Code</a>
         <a href="help.html"  class="tab active">Help</a>
+        <a href="reference.html" class="tab">Reference</a>
     </div>
     </div>
 <div id="the_text">
-<h2>How do I use LatteScript?</h2>
-
-<p>
-NOTE: This guide currently assumes some level of familiarity with programming
-in general, but should be a bit more beginner-friendly in the future.
-</p>
-
-<p>
-To use LatteScript, simply type LatteScript code into
-the code area on the code tab, then click the run button.
-
-Tired of your program? You can click the stop button to prematurely end your program.
-
-The code you type into the code area is automatically saved,
-so there's no need to worry about accidentally losing your work if you close your browser.
-If you want to save a program for later, it's easy to copy and paste all of your code into
-a text editor like Notepad for Windows, TextEdit for Mac OS X, or Gedit for Linux.
-
-Remember, on Linux or Windows, you can type <tt>Control-A</tt> then <tt>Control-C</tt>
-to copy all of your code while the code area is focused, then paste it into another program later
-with <tt>Control-V</tt>. Mac users can accomplish this by using the <tt>Command</tt> key
-instead of the <tt>Control</tt> key. Alternatively, you can typically access
-this functionality from the right-click context menu as well.
-</p>
 
 <h2>Language Guide</h2>
 <h3>Hello, World!</h3>
@@ -67,33 +44,91 @@ A few things are worth noting here:
 
 <h3>Program Structure</h3>
 <p>
+A LatteScript program is simply a list of subroutine definitions,
+including a definition for the procedure <tt>main</tt>.
+So what constitutes a subroutine definition?
+A subroutine definition is either a function definition or a procedure definition.
+
+A procedure definition looks like this:
+<pre>procedure name arg1, arg2, arg3
+with var1, var2, var3
+    print "hello procedure"
+</pre>
 </p>
 
-<h2>Built-in Subroutine Reference</h2>
-
-<h3><code>procedure print txt</code></h3>
 <p>
-Writes <tt>txt</tt> to the output area, followed by a newline.
+A procedure definition has the following parts, in order:
+<ol>
+    <li><tt>procedure</tt></li>
+    <li><em>the procedure name</em></li>
+    <li>(optional) a comma separated list of arguments.</li>
+    <li>a newline</li>
+    <li>(optional) the word <tt>with</tt> and a comma separated list of local variables, followed by a newline.</li>
+    <li>an indented code block.</tt>
+</ol>
 </p>
 
-<h3><code>procedure write txt</code></h3>
 <p>
-Writes <tt>txt</tt> to the output area, and does <em>not</em> add a newline.
+A function definition looks similar:
+<pre>function name(arg1, arg2, arg3)
+with var1, var2, var3
+    print "hello function"
+    return 123
+</pre>
 </p>
 
-<h3><code>procedure append list, item</code></h3>
 <p>
-Adds <tt>item</tt> to the end of <tt>list</tt>.
+Nullary functions still require parentheses. For example:
+<pre>function f()
+    return g()
+
+function g()
+    return 4
+</pre>
 </p>
 
-<h3><code>function not(x)</code></h3>
 <p>
-Returns the logical opposite of <tt>x</tt>.
-That is, if <tt>x</tt> is <tt>true</tt>, return <tt>false</tt>,
-and if <tt>x</tt> is <tt>false</tt>, return <tt>true</tt>.
+Procedures never use parentheses. For example:
+<pre>procedure p x
+    q "foo", x
 
-If <tt>x</tt> is a value other than <tt>true</tt> or <tt>false</tt>,
-an error will occur.
+procedure q a, b
+    print a ~ " " ~ b
+    speak
+
+procedure speak
+    print "hello"
+</pre>
+</p>
+
+<p>
+A complete LatteScript program is just a list of procedures and functions,
+as seen above, but also including a <tt>main</tt> procedure.
+</p>
+
+<h3>Variables</h3>
+<p>
+Variables are always scoped at the subroutine level.
+Variables must be declared using a <tt>with</tt> clause on its associated
+subroutine before use. Uninitialized variables hold the value <tt>nothing</tt>.
+</p>
+
+<h3>Identifiers</h3>
+<p>
+Variables, functions, and procedures all have separate namespaces,
+so one single identifier can have three different meanings depending on how it is used.
+
+All identifiers are case sensitive. Identifiers start with underscore or
+an alphabetic character, and are followed by as many alphanumeric characters
+or underscores as you like.
+</p>
+
+<h3>Blocks</h3>
+<p>
+Blocks are consistently-indented consecutive code statements.
+Any amount of spacing is supported, so long as the indentation is greater than
+its parent indentation. The only legal indentation character is space.
+Literal tab characters are always a syntax error.
 </p>
 
 </div>

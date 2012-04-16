@@ -18,36 +18,62 @@
         <a href="index.html" class="tab active">Home</a>
         <a href="code.html"  class="tab">Code</a>
         <a href="help.html"  class="tab">Help</a>
+        <a href="reference.html" class="tab">Reference</a>
     </div>
     </div>
 <div id="the_text">
-<h2>What is LatteScript?</h2>
+<h2>How do I use LatteScript?</h2>
 
-<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
-ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
-tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et
-sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo
-vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt
-condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec
-non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
-cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.
-Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor,
-facilisis luctus, metus</p>
+<p>
+To use LatteScript, simply type LatteScript code into
+the code area on the code tab, then click the run button.
 
-<h2>How do I get started?</h2>
+Tired of your program? You can click the stop button to prematurely end your program.
 
-<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
-ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
-tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et
-sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo
-vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt
-condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec
-non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
-cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.
-Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor,
-facilisis luctus, metus</p>
+The code you type into the code area is automatically saved,
+so there's no need to worry about accidentally losing your work if you close your browser.
+If you want to save a program for later, it's easy to copy and paste all of your code into
+a text editor like Notepad for Windows, TextEdit for Mac OS X, or Gedit for Linux.
+
+Remember, on Linux or Windows, you can type <tt>Control-A</tt> then <tt>Control-C</tt>
+to copy all of your code while the code area is focused, then paste it into another program later
+with <tt>Control-V</tt>. Mac users can accomplish this by using the <tt>Command</tt> key
+instead of the <tt>Control</tt> key. Alternatively, you can typically access
+this functionality from the right-click context menu as well.
+</p>
+
+<h2>What does LatteScript look like?</h2>
+<p>
+In general, LatteScript has minimal visual impact.
+LatteScript uses very few symbols,
+uses indentation to delimit blocks,
+and has some non-de-facto uses for certain symbols.
+
+Below is a bubble sort implemented in LatteScript.
+</p>
+<pre>
+procedure bubble_sort xs
+with swapped, i
+  swapped := true
+  while swapped
+    swapped := false
+    for i from 2 to #xs
+      if xs@(i - 1) &lt; xs@i
+        swap xs, i - 1, i
+        swapped := true
+
+procedure swap xs, i, j
+with x
+  x := xs@i
+  xs@i := xs@j
+  xs@j := x
+
+procedure main
+with xs
+  xs := [3, 4, 5, 1, 2]
+  bubble_sort xs
+  print xs
+</pre>
 </div>
 
 <div class="footer" id="the_copyright">

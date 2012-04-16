@@ -52,6 +52,10 @@ ul {
     list-style-image: url(bullet.png);
 }
 
+ol {
+    padding-left: 2.5em;
+}
+
 #title {
     text-align: center;
     font-size: 24pt;
