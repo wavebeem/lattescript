@@ -2,10 +2,12 @@ ls.latte = (function(code) {
 var debug = ls.helpers.debug;
 var main  = ls.dispatch.main;
 var run   = ls.dispatch.run;
+var error = ls.helpers.error;
 parser.lexer = ls.lexer;
 parser.yy.parseError = function(err, hash) {
     debug("err =", err);
     debug("hash =", hash);
+    error(err);
 };
 
 var noop = function(){};

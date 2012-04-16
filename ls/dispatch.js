@@ -83,6 +83,9 @@ var call_stack = (function() {
 
     function trace() {
         var i = stack.length;
+        if (i < 1)
+            return;
+
         var stack_trace = [];
         while (i--) {
             var map   = {PROC: "procedure", FUNC: "function"};
