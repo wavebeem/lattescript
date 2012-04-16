@@ -47,6 +47,11 @@ body {
     padding:  0px;
 }
 
+ul {
+    padding-left: 2em;
+    list-style-image: url(bullet.png);
+}
+
 #title {
     text-align: center;
     font-size: 24pt;
@@ -143,16 +148,24 @@ body {
 }
 
 h1,
-h1 *,
 h2,
+h1 *,
 h2 *,
 .label {
     text-align: center;
     font-size: 30pt;
-    color: #666;
 
     padding-top:     0px;
     padding-bottom:  0px;
+}
+
+h1,
+h2,
+h3,
+h1 *,
+h2 *,
+h3 * {
+    color: #666;
 
     font-weight: bold;
 
@@ -164,6 +177,10 @@ h2 *,
 h1,
 h1 * {
     color: #888;
+}
+
+h3 {
+    font-size: 11pt;
 }
 
 h2,
@@ -429,7 +446,8 @@ h2 { clear: both; }
        -moz-box-sizing: border-box;
 }
 
-#the_text h2 {
+#the_text h2,
+#the_text h3 {
     margin-left: 3px;
 }
 
