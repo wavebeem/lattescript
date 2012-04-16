@@ -22,6 +22,10 @@ tt {
     font-size: 10.5pt;
 }
 
+pre {
+    white-space: pre-wrap;
+}
+
 html {
     /*
     overflow-y: scroll;
@@ -257,8 +261,12 @@ h2,
 #the_stack {
     display: none;
     overflow: auto;
-    white-space: pre;
+    white-space: pre-wrap;
     max-height: 10em;
+}
+
+h3 code {
+    color: #444;
 }
 
 .button {

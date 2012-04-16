@@ -123,6 +123,11 @@ an alphabetic character, and are followed by as many alphanumeric characters
 or underscores as you like.
 </p>
 
+<h3>Comments</h3>
+<p>
+Any line beginning with zero or more spaces and a semicolon (<tt>;</tt>) is ignored.
+</p>
+
 <h3>Blocks</h3>
 <p>
 Blocks are consistently-indented consecutive code statements.
@@ -131,7 +136,125 @@ its parent indentation. The only legal indentation character is space.
 Literal tab characters are always a syntax error.
 </p>
 
+<h3>Decision Constructs</h3>
+<p>
+Conditional code is implemented using the familiar <tt>if</tt> construct. Example:
+<pre>
+if x &lt; 0
+    print "negative"
+else if x &lt; 10
+    print "single digit"
+else if x &lt; 100
+    print "double digit"
+else
+    print "too big"
+</pre>
+</p>
+
+<p>
+The only mandatory part of an <tt>if</tt> construct is the <tt>if</tt> part.
+All <tt>else if</tt> and <tt>else</tt> branches are optional.
+</p>
+
+<h3>Looping Constructs</h3>
+<p>
+There are four looping constructs. First, there are the <tt>while</tt>
+and <tt>until</tt> loops. These loops test their conditions before executing.
+<tt>while</tt> executes its body <em>while</em> the expression is true, and <tt>until</tt>
+executes its expression <em>until</em> the expression is true. For example:
+<pre>
+n := 1
+while n &lt; 10
+    print "Zzz... " ~ n ~ " sheep counted so far."
+
+n := 10
+until n = 0
+    print n
+
+print "Blast-off!"
+</pre>
+</p>
+
+<p>
+The other two looping constructs are the two <tt>for</tt> loops,
+referred to as <em>for each</em> and <em>for range</em>.
+These loops both take a variable which assumes multiple values
+over the course of the loop. The following is an example of printing
+the numbers 1, 2, 3 in order using both types of <tt>for</tt> loops:
+<pre>
+for n from 1 to 3
+    print n
+
+for n in [1, 2, 3]
+    print n
+</pre>
+</p>
+
+<p>
+The for each version of the loop also works on text objects,
+giving back one character at a time. The for range loop can also use a <tt>by</tt>
+clause to modify the step size, such as in the following example, which prints 10, 20, and 30:
+<pre>
+for n from 10 to 30 by 10
+    print n
+</pre>
+</p>
+
+<h3>Assignment</h3>
+<p>Variables can be assigned using the symbol <tt>:=</tt></p>
+<p>You can also assign to list access, like <tt>items@n := x</tt></p>
+
+<h3>Lists</h3>
+<p>
+Lists are dynamic arrays, like JavaScript's <tt>Array</tt>
+and Java's <tt>ArrayList</tt>. Lists are created using brackets and commas,
+such as <tt>[1, 2, 3]</tt>, <tt>[]</tt>, or <tt>[[1, 2], [3, 4]]</tt>.
+Lists are indexed starting at one and using the <tt>@</tt> symbol.
+The prefix operator <tt>#</tt> returns the length of a list.
+The built-in procedure <tt>append</tt> can be used to append a value to a list.
+Example:
+<pre>
+nums := []
+for n from 7 to 9
+    append nums, n
+; nums = [7, 8, 9]
+
+; prints 7, 8, 9
+for n from 1 to #nums
+    print nums@n
+
+for n from 1 to #nums
+    nums@n := "foo"
+; nums = ["foo", "foo", "foo"]
+
+; prints foo foo foo
+for n in nums
+    print n
+</pre>
+</p>
+
+<h3>Expressions</h3>
+<p>
+The following operators are included:
+<ul>
+<li>+</li>
+<li>-</li>
+<li>*</li>
+<li>/</li>
+<li>^</li>
+<li>@</li>
+<li>~</li>
+<li>&lt;</li>
+<li>&gt;</li>
+<li>&lt;=</li>
+<li>&gt;=</li>
+<li>div</li>
+<li>mod</li>
+<li>and</li>
+<li>or</li>
+</ul>
 </div>
+</p>
 
 <div class="footer" id="the_copyright">
     Copyright &copy;
