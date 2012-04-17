@@ -42,7 +42,7 @@ body {
     background-color: #888;
     background-image: url(bg.png);
 
-    height: 100%;
+    overflow-x: hidden;
 
     font-family: sans-serif;
     font-size: 10.5pt;
@@ -205,11 +205,11 @@ h2,
     background:       #ffffff;
 
     border-width: 0px;
-    border-bottom: 3px solid rgba(0, 0, 0, 0.10);
+    border: 3px solid #cfcfcf;
 
-            box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.20);
-    -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.20);
-       -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.20);
+            box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
+    -webkit-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
+       -moz-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
 
     font-family: "Mono", monospace;
     font-size: 10pt;
@@ -223,7 +223,7 @@ h2,
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
 
-    border-radius: 2px !important;
+    border-radius: 4px !important;
 
     outline: 0px solid transparent;
 
@@ -250,15 +250,13 @@ h2,
 .warning      { background: #ffa; }
 .error        { background: #faa; }
 
-.textarea.colored {
-}
-
 .textarea:hover {
-    border-color: rgba(0, 0, 0, 0.15);
+    border-color: #c4c4c4;
 }
 
 .textarea:focus {
     outline: 0px solid transparent;
+    border-color: #aaa;
 }
 
 #the_stack {
@@ -281,11 +279,14 @@ h3 code {
 
     cursor: pointer;
 
-    border-width: 0px;
+    border-width: 3px;
     border-style: solid;
     background:   #eee;
-    border-color: rgba(0, 0, 0, 0.05);
-    border-bottom-width: 3px;
+
+    border-bottom-color: #ccc;
+    border-top-color:    #ccc;
+    border-left-color:   #ccc;
+    border-right-color:  #ccc;
 
     font-size: 11pt;
 
@@ -304,8 +305,11 @@ h3 code {
 
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
 
+            box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
+    -webkit-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
+       -moz-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
 
-    border-radius: 2px !important;
+    border-radius: 8px !important;
 
     -webkit-transition-property: background-color, border;
        -moz-transition-property: background-color, border;
@@ -319,11 +323,7 @@ h3 code {
 
 .button:hover {
     background: #f8f8f8;
-    border-color: rgba(0, 0, 0, 0.10);
-}
-
-.colored.button:hover {
-    border-color: rgba(0, 0, 0, 0.25);
+    border-color: rgba(0, 0, 0, 0.15);
 }
 
 .button:focus {
@@ -332,10 +332,18 @@ h3 code {
 }
 
 .textarea:focus {
-    border-color: rgba(0, 0, 0, 0.45);
             box-shadow: 0px 0px 0px 3px rgba(224, 128, 32, 0.40);
     -webkit-box-shadow: 0px 0px 0px 3px rgba(224, 128, 32, 0.40);
        -moz-box-shadow: 0px 0px 0px 3px rgba(224, 128, 32, 0.40);
+}
+
+.button:disabled,
+.button:disabled:hover {
+    background: #eee !important;
+    color:      #ccc !important;
+    border-color: #d8d8d8 !important;
+
+    cursor: default;
 }
 
 #the_run_button    { background: #ada; }
@@ -347,22 +355,6 @@ h3 code {
 #the_stop_button:hover   { background: #fbb; }
 #the_submit_button:hover { background: #ccf; }
 #the_clear_button:hover  { background: #fcf; }
-
-.colored.button {
-    border-color: rgba(0, 0, 0, 0.10);
-            box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
-    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
-       -moz-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
-}
-
-.button:disabled,
-.button:disabled:hover {
-    background: #eee !important;
-    color:      #ccc !important;
-    border-color: rgba(0, 0, 0, 0.15) !important;
-
-    cursor: default;
-}
 
 #the_bg,
 #the_header {
