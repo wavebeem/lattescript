@@ -63,10 +63,10 @@ with swapped, i
         swapped := true
 
 procedure swap xs, i, j
-with x
-  x := xs@i
+with temp
+  temp := xs@i
   xs@i := xs@j
-  xs@j := x
+  xs@j := temp
 
 procedure main
 with xs
