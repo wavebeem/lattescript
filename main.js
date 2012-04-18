@@ -138,7 +138,8 @@ var latte = (function() {
             var el = document.createElement("div");
             var link = document.createElement("a");
             link.href = "javascript:void(0);";
-            link.innerText = "line " + line;
+            link.innerText   = "line " + line;
+            link.textContent = "line " + line;
 
             if (line !== undefined) {
                 el.appendChild(document.createTextNode("at "));
