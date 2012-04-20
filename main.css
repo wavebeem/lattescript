@@ -107,7 +107,7 @@ ol {
 
     vertical-align: bottom;
 
-    border-left:  1px solid #777;
+    border-left:  1px solid rgba(255, 255, 255, 0.05);
     border-right: 1px solid #555;
 }
 
@@ -116,9 +116,8 @@ ol {
     padding-top:    4px;
     padding-bottom: 4px;
 
-    border-left:   1px solid #555;
-    border-right:  1px solid #777;
-    border-bottom: 1px solid #777;
+    border-left:  1px solid #555555;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
 
     display: inline-block;
 }
@@ -155,15 +154,11 @@ ol {
 #the_navbar .tab.active:hover {
     color: #fff;
     background: #999;
-    border-right-color: #aaa;
-    border-bottom-color: #aaa;
 }
 
 #the_navbar .tab:hover {
     color: #fff;
     background: #777;
-    border-right-color: #888;
-    border-bottom-color: #888;
 }
 
 #the_navbar .tab:focus {
@@ -298,18 +293,18 @@ h3 code {
 
     cursor: pointer;
 
-    border-width: 0px;
+    border-width: 1px;
     border-style: solid;
     background:   #eee;
 
-    border-bottom-color: #ccc;
-    border-top-color:    #ccc;
-    border-left-color:   #ccc;
-    border-right-color:  #ccc;
+    border-bottom-color: #888;
+    border-top-color:    #888;
+    border-left-color:   #888;
+    border-right-color:  #888;
 
     font-size: 11pt;
 
-    margin: 2px !important;
+    margin: 0px !important;
     margin-top: 10px !important;
 
             box-sizing: border-box;
@@ -324,11 +319,9 @@ h3 code {
 
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
 
-            box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
-    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
-       -moz-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
+    border-radius: 0px !important;
 
-    border-radius: 8px !important;
+    margin-right: 8px !important;
 
     -webkit-transition-property: background-color, border;
        -moz-transition-property: background-color, border;
