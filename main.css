@@ -170,7 +170,6 @@ ol {
     outline: 3px solid rgba(224, 128, 32, 0.40);
 }
 
->>>>>>> Stashed changes
 #the_header {
     padding-top: 0px;
 }
@@ -376,6 +375,7 @@ h3 code {
 #the_submit_button:hover { background: #ccf; }
 #the_clear_button:hover  { background: #fcf; }
 
+#the_header,
 #the_bg {
     border: 0px solid #eee;
 
@@ -385,6 +385,9 @@ h3 code {
     max-width: 1024px;
     margin-left:  auto;
     margin-right: auto;
+
+    padding-left:  10px;
+    padding-right: 10px;
 }
 
 #the_bg {
@@ -409,6 +412,7 @@ h3 code {
     padding-top: 0px;
     margin-left:  -10px;
     margin-right: -10px;
+    background: #666;
 }
 
 #the_workspace {
