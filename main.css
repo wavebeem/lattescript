@@ -219,11 +219,7 @@ h2,
     background:       #ffffff;
 
     border-width: 0px;
-    border: 3px solid #cfcfcf;
-
-            box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
-    -webkit-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
-       -moz-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.30);
+    border: 1px solid #bbb;
 
     font-family: "Mono", monospace;
     font-size: 10pt;
@@ -237,7 +233,7 @@ h2,
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
 
-    border-radius: 4px !important;
+    border-radius: 0px !important;
 
     outline: 0px solid transparent;
 
@@ -297,10 +293,14 @@ h3 code {
     border-style: solid;
     background:   #eee;
 
-    border-bottom-color: #888;
-    border-top-color:    #888;
-    border-left-color:   #888;
-    border-right-color:  #888;
+    border-bottom-color: rgba(0, 0, 0, 0.40);
+    border-top-color:    rgba(0, 0, 0, 0.10);
+    border-left-color:   rgba(0, 0, 0, 0.20);
+    border-right-color:  rgba(0, 0, 0, 0.20);
+
+            box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.30);
+    -webkit-box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.30);
+       -moz-box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.30);
 
     font-size: 11pt;
 
@@ -317,7 +317,7 @@ h3 code {
 
     outline: 0px solid transparent;
 
-    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.20);
 
     border-radius: 0px !important;
 
@@ -335,7 +335,6 @@ h3 code {
 
 .button:hover {
     background: #f8f8f8;
-    border-color: rgba(0, 0, 0, 0.15);
 }
 
 .button:focus {
@@ -351,9 +350,13 @@ h3 code {
 
 .button:disabled,
 .button:disabled:hover {
-    background: #eee !important;
+    background: #ddd !important;
     color:      #ccc !important;
-    border-color: #d8d8d8 !important;
+    border-color: #e4e4e4 !important;
+
+            box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
+    -webkit-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
+       -moz-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
 
     cursor: default;
 }
