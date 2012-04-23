@@ -70,6 +70,10 @@ var latte = (function() {
         ls.dispatch.set_input(txt);
     };
 
+    var focus_input = function() {
+        the_input.focus();
+    }
+
     var height_delta_by_id = (function() {
         var defc = 15;
         var deft =  7;
@@ -311,6 +315,7 @@ var latte = (function() {
         show_stack_trace: show_stack_trace,
         enable_submit: enable_submit,
         clear_output: clear_output,
+        focus_input: focus_input,
         blink_input: blink_input,
         blink_stack: blink_stack,
         blink_term: blink_term,
