@@ -351,7 +351,7 @@ h3 code {
 .button:disabled,
 .button:disabled:hover {
     background: #ddd !important;
-    color:      #ccc !important;
+    color:      #aaa !important;
     border-color: #e4e4e4 !important;
 
             box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
@@ -373,7 +373,7 @@ h3 code {
 
 #the_header,
 #the_bg {
-    border: 0px solid #888;
+    border: 0px solid #777;
 
     border-width: 1px;
     border-top-width: 0px;
@@ -409,6 +409,9 @@ h3 code {
     margin-left:  -10px;
     margin-right: -10px;
     background: #666;
+
+    border-left:  1px solid rgba(255, 255, 255, 0.20);
+    border-right: 1px solid rgba(255, 255, 255, 0.20);
 }
 
 #the_workspace {
