@@ -78,19 +78,6 @@ ol {
     width: 100%;
 }
 
-#title {
-    text-align: center;
-    font-size: 24pt;
-    color: #ccc;
-
-    padding-left     0px;
-    padding-bottom:  4px;
-
-    text-decoration: none;
-
-    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.33);
-}
-
 #the_header h1 {
     display: inline-block;
     padding-left: 0.5em;
@@ -218,8 +205,12 @@ h2,
     color:            #222;
     background:       #ffffff;
 
-    border-width: 0px;
-    border: 1px solid #bbb;
+    border-width: 1px;
+    border-style: solid;
+    border-top-color:    rgba(0, 0, 0, 0.25);
+    border-left-color:   rgba(0, 0, 0, 0.30);
+    border-right-color:  rgba(0, 0, 0, 0.30);
+    border-bottom-color: rgba(0, 0, 0, 0.40);
 
     font-family: "Mono", monospace;
     font-size: 10pt;
@@ -259,10 +250,6 @@ h2,
 .notification { background: #fda; }
 .warning      { background: #ffa; }
 .error        { background: #faa; }
-
-.textarea:hover {
-    border-color: #c4c4c4;
-}
 
 .textarea:focus {
     outline: 0px solid transparent;
