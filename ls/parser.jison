@@ -1,8 +1,26 @@
 %start program
 %%
 program
-: sub_defs eof
-{ return $sub_defs; }
+: top_levels eof
+{ return $top_levels; }
+;
+
+top_levels
+: nonempty_top_levels
+{ $$.type = "AST"; }
+| /* empty */
+{ $$ = {type: "AST", statements: [], sub_defs: []}; }
+;
+
+nonempty_top_levels
+: nonempty_top_levels sub_def
+{ $$.sub_defs.push($sub_def); }
+| nonempty_top_levels statement
+{ $$.statements.push($statement); }
+| sub_def
+{ $$ = {statements: [], sub_defs: [$sub_def]}; }
+| statement
+{ $$ = {statements: [$statement], sub_defs: []}; }
 ;
 
 sub_defs
@@ -33,33 +51,24 @@ nonempty_id_list
 
 proc_def
 : procedure id id_list newline
-  maybe_with
   block
 { $$ = {
     type: "PROC_DEF",
     name: $id.value,
     args: $id_list,
-    vars: $maybe_with,
     body: $block
 }; }
 ;
 
 func_def
 : function id lparen id_list rparen newline
-  maybe_with
   block
 { $$ = {
     type: "FUNC_DEF",
     name: $id.value,
     args: $id_list,
-    vars: $maybe_with,
     body: $block
 }; }
-;
-
-maybe_with
-: with nonempty_id_list newline { $$ = $nonempty_id_list; }
-| /* empty */                   { $$ = []; }
 ;
 
 block
@@ -333,7 +342,6 @@ read: 'READ' { $$ = {type: "READ"}; };
 
 assign: 'ASSIGN';
 
-with: 'WITH';
 from: 'FROM';
 by: 'BY';
 in: 'IN';

@@ -188,7 +188,6 @@ patterns = [
     keyword_pattern("WHILE",     "while"),
     keyword_pattern("UNTIL",     "until"),
     keyword_pattern("PASS",      "pass"),
-    keyword_pattern("WITH",      "with"),
     keyword_pattern("FUNCTION",  "function"),
     keyword_pattern("PROCEDURE", "procedure"),
     keyword_pattern("IF",        "if"),

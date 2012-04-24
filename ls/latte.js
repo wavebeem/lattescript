@@ -16,9 +16,7 @@ function compile(code) {
     var ast = parser.parse(code);
     debug(ls.helpers.to_json(ast));
     return function(c) {
-        run(ast, function() {
-            main(c);
-        });
+        run(ast, c);
     };
 };
 

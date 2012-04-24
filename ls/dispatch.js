@@ -33,6 +33,8 @@ var to_json  = ls.helpers.to_json;
 var clear = function() {
     procs = {};
     funcs = {};
+    globals = {};
+    the_lineno = 1;
 
     results.clear();
     call_stack.clear();
@@ -102,27 +104,25 @@ var call_stack = (function() {
     }
 
     function get_var(id) {
-        var vars = peek().vars;
-        if (id in vars) {
-            return vars[id];
+        if (stack.length > 0 && id in peek().vars) {
+            return peek().vars[id];
+        }
+        else if (id in globals) {
+            return globals[id];
         }
         else {
-            debug("in:", peek().name);
-            debug("current variables:", vars);
-            error("Unable to get value of undeclared variable:", id);
+            error("Unable to get value of variable:", id);
         }
     }
 
     function set_var(id, val) {
-        var vars = peek().vars;
-        if (id in vars) {
-            debug("Setting", id, "to", val);
-            vars[id] = val;
+        if (id in globals || stack.length === 0) {
+            debug("Setting GLOBAL", id, "to", val);
+            globals[id] = val;
         }
         else {
-            debug("in:", peek().name);
-            debug("current variables:", vars);
-            error("Unable to set value of undeclared variable:", id);
+            debug("Setting LOCAL", id, "to", val);
+            peek().vars[id] = val;
         }
     }
 
@@ -646,6 +646,29 @@ dispatch.IF = function(node, c) {
     });
 };
 
+dispatch.MAIN = function(node, c) {
+    main_helper(node.statements, c);
+};
+
+dispatch.AST = function(node, c) {
+    run({type: "SUB_DEFS", sub_defs: node.sub_defs}, function() {
+        run({type: "MAIN", statements: node.statements}, c);
+    });
+};
+
+var main_helper = function main_helper(statements, c) {
+    if (statements.length > 0) {
+        var state = statements[0];
+        the_lineno = state.lineno;
+        run(state, function() {
+            main_helper(statements.slice(1), c);
+        });
+    }
+    else {
+        do_later(c);
+    }
+};
+
 dispatch.NOOP = function(node, c) {
     do_later(c);
 };
@@ -664,16 +687,11 @@ function run(node, c) {
 
 var noop = function(){};
 
-function main(c) {
-    ls.dispatch.run({type: "PROC_CALL", name: "main", args: []}, c);
-}
-
 exports.call_stack = call_stack;
 exports.evaluate = evaluate;
 exports.results = results;
 exports.define = define;
 exports.clear = clear;
-exports.main = main;
 exports.run = run;
 
 return exports;
