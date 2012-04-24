@@ -76,7 +76,7 @@ function consume(n) {
 
 function set_input(str) {
     str = str.replace(/\xa0/g, " "); // replace &nbsp;
-    str = str + "\n"; // in case they forgot a newline
+    str = "\n" + str + "\n"; // in case they forgot a newline
 
     lexer.text = str;
     lexer.tokens = [];
@@ -86,11 +86,12 @@ function set_input(str) {
     lexer.yyloc = {
         first_column: 1,
         first_line:   1,
-        last_line:    1,
-        last_column:  1
+        last_line:    0,
+        last_column:  0
     };
-    lexer.yylineno = 0;
-    lexer.lineno = 1;
+    // Starts at 0 because I insert an artificial newline at the beginning.
+    lexer.yylineno = -1;
+    lexer.lineno = 0;
     lexer.colno  = 1;
 }
 
