@@ -591,16 +591,41 @@ function sub_defs_helper(defs, c) {
 
 dispatch.SET = function(node, c) {
     evaluate(node.left, function() {
-        var left = results.pop().values;
+        var left = results.pop();
+        if (left.type !== "LIST") {
+            error("Cannot assign to non-list type");
+            return;
+        }
         evaluate(node.at, function() {
-            var idx = results.pop().value;
+            var idx = results.pop();
+            if (idx.type !== "NUM") {
+                error("Cannot index: incorrect types");
+                return;
+            }
+
+            var i = idx.value;
+
+            if (isNaN(i)) {
+                error("Cannot index argument with NaN");
+                return;
+            }
+
+            if (Math.abs(i) === Infinity) {
+                error("Cannot index argument with infinity");
+                return;
+            }
+
             evaluate(node.right, function() {
                 var right = results.pop();
+                var val = left.values[i - 1];
 
-                // TODO: Add error checking
-                left[idx - 1] = right;
-
-                do_later(c);
+                if (val === undefined) {
+                    error("Cannot index argument with", i);
+                }
+                else {
+                    left[idx - 1] = right;
+                    do_later(c);
+                }
             });
         });
     });

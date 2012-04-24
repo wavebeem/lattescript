@@ -173,9 +173,26 @@ ops.AT = function(a, b, c) {
         var n = a.values.length;
         var i = b.value;
 
+        if (isNaN(i)) {
+            helpers.error("Cannot index argument with NaN");
+            return;
+        }
+
+        if (Math.abs(i) === Infinity) {
+            helpers.error("Cannot index argument with infinity");
+            return;
+        }
+
         if (1 <= i && i <= n) {
-            results.push(a.values[i - 1]);
-            do_later(c);
+            var val = a.values[i - 1];
+
+            if (val === undefined) {
+                helpers.error("Cannot index argument with", i);
+            }
+            else {
+                results.push(val);
+                do_later(c);
+            }
         }
         else {
             helpers.error("Index out of range");
