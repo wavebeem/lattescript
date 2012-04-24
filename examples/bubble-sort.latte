@@ -1,5 +1,4 @@
 procedure bubble_sort xs
-with swapped, i
   swapped := true
   while swapped
     swapped := false
@@ -9,13 +8,10 @@ with swapped, i
         swapped := true
 
 procedure swap xs, i, j
-with x
-  x := xs@i
+  temp := xs@i
   xs@i := xs@j
-  xs@j := x
+  xs@j := temp
 
-procedure main
-with xs
-  xs := [3, 4, 5, 1, 2]
-  bubble_sort xs
-  print xs
+xs := [3, 4, 5, 1, 2]
+bubble_sort xs
+print xs

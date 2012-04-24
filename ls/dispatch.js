@@ -88,7 +88,7 @@ var call_stack = (function() {
         if (i < 1)
             return;
 
-        var stack_trace = [{line: the_lineno}];
+        var stack_trace = [];
         while (i--) {
             var map   = {PROC: "procedure", FUNC: "function"};
             var call  = stack[i];
@@ -99,6 +99,7 @@ var call_stack = (function() {
 
             stack_trace.push({line: line, type: type, name: call.name});
         }
+        stack_trace.push({line: the_lineno});
 
         latte.show_stack_trace(stack_trace);
     }

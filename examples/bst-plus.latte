@@ -12,7 +12,7 @@ procedure insert node, item
         node@3 := [item, nothing, nothing]
       else
         insert node@3, item
-        
+
 procedure walk node
   if node = nothing
     pass
@@ -39,15 +39,13 @@ procedure show node
       show  node@3
     write ")"
 
-procedure main
-with root, items, item
-  root  := ["j", nothing, nothing]
-  items := ["a", "z", "x", "c", "b"]
-  for item in items
-    insert root, item
-  walk  root
-  print ""
-  print "Tree:"
-  print root
-  print "TREE:"
-  show root
+root  := ["j", nothing, nothing]
+items := ["a", "z", "x", "c", "b"]
+for item in items
+  insert root, item
+walk  root
+print ""
+print "Tree:"
+print root
+print "TREE:"
+show root

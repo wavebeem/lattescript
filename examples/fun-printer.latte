@@ -1,8 +1,6 @@
-procedure main
-with char, words, word
-  words := ["foobar", "buzz bar", "barz bar"]
-  for word in words
-    for char in word
-      write char ~ " "
-      char := read
-    write "\n"
+words := ["foobar", "buzz bar", "barz bar"]
+for word in words
+  for char in word
+    write char ~ " "
+    char := read
+write "\n"

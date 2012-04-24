@@ -21,13 +21,11 @@ procedure walk node
     print node@1
     walk  node@3
 
-procedure main
-with root, items, item
-  root  := [30, nothing, nothing]
-  items := [4, 78, 2, 3, 56, -1, 3]
-  for item in items
-    insert root, item
-  walk  root
-  print ""
-  print "Tree:"
-  print root
+root  := [30, nothing, nothing]
+items := [4, 78, 2, 3, 56, -1, 3]
+for item in items
+  insert root, item
+walk  root
+print ""
+print "Tree:"
+print root

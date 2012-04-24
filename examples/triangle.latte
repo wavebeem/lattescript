@@ -1,10 +1,8 @@
-procedure main
-with m, n, q, size
-  size := 30
-  for m from 1 to 2 * size by 2
-    q := (2 * size - m) div 2
-    for n from 1 to q
-      write " "
-    for n from 1 to m
-      write "*"
-    print ""
+size := 30
+for m from 1 to 2 * size by 2
+  q := (2 * size - m) div 2
+  for n from 1 to q
+    write " "
+  for n from 1 to m
+    write "*"
+  print ""
