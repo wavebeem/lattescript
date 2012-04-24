@@ -169,9 +169,14 @@ ops.EQ = (function() {
 })();
 
 ops.AT = function(a, b, c) {
-    if (a.type === "LIST" && b.type === "NUM") {
-        var n = a.values.length;
+    if ((a.type === "LIST" || a.type === "TEXT") && b.type === "NUM") {
+        var n;
         var i = b.value;
+
+        if (a.type === "LIST")
+            n = a.values.length;
+        else
+            n = a.value.length;
 
         if (isNaN(i)) {
             helpers.error("Cannot index argument with NaN");
@@ -184,7 +189,11 @@ ops.AT = function(a, b, c) {
         }
 
         if (1 <= i && i <= n) {
-            var val = a.values[i - 1];
+            var val;
+            if (a.type === "TEXT")
+                val = {type: "TEXT", value: a.value[i - 1]};
+            else
+                val = a.values[i - 1];
 
             if (val === undefined) {
                 helpers.error("Cannot index argument with", i);
