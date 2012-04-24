@@ -145,12 +145,15 @@ var latte = (function() {
             link.innerText   = "line " + line;
             link.textContent = "line " + line;
 
+            el.appendChild(document.createTextNode("- "));
             if (line !== undefined) {
                 el.appendChild(document.createTextNode("at "));
                 el.appendChild(link);
                 el.appendChild(document.createTextNode(" "));
             }
-            el.appendChild(document.createTextNode("in " + type + " " + name));
+            if (type !== undefined && name !== undefined) {
+                el.appendChild(document.createTextNode("in " + type + " " + name));
+            }
             the_stack.appendChild(el);
         }
         blink_stack();

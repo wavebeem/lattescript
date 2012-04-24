@@ -88,7 +88,7 @@ var call_stack = (function() {
         if (i < 1)
             return;
 
-        var stack_trace = [];
+        var stack_trace = [{line: the_lineno}];
         while (i--) {
             var map   = {PROC: "procedure", FUNC: "function"};
             var call  = stack[i];
