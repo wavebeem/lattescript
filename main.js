@@ -138,6 +138,7 @@ var latte = (function() {
             var line = frame.line;
             var type = frame.type;
             var name = frame.name;
+            var text = frame.text;
 
             var el = document.createElement("div");
             var link = document.createElement("a");
@@ -153,6 +154,9 @@ var latte = (function() {
             }
             if (type !== undefined && name !== undefined) {
                 el.appendChild(document.createTextNode("in " + type + " " + name));
+            }
+            if (text !== undefined) {
+                el.appendChild(document.createTextNode("near " + text));
             }
             the_stack.appendChild(el);
         }

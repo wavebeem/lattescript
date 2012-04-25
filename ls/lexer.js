@@ -8,6 +8,14 @@ function debug() {
     }
 }
 
+function error() {
+    var msg = "Error: " + [].join.call(arguments, " ");
+    latte.print(msg);
+    latte.show_stack_trace([{line: lexer.lineno, text: this_line()}]);
+    latte.finish();
+    throw new Error(msg);
+}
+
 function lex() {
     if (lexer.tokens.length > 0) {
         return get_token();
@@ -22,13 +30,17 @@ function lex() {
     //debug(lexer.text);
     //debug("'''");
 
+    var match_found = false;
     for (var n = 0; n < patterns.length; n++) {
         var p = patterns[n];
-        var t = try_pattern(p.pattern, p.func);
-
-        if (t) {
+        if (pattern_matches(p.pattern, p.func)) {
+            match_found = true;
             break;
         }
+    }
+
+    if (! match_found) {
+        error("Couldn't parse: " + this_line());
     }
 
     if (lexer.tokens.length > 0) {
@@ -37,6 +49,18 @@ function lex() {
     else {
         return lex();
     }
+}
+
+function this_line() {
+    var txt = lexer.text;
+    var len = lexer.text.length;
+
+    var end = txt.indexOf("\n");
+
+    if (end < 0)
+        end = len;
+
+    return txt.substring(0, end);
 }
 
 function get_token() {
@@ -49,7 +73,7 @@ function get_token() {
     return token.token;
 }
 
-function try_pattern(pattern, func) {
+function pattern_matches(pattern, func) {
     var matches = lexer.text.match(pattern);
 
     if (matches === null)
@@ -210,7 +234,7 @@ patterns = [
 
     spaced_pattern("COMMA", /(,)/),
 
-    {pattern: /^(\s*)"((?:\\\\|\\"|[^\"])*?)"/, func: function(matches) {
+    {pattern: /^(\s*)"((?:\\\\|\\"|[^\\"\r\n])*?)"/, func: function(matches) {
         var ws  = matches[1];
         var str = matches[2];
         emit("TEXT", unescape(str));
