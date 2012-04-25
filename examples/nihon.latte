@@ -1,0 +1,10 @@
+h := 30
+k := 20
+r := 15
+for y from 1 to k div 4 + r
+  for x from 1 to h + 2*r
+    if ((x - h)^2 + ((2*y) - k)^2) > r^2
+      write "."
+    else
+      write "#"
+  print ""
