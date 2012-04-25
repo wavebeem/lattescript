@@ -621,7 +621,7 @@ dispatch.SET = function(node, c) {
                     error("Cannot index argument with", i);
                 }
                 else {
-                    left[idx - 1] = right;
+                    left.values[i - 1] = right;
                     do_later(c);
                 }
             });
