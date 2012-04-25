@@ -82,6 +82,16 @@ h.to_json = function(obj) {
 
 h.identity = function(x) { return x; };
 
+h.contains = function(xs, x) {
+    for (var i = 0; i < xs.length; i++) {
+        if (xs[i] === x) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 h.error = function() {
     var msg = "Error: " + [].join.call(arguments, " ");
     latte.print(msg);

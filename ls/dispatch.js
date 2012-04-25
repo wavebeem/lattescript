@@ -6,6 +6,7 @@ var funcs = {};
 
 var debug = ls.helpers.debug;
 var error = ls.helpers.error;
+var contains = ls.helpers.contains;
 var do_later = ls.helpers.do_later;
 var to_json  = ls.helpers.to_json;
 
@@ -115,7 +116,10 @@ var call_stack = (function() {
     }
 
     function set_var(id, val) {
-        if (id in globals || stack.length === 0) {
+        if (stack.length > 0 && contains(peek().args, id)) {
+            error("Can't assign to parameter:", id);
+        }
+        else if (id in globals || stack.length === 0) {
             debug("Setting GLOBAL", id, "to", val);
             globals[id] = val;
         }
