@@ -93,18 +93,12 @@ ol {
     margin-bottom: 0px;
 
     vertical-align: bottom;
-
-    border-left:  1px solid rgba(255, 255, 255, 0.05);
-    border-right: 1px solid #555;
 }
 
 #the_navbar * {
     height: 16px;
     padding-top:    4px;
     padding-bottom: 4px;
-
-    border-left:  1px solid #555555;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
 
     display: inline-block;
 }
@@ -120,10 +114,13 @@ ol {
     margin-bottom: 0px;
     margin-top: 0px;
 
-    margin-left:  0px;
-    margin-right: 0px;
+    margin-left:   0px;
+    margin-right: 10px;
 
     text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.50);
+
+    border-left:  1px solid transparent;
+    border-right: 1px solid transparent;
 
     vertical-align: bottom;
 
@@ -141,11 +138,13 @@ ol {
 #the_navbar .tab.active:hover {
     color: #fff;
     background: #999;
+    border-color: #555;
 }
 
 #the_navbar .tab:hover {
     color: #fff;
     background: #777;
+    border-color: #555;
 }
 
 #the_navbar .tab:focus {
