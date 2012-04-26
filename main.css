@@ -147,6 +147,21 @@ ol {
     border-color: #555;
 }
 
+#the_navbar .tab:hover,
+#the_navbar .tab.active:hover,
+#the_navbar .tab.active {
+    -webkit-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
+       -moz-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
+
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.05)), to(rgba(255, 255, 255, 0.05)));
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
+    background-image:    -moz-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
+    background-image:     -ms-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
+    background-image:      -o-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
+    background-image:         linear-gradient(to bottom, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
+}
+
 #the_navbar .tab:focus {
     outline: 3px solid rgba(224, 128, 32, 0.40);
 }
@@ -206,10 +221,10 @@ h2,
 
     border-width: 1px;
     border-style: solid;
-    border-top-color:    rgba(0, 0, 0, 0.25);
-    border-left-color:   rgba(0, 0, 0, 0.30);
-    border-right-color:  rgba(0, 0, 0, 0.30);
-    border-bottom-color: rgba(0, 0, 0, 0.40);
+    border-top-color:    rgb(200, 200, 200);
+    border-left-color:   rgb(175, 175, 175);
+    border-right-color:  rgb(175, 175, 175);
+    border-bottom-color: rgb(150, 150, 150);
 
     font-family: "Mono", monospace;
     font-size: 10pt;
