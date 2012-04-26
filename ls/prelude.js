@@ -45,33 +45,53 @@ var func_maker = function(args) {
     });
 };
 
-func_maker({name: "not", in_type: "BOOL", out_type: "BOOL", func: function(x) {
-    return !x;
-}});
+func_maker({name: "not",
+    in_type:  "BOOL",
+    out_type: "BOOL",
+    func: function(x) {
+        return !x;
+    }
+});
 
-func_maker({name: "even", in_type: "NUM", out_type: "BOOL", func: function(x) {
-    return x % 2 === 0;
-}});
+func_maker({name: "even",
+    in_type:  "NUM",
+    out_type: "BOOL",
+    func: function(x) {
+        return x % 2 === 0;
+    }
+});
 
-func_maker({name: "odd", in_type: "NUM", out_type: "BOOL", func: function(x) {
-    return x % 2 === 1;
-}});
+func_maker({name: "odd",
+    in_type:  "NUM",
+    out_type: "BOOL",
+    func: function(x) {
+        return x % 2 === 1;
+    }
+});
 
-func_maker({name: "round", in_type: "NUM", out_type: "NUM", func: function(x) {
-    return Math.round(x);
-}});
+func_maker({name: "round",
+    in_type:  "NUM",
+    out_type: "NUM",
+    func: function(x) {
+        return Math.round(x);
+    }
+});
 
-func_maker({name: "round", in_type: "NUM", out_type: "NUM", func: function(x) {
-    return Math.round(x);
-}});
+func_maker({name: "number",
+    in_type:  "TEXT",
+    out_type: "NUM",
+    func: function(x) {
+        return parseFloat(x);
+    }
+});
 
-func_maker({name: "number", in_type: "TEXT", out_type: "NUM", func: function(x) {
-    return parseFloat(x);
-}});
-
-func_maker({name: "numeric", in_type: "NUM", out_type: "BOOL", func: function(x) {
-    return !isNaN(x);
-}});
+func_maker({name: "numeric",
+    in_type:  "NUM",
+    out_type: "BOOL",
+    func: function(x) {
+        return !isNaN(x);
+    }
+});
 });
 
 ls.prelude();
