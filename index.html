@@ -52,7 +52,6 @@
             Below is a bubble sort implemented in LatteScript.
         </p>
         <pre>procedure bubble_sort xs
-with swapped, i
   swapped := true
   while swapped
     swapped := false
@@ -62,16 +61,13 @@ with swapped, i
         swapped := true
 
 procedure swap xs, i, j
-with temp
   temp := xs@i
   xs@i := xs@j
   xs@j := temp
 
-procedure main
-with xs
-  xs := [3, 4, 5, 1, 2]
-  bubble_sort xs
-  print xs</pre>
+xs := [3, 4, 5, 1, 2]
+bubble_sort xs
+print xs</pre>
     </div>
 
     <div class="footer" id="the_copyright">
