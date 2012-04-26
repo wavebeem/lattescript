@@ -286,16 +286,23 @@ h3 code {
 
     border-width: 1px;
     border-style: solid;
-    background:   #eee;
+    background-color: #ada;
+
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.10)), to(rgba(0, 0, 0, 0.10)));
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image:    -moz-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image:     -ms-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image:      -o-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image:         linear-gradient(to bottom, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
 
     border-bottom-color: rgba(0, 0, 0, 0.40);
     border-top-color:    rgba(0, 0, 0, 0.10);
     border-left-color:   rgba(0, 0, 0, 0.20);
     border-right-color:  rgba(0, 0, 0, 0.20);
 
-            box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.30);
-    -webkit-box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.30);
-       -moz-box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.30);
+    -webkit-box-shadow: inset 0px 2px 0px -1px rgba(255, 255, 255, 0.30), 0px 2px 2px  0px rgba(0, 0, 0, 0.10);
+       -moz-box-shadow: inset 0px 2px 0px -1px rgba(255, 255, 255, 0.30), 0px 2px 2px  0px rgba(0, 0, 0, 0.10);
+            box-shadow: inset 0px 2px 0px -1px rgba(255, 255, 255, 0.30), 0px 2px 2px  0px rgba(0, 0, 0, 0.10);
 
     font-size: 11pt;
 
@@ -312,16 +319,16 @@ h3 code {
 
     outline: 0px solid transparent;
 
-    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.20);
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
 
     border-radius: 0px !important;
 
     margin-right: 8px !important;
 
-    -webkit-transition-property: background-color, border;
-       -moz-transition-property: background-color, border;
-         -o-transition-property: background-color, border;
-            transition-property: background-color, border;
+    -webkit-transition-property: background-color, border, box-shadow;
+       -moz-transition-property: background-color, border, box-shadow;
+         -o-transition-property: background-color, border, box-shadow;
+            transition-property: background-color, border, box-shadow;
     -webkit-transition-duration: 0.15s;
        -moz-transition-duration: 0.15s;
          -o-transition-duration: 0.15s;
@@ -329,7 +336,6 @@ h3 code {
 }
 
 .button:hover {
-    background: #f8f8f8;
 }
 
 .button:focus {
@@ -347,24 +353,26 @@ h3 code {
 .button:disabled:hover {
     background: #ddd !important;
     color:      #aaa !important;
-    border-color: #e4e4e4 !important;
+    border-color: #cfcfcf !important;
 
-            box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
-    -webkit-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
-       -moz-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.10);
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 1.00);
+
+            box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.20);
+    -webkit-box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.20);
+       -moz-box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.20);
 
     cursor: default;
 }
 
-#the_run_button    { background: #ada; }
-#the_stop_button   { background: #faa; }
-#the_submit_button { background: #bbf; }
-#the_clear_button  { background: #fbf; }
+#the_run_button    { background-color: #ada; }
+#the_stop_button   { background-color: #faa; }
+#the_submit_button { background-color: #bbf; }
+#the_clear_button  { background-color: #fbf; }
 
-#the_run_button:hover    { background: #beb; }
-#the_stop_button:hover   { background: #fbb; }
-#the_submit_button:hover { background: #ccf; }
-#the_clear_button:hover  { background: #fcf; }
+#the_run_button:hover    { background-color: #beb; }
+#the_stop_button:hover   { background-color: #fbb; }
+#the_submit_button:hover { background-color: #ccf; }
+#the_clear_button:hover  { background-color: #fcf; }
 
 #the_header,
 #the_bg {
