@@ -39,10 +39,11 @@ html {
 
 body {
     color:            #000;
-    background-color: #888;
+    background-color: #729fcf;
     background-image: url(bg.png);
+    background-repeat: repeat-x;
 
-    min-width: 420px;
+    min-width: 460px;
 
     font-family: sans-serif;
     font-size: 10.5pt;
@@ -117,7 +118,7 @@ ol {
     margin-left:   0px;
     margin-right: 10px;
 
-    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.50);
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
 
     border-left:  1px solid transparent;
     border-right: 1px solid transparent;
@@ -136,15 +137,15 @@ ol {
 
 #the_navbar .tab.active,
 #the_navbar .tab.active:hover {
-    color: #fff;
-    background: #999;
-    border-color: #555;
+    color: #000;
+    background-color: #fff;
+    border-color: #ccc;
 }
 
 #the_navbar .tab:hover {
-    color: #fff;
-    background: #777;
-    border-color: #555;
+    color: #666;
+    background-color: #fff;
+    border-color: #ccc;
 }
 
 #the_navbar .tab:hover,
@@ -153,13 +154,6 @@ ol {
     -webkit-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
        -moz-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
             box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
-
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.05)), to(rgba(255, 255, 255, 0.05)));
-    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
-    background-image:    -moz-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
-    background-image:     -ms-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
-    background-image:      -o-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
-    background-image:         linear-gradient(to bottom, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
 }
 
 #the_navbar .tab:focus {
@@ -369,6 +363,8 @@ h3 code {
     background: #ddd !important;
     color:      #aaa !important;
     border-color: #cfcfcf !important;
+    border-color: rgba(0, 0, 0, 0.10) !important;
+    background: rgba(224, 224, 224, 0.50) !important;
 
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 1.00);
 
@@ -391,7 +387,7 @@ h3 code {
 
 #the_header,
 #the_bg {
-    border: 0px solid #777;
+    border: 0px solid rgba(0, 0, 0, 0.50);
 
     border-width: 1px;
     border-top-width: 0px;
@@ -405,7 +401,8 @@ h3 code {
 }
 
 #the_bg {
-    background: #ddd;
+    background: #e4eaed;
+    background: rgba(255, 255, 255, 0.75);
 
     padding-top:    0px;
     padding-bottom: 4px;
@@ -413,23 +410,25 @@ h3 code {
     border-bottom-left-radius:  0px;
     border-bottom-right-radius: 0px;
 
-            box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.25);
-    -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.25);
-       -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.25), 0px 0px 4px 1px rgba(0, 0, 0, 0.20);
+    -webkit-box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.25), 0px 0px 4px 1px rgba(0, 0, 0, 0.20);
+       -moz-box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.25), 0px 0px 4px 1px rgba(0, 0, 0, 0.20);
 }
 
 #the_header {
     border-width: 1px;
     border-top-width: 0px;
     border-bottom-width: 1px;
-    border-bottom-color: #555;
+    border-bottom-color: #999;
+    border-bottom-color: rgba(0, 0, 0, 0.25);
     padding-top: 0px;
-    margin-left:  -11px;
-    margin-right: -11px;
+    margin-left:  -10px;
+    margin-right: -10px;
     background: #666;
+    background: rgba(255, 255, 255, 0.60);
 
-    border-left:  1px solid #555;
-    border-right: 1px solid #555;
+    border-left-width:  0px;
+    border-right-width: 0px;
 }
 
 #the_workspace {
