@@ -10,7 +10,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="64"
-   height="320"
+   height="480"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
@@ -36,8 +36,8 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="-84.598308"
-     inkscape:cy="177.8721"
+     inkscape:cx="43.23706"
+     inkscape:cy="279.81508"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -72,21 +72,21 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-732.3622)">
+     transform="translate(0,-572.3622)">
     <rect
-       style="color:#000000;fill:#8fb3d9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#8fb3d9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect10997"
        width="65"
-       height="325.35709"
+       height="480.35709"
        x="0"
-       y="727.36218"
+       y="572.36218"
        ry="0" />
     <g
        id="g10927"
        style="fill:#dbe5f1;fill-opacity:1">
       <rect
          transform="scale(1,-1)"
-         style="opacity:0.50000000000000000;color:#000000;fill:#dbe5f1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         style="opacity:0.5;color:#000000;fill:#dbe5f1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
          id="rect10966"
          width="65"
          height="35"
@@ -101,10 +101,10 @@
          height="35"
          width="65"
          id="rect10968"
-         style="opacity:0.75000000000000000;color:#000000;fill:#dbe5f1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+         style="opacity:0.75;color:#000000;fill:#dbe5f1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
       <rect
          transform="scale(1,-1)"
-         style="color:#000000;fill:#dbe5f1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         style="color:#000000;fill:#dbe5f1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
          id="rect10970"
          width="65"
          height="35"
@@ -113,7 +113,7 @@
          ry="0" />
       <rect
          transform="scale(1,-1)"
-         style="opacity:0.25000000000000000;color:#000000;fill:#dbe5f1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         style="opacity:0.25;color:#000000;fill:#dbe5f1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
          id="rect10978"
          width="65"
          height="35"
@@ -127,7 +127,7 @@
          height="35"
          width="65"
          id="rect10925"
-         style="opacity:0.12000002000000000;color:#000000;fill:#dbe5f1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         style="opacity:0.12000002;color:#000000;fill:#dbe5f1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
          transform="scale(1,-1)" />
     </g>
   </g>
