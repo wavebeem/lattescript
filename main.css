@@ -52,6 +52,17 @@ body {
     padding:  0px;
 }
 
+dt {
+    margin-top: 1em;
+    color: #647E99;
+    font-weight: bold;
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.90);
+}
+
+dd {
+    margin-left: 2em;
+}
+
 ul {
     padding-left: 2em;
     list-style-image: url(bullet.png);
@@ -143,7 +154,7 @@ ol {
 }
 
 #the_navbar .tab:hover {
-    color: #666;
+    color: #647E99;
     background-color: #fff;
     background-color: rgba(255, 255, 255, 0.60);
     border-color: #ccc;
@@ -183,7 +194,7 @@ h3,
 h1 *,
 h2 *,
 h3 * {
-    color: #666;
+    color: #647E99;
 
     font-weight: bold;
 
