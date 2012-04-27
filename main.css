@@ -32,14 +32,14 @@ html {
     */
 
     padding-top:    0px;
-    padding-left:   8px;
-    padding-right:  8px;
-    padding-bottom: 8px;
+    padding-left:   32px;
+    padding-right:  32px;
+    padding-bottom: 0px;
 }
 
 body {
     color:            #000;
-    background-color: #729fcf;
+    background-color: #dbe5f1;
     background-image: url(bg.png);
     background-repeat: repeat-x;
 
@@ -107,7 +107,7 @@ ol {
 #the_navbar .tab {
     font-weight: bold;
     text-decoration: none;
-    color: #aaa;
+    color: #888;
 
     padding-left:  12px;
     padding-right: 12px;
@@ -145,6 +145,7 @@ ol {
 #the_navbar .tab:hover {
     color: #666;
     background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.60);
     border-color: #ccc;
 }
 
@@ -216,9 +217,9 @@ h2,
     border-width: 1px;
     border-style: solid;
     border-top-color:    rgb(200, 200, 200);
-    border-left-color:   rgb(175, 175, 175);
-    border-right-color:  rgb(175, 175, 175);
-    border-bottom-color: rgb(150, 150, 150);
+    border-left-color:   rgb(185, 185, 185);
+    border-right-color:  rgb(185, 185, 185);
+    border-bottom-color: rgb(170, 170, 170);
 
     font-family: "Mono", monospace;
     font-size: 10pt;
@@ -253,11 +254,12 @@ h2,
 
 .textarea:disabled {
     background: #f4f4f4;
+    background: rgba(255, 255, 255, 0.50);
     color: #888;
-    border-top-color:    rgba(0, 0, 0, 0.15);
-    border-left-color:   rgba(0, 0, 0, 0.20);
-    border-right-color:  rgba(0, 0, 0, 0.20);
-    border-bottom-color: rgba(0, 0, 0, 0.30);
+    border-top-color:    rgba(0, 0, 0, 0.10);
+    border-left-color:   rgba(0, 0, 0, 0.15);
+    border-right-color:  rgba(0, 0, 0, 0.15);
+    border-bottom-color: rgba(0, 0, 0, 0.25);
 }
 
 .textarea a {
@@ -387,7 +389,7 @@ h3 code {
 
 #the_header,
 #the_bg {
-    border: 0px solid rgba(0, 0, 0, 0.50);
+    border: 0px solid rgba(0, 0, 0, 0.25);
 
     border-width: 1px;
     border-top-width: 0px;
@@ -410,9 +412,9 @@ h3 code {
     border-bottom-left-radius:  0px;
     border-bottom-right-radius: 0px;
 
-            box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.25), 0px 0px 4px 1px rgba(0, 0, 0, 0.20);
-    -webkit-box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.25), 0px 0px 4px 1px rgba(0, 0, 0, 0.20);
-       -moz-box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.25), 0px 0px 4px 1px rgba(0, 0, 0, 0.20);
+            box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.45), 0px 0px 4px 1px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.45), 0px 0px 4px 1px rgba(0, 0, 0, 0.15);
+       -moz-box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.45), 0px 0px 4px 1px rgba(0, 0, 0, 0.15);
 }
 
 #the_header {
