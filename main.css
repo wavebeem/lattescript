@@ -17,9 +17,32 @@ h3 {
 }
 
 code,
+pre {
+    padding: 4px;
+}
+
+tt,
 pre,
-tt {
+code {
     font-size: 10pt;
+
+    border: 1px solid #ddd;
+    background-color: #fff;
+
+    border: 1px solid rgba(  0,   0,   0, 0.15);
+    background-color: rgba(255, 255, 255, 0.75);;
+
+    border: 1px solid rgba(  0,   0,   0, 0.10);
+    background-color: rgba(209, 218, 230, 0.30);;
+}
+
+tt,
+code {
+    margin: 1px;
+    padding: 1px;
+    padding-left:  3px;
+    padding-right: 3px;
+    display: inline-block;
 }
 
 pre {
