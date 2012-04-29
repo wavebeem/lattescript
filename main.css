@@ -112,7 +112,7 @@ ol {
 #the_navbar * {
     height: 16px;
     padding-top:    4px;
-    padding-bottom: 2px;
+    padding-bottom: 0px;
 
     display: inline-block;
 }
@@ -137,11 +137,12 @@ ol {
     border-style: solid;
     border-color: transparent;
 
-    border-left-width:  1px;
-    border-right-width: 1px;
+    border-bottom-width: 3px;
+
+    border-left-width:  0px;
+    border-right-width: 0px;
 
     vertical-align: bottom;
-    border-width: 1px !important;
     margin-top:    1px;
     margin-bottom: 1px;
 
@@ -158,15 +159,12 @@ ol {
 #the_navbar .tab.active,
 #the_navbar .tab.active:hover {
     color: #000;
-    background-color: #fff;
-    border-color: #ccc;
+    border-color: #000;
 }
 
 #the_navbar .tab:hover {
     color: #647E99;
-    background-color: #fff;
-    background-color: rgba(255, 255, 255, 0.60);
-    border-color: #ccc;
+    border-color: #647E99;
 }
 
 #the_navbar .tab:hover,
@@ -569,7 +567,7 @@ h2 .resize_container * {
 .resizer:hover {
     cursor: pointer;
 
-    background: rgba(0, 0, 0, 0.10);
+    background: rgba(100, 126, 153, 0.20);
 }
 
 table.invisible * {
@@ -608,7 +606,7 @@ table.invisible th {
 }
 
 #the_copyright a:hover {
-    background: rgba(0, 0, 0, 0.10);
+    background: rgba(100, 126, 153, 0.20);
 }
 
 @media screen and (max-width: 480px) {
