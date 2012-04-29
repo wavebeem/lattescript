@@ -257,19 +257,21 @@ h2,
 
     outline: 0px solid transparent;
 
-    -webkit-transition-property: background-color, border-color;
-       -moz-transition-property: background-color, border-color;
-         -o-transition-property: background-color, border-color;
-            transition-property: background-color, border-color;
-    -webkit-transition-duration: 0.15s;
-       -moz-transition-duration: 0.15s;
-         -o-transition-duration: 0.15s;
-            transition-duration: 0.15s;
-
     /* Resize grips conflict with my internal resizing.
      * Easier to just delete them.
      */
     resize: none;
+}
+
+.animated-resize {
+    -webkit-transition-property: height;
+       -moz-transition-property: height;
+         -o-transition-property: height;
+            transition-property: height;
+    -webkit-transition-duration: 0.15s;
+       -moz-transition-duration: 0.15s;
+         -o-transition-duration: 0.15s;
+            transition-duration: 0.15s;
 }
 
 .textarea:disabled {

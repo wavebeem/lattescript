@@ -82,6 +82,11 @@ var latte = (function() {
         var defaults   = {the_code: defc,     the_term: deft};
         var resizables = {the_code: the_code, the_term: the_term};
 
+        setTimeout(function() {
+            the_code.className += " animated-resize";
+            the_term.className += " animated-resize";
+        }, 100);
+
         var max = Math.max;
         var smallest = 5;
 
