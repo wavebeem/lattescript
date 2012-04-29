@@ -19,7 +19,7 @@ h3 {
 code,
 pre,
 tt {
-    font-size: 10.5pt;
+    font-size: 10pt;
 }
 
 pre {
@@ -43,10 +43,10 @@ body {
     background-image: url(bg.png);
     background-repeat: repeat-x;
 
-    min-width: 460px;
+    min-width: 200px;
 
     font-family: sans-serif;
-    font-size: 10.5pt;
+    font-size: 9pt;
 
     margin:   0px;
     padding:  0px;
@@ -79,7 +79,7 @@ ol {
 #the_sidebar {
     float: left;
     width: 76px;
-    background: #666;
+    background: #fff;
     height: 100%;
     margin-right: 10px;
     display: block;
@@ -105,12 +105,14 @@ ol {
     margin-bottom: 0px;
 
     vertical-align: bottom;
+
+    font-size: 9pt;
 }
 
 #the_navbar * {
     height: 16px;
     padding-top:    4px;
-    padding-bottom: 4px;
+    padding-bottom: 2px;
 
     display: inline-block;
 }
@@ -120,8 +122,8 @@ ol {
     text-decoration: none;
     color: #888;
 
-    padding-left:  12px;
-    padding-right: 12px;
+    padding-left:  8px;
+    padding-right: 8px;
 
     margin-bottom: 0px;
     margin-top: 0px;
@@ -131,8 +133,12 @@ ol {
 
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
 
-    border-left:  1px solid transparent;
-    border-right: 1px solid transparent;
+    border-width: 0px;
+    border-style: solid;
+    border-color: transparent;
+
+    border-left-width:  1px;
+    border-right-width: 1px;
 
     vertical-align: bottom;
 
@@ -182,7 +188,7 @@ h1 *,
 h2 *,
 .label {
     text-align: center;
-    font-size: 30pt;
+    font-size: 20pt;
 
     padding-top:     0px;
     padding-bottom:  0px;
@@ -209,13 +215,13 @@ h1 * {
 }
 
 h3 {
-    font-size: 11pt;
+    font-size: 10pt;
 }
 
 h2,
 .label {
     text-align: left;
-    font-size: 14pt;
+    font-size: 11pt;
 
     padding: 0px;
     margin-top: 15px;
@@ -326,7 +332,7 @@ h3 code {
        -moz-box-shadow: inset 0px 2px 0px -1px rgba(255, 255, 255, 0.30), 0px 2px 2px  0px rgba(0, 0, 0, 0.10);
             box-shadow: inset 0px 2px 0px -1px rgba(255, 255, 255, 0.30), 0px 2px 2px  0px rgba(0, 0, 0, 0.10);
 
-    font-size: 11pt;
+    font-size: 10pt;
 
     margin: 0px !important;
     margin-top: 10px !important;
@@ -493,7 +499,7 @@ h3 code {
 #the_text {
     max-width: 1024px;
 
-    font-size: 12pt;
+    font-size: 11pt;
 
     margin: auto;
 
@@ -600,7 +606,16 @@ table.invisible th {
     background: rgba(0, 0, 0, 0.10);
 }
 
-@media screen and (max-width: 400px) {
-#the_bg {
+@media screen and (max-width: 480px) {
+#the_navbar {
+    margin-top:    4px;
+    margin-bottom: 4px;
+}
+
+#the_navbar .tab {
+    border-width: 1px !important;
+    font-size: 8pt;
+    margin-top:    1px;
+    margin-bottom: 1px;
 }
 }
