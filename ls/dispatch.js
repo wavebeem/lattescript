@@ -446,12 +446,6 @@ function call_sub(sub_type, node, args, c) {
     // Bind the arguments passed in to the procedure call to the names
     // specified in the argument list in the function definition.
     bind_args_to_sub(bound_sub, node, args, 0, function() {
-        // Insert the "with" variables into the vars mapping,
-        // but leave them "undefind" by mapping them to null.
-        for (var i = 0; i < node.vars.length; i++) {
-            bound_sub.vars[node.vars[i]] = {type: "NOTHING"};
-        }
-
         call_stack.push(bound_sub);
         debug("PUSHING", node.name, "ONTO CALL STACK");
         if (sub_type === "FUNC") {
