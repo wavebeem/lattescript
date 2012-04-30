@@ -34,6 +34,11 @@ code {
 
     border: 1px solid rgba(  0,   0,   0, 0.10);
     background-color: rgba(209, 218, 230, 0.30);;
+
+    border-top-color:    rgba(0, 0, 0, 0.05);
+    border-left-color:   rgba(0, 0, 0, 0.10);
+    border-right-color:  rgba(0, 0, 0, 0.10);
+    border-bottom-color: rgba(0, 0, 0, 0.15);
 }
 
 tt,
@@ -257,10 +262,16 @@ h2,
 
     border-width: 1px;
     border-style: solid;
+
     border-top-color:    rgb(200, 200, 200);
     border-left-color:   rgb(185, 185, 185);
     border-right-color:  rgb(185, 185, 185);
     border-bottom-color: rgb(170, 170, 170);
+
+    border-top-color:    rgba(0, 0, 0, 0.15);
+    border-left-color:   rgba(0, 0, 0, 0.20);
+    border-right-color:  rgba(0, 0, 0, 0.20);
+    border-bottom-color: rgba(0, 0, 0, 0.30);
 
     font-family: "Mono", monospace;
     font-size: 10pt;
@@ -276,6 +287,15 @@ h2,
 
     border-radius: 0px !important;
 
+    -webkit-transition-property: background-color;
+       -moz-transition-property: background-color;
+         -o-transition-property: background-color;
+            transition-property: background-color;
+    -webkit-transition-duration: 0.15s;
+       -moz-transition-duration: 0.15s;
+         -o-transition-duration: 0.15s;
+            transition-duration: 0.15s;
+
     outline: 0px solid transparent;
 
     /* Resize grips conflict with my internal resizing.
@@ -285,14 +305,10 @@ h2,
 }
 
 .animated-resize {
-    -webkit-transition-property: height;
-       -moz-transition-property: height;
-         -o-transition-property: height;
-            transition-property: height;
-    -webkit-transition-duration: 0.15s;
-       -moz-transition-duration: 0.15s;
-         -o-transition-duration: 0.15s;
-            transition-duration: 0.15s;
+    -webkit-transition-property: background-color, height;
+       -moz-transition-property: background-color, height;
+         -o-transition-property: background-color, height;
+            transition-property: background-color, height;
 }
 
 .textarea:disabled {
