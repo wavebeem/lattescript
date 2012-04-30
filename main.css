@@ -358,11 +358,10 @@ h3 code {
     border-style: solid;
     background-color: #ada;
 
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.10)), to(rgba(0, 0, 0, 0.10)));
-    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
-    background-image:    -moz-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
-    background-image:     -ms-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
-    background-image:      -o-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image: -webkit-linear-gradient(top,       rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image:    -moz-linear-gradient(top,       rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image:     -ms-linear-gradient(top,       rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image:      -o-linear-gradient(top,       rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
     background-image:         linear-gradient(to bottom, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
 
     border-color: #888;
