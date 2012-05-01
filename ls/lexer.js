@@ -65,8 +65,9 @@ function this_line() {
 
 function get_token() {
     var token = lexer.tokens.shift();
-    lexer.yytext = token.yytext;
-    lexer.yyloc  = token.yyloc;
+    lexer.yytext  = token.yytext;
+    lexer.yyloc   = token.yyloc;
+    lexer.yylloc  = token.yyloc;
     lexer.token_history.push(token);
     //debug("TOKENS =", lexer.tokens);
     //debug("TOKEN HISTORY =\n", lexer.token_history);
@@ -113,6 +114,7 @@ function set_input(str) {
         last_line:    0,
         last_column:  0
     };
+    lexer.yylloc = lexer.yyloc;
     // Starts at 0 because I insert an artificial newline at the beginning.
     lexer.yylineno = -1;
     lexer.lineno = 0;

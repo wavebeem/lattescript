@@ -135,11 +135,11 @@ block_statement
 
 statement
 : single_statement newline
-{ $$ = $1; $$.lineno = yylineno; }
+{ $$ = $1; $$.lineno = @$.first_line; }
 | block_statement
-{ $$ = $1; $$.lineno = yylineno; }
+{ $$ = $1; $$.lineno = @$.first_line; }
 | newline
-{ $$ = {type: "NOOP", lineno: yylineno }; }
+{ $$ = {type: "NOOP", lineno: @$.first_line }; }
 ;
 
 single_statement
