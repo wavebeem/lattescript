@@ -358,13 +358,13 @@ h3 code {
     border-style: solid;
     background-color: #ada;
 
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.10)), to(rgba(0, 0, 0, 0.10)));
-    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
-    background-image:    -moz-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
-    background-image:     -ms-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
-    background-image:      -o-linear-gradient(top, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image: -webkit-linear-gradient(top,       rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image:    -moz-linear-gradient(top,       rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image:     -ms-linear-gradient(top,       rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
+    background-image:      -o-linear-gradient(top,       rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
     background-image:         linear-gradient(to bottom, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0.10));
 
+    border-color: #888;
     border-bottom-color: rgba(0, 0, 0, 0.40);
     border-top-color:    rgba(0, 0, 0, 0.10);
     border-left-color:   rgba(0, 0, 0, 0.20);
@@ -448,6 +448,7 @@ h3 code {
 
 #the_header,
 #the_bg {
+    border: 0px solid #888;
     border: 0px solid rgba(0, 0, 0, 0.25);
 
     border-width: 1px;
@@ -480,12 +481,11 @@ h3 code {
     border-width: 1px;
     border-top-width: 0px;
     border-bottom-width: 1px;
-    border-bottom-color: #999;
     border-bottom-color: rgba(0, 0, 0, 0.25);
     padding-top: 0px;
     margin-left:  -10px;
     margin-right: -10px;
-    background: #666;
+    background: #fff;
     background: rgba(255, 255, 255, 0.60);
 
     border-left-width:  0px;
