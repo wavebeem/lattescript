@@ -48,6 +48,39 @@ var latte = (function() {
         }
     };
 
+    var select_line = function(lineno) {
+        the_code.focus();
+
+        var begin = 0;
+        var end = 0;
+        var code = get_code() + "\n";
+        var i = 0;
+        var j = 0;
+
+        while (begin < lineno) {
+            j = i;
+            i = code.indexOf("\n", i + 1);
+            if (i >= 0)
+                begin++;
+        }
+
+        begin = j + 1;
+        end = code.indexOf("\n", begin);
+
+        // Good browser
+        if (the_code.setSelectionRange) {
+            the_code.setSelectionRange(begin, end);
+        }
+        // Bad browser
+        else {
+            var r = the_code.createTextRange();
+            r.collapse(true);
+            r.moveEnd('character', end);
+            r.moveStart('character', begin);
+            r.select();
+        }
+    };
+
     var save = function() {
         if (window.localStorage) {
             var loc = window.localStorage;
@@ -147,7 +180,7 @@ var latte = (function() {
 
             var el = document.createElement("div");
             var link = document.createElement("a");
-            link.href = "javascript:void(0);";
+            link.href = "javascript:latte.select_line(" + line + ");";
             link.innerText   = "line " + line;
             link.textContent = "line " + line;
 
@@ -327,6 +360,7 @@ var latte = (function() {
         show_stack_trace: show_stack_trace,
         enable_submit: enable_submit,
         clear_output: clear_output,
+        select_line: select_line,
         focus_input: focus_input,
         blink_input: blink_input,
         blink_stack: blink_stack,
