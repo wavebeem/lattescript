@@ -78,12 +78,21 @@ block
 
 until_statement
 : until expr newline block
-{ $$ = {type: "UNTIL", condition: $expr, statements: $block}; }
+{ $$ = {
+    type: "UNTIL",
+    condition: $expr,
+    statements: $block};
+}
 ;
 
 while_statement
 : while expr newline block
-{ $$ = {type: "WHILE", condition: $expr, statements: $block}; }
+{ $$ = {
+    type: "WHILE",
+    condition: $expr,
+    statements: $block,
+    lineno: @$.first_line};
+}
 ;
 
 forrange_statement
@@ -101,12 +110,24 @@ forrange_statement
 
 for_helper
 : for id from expr to expr
-{ $$ = {type: "FOR_RANGE", "var": $id, from: $expr1, to: $expr2}; }
+{ $$ = {
+    type: "FOR_RANGE",
+    "var": $id,
+    from: $expr1,
+    to: $expr2,
+    lineno: @$.first_line};
+}
 ;
 
 foreach_statement
 : for id in expr newline block
-{ $$ = {type: "FOR_EACH", "var": $id, list: $expr, statements: $block}; }
+{ $$ = {
+    type: "FOR_EACH",
+    "var": $id,
+    list: $expr,
+    statements: $block,
+    lineno: @$.first_line};
+}
 ;
 
 if_statement
@@ -117,7 +138,7 @@ if_statement
 
 if_helper
 : if expr newline block
-{ $$ = {type: "IF", condition: $expr, body: $block}; }
+{ $$ = {type: "IF", condition: $expr, body: $block, lineno: @$.first_line}; }
 ;
 
 statements

@@ -3,6 +3,7 @@ var exports = {};
 var dispatch = {};
 var procs = {};
 var funcs = {};
+var the_lineno = 1;
 
 var debug = ls.helpers.debug;
 var error = ls.helpers.error;
@@ -131,7 +132,15 @@ var call_stack = (function() {
 
     function clear() { stack = [] }
 
+    function set_lineno(lineno) {
+        if (stack.length < 1)
+            the_lineno = lineno
+        else
+            peek().lineno = lineno;
+    }
+
     return {
+        set_lineno: set_lineno,
         get_var: get_var,
         set_var: set_var,
         trace:   trace,
@@ -485,7 +494,6 @@ function do_bound_func(bound_func, i, c) {
     // If we still have instructions to run
     if (0 <= i && i < bound_func.body.length) {
         var node = bound_func.body[i];
-        call_stack.peek().lineno = node.lineno;
         run(node, function() {
             do_bound_func(bound_func, i + 1, c);
         });
@@ -504,7 +512,6 @@ function do_bound_proc(bound_proc, i, c) {
     // If we still have instructions to run
     if (0 <= i && i < bound_proc.body.length) {
         var node = bound_proc.body[i];
-        call_stack.peek().lineno = node.lineno;
         run(node, function() {
             do_bound_proc(bound_proc, i + 1, c);
         });
@@ -681,7 +688,6 @@ dispatch.AST = function(node, c) {
 var main_helper = function main_helper(statements, c) {
     if (statements.length > 0) {
         var state = statements[0];
-        the_lineno = state.lineno;
         run(state, function() {
             main_helper(statements.slice(1), c);
         });
@@ -697,6 +703,10 @@ dispatch.NOOP = function(node, c) {
 
 function run(node, c) {
     //debug("RUN!", node.type);
+    if (node !== undefined && node.lineno !== undefined) {
+        call_stack.set_lineno(node.lineno);
+    }
+
     if (node && dispatch[node.type]) {
         do_later(function() {
             dispatch[node.type](node, c);
