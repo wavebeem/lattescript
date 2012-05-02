@@ -51,9 +51,18 @@ case 19: this.$ = {
 break;
 case 20: this.$ = $$[$0-1]; 
 break;
-case 21: this.$ = {type: "UNTIL", condition: $$[$0-2], statements: $$[$0]}; 
+case 21: this.$ = {
+    type: "UNTIL",
+    condition: $$[$0-2],
+    statements: $$[$0]};
+
 break;
-case 22: this.$ = {type: "WHILE", condition: $$[$0-2], statements: $$[$0]}; 
+case 22: this.$ = {
+    type: "WHILE",
+    condition: $$[$0-2],
+    statements: $$[$0],
+    lineno: this._$.first_line};
+
 break;
 case 23: this.$.by = $$[$0-2];
   this.$.statements = $$[$0];
@@ -63,15 +72,27 @@ case 24: this.$.by = {type: "NUM", value: 1};
   this.$.statements = $$[$0];
 
 break;
-case 25: this.$ = {type: "FOR_RANGE", "var": $$[$0-4], from: $$[$0-2], to: $$[$0]}; 
+case 25: this.$ = {
+    type: "FOR_RANGE",
+    "var": $$[$0-4],
+    from: $$[$0-2],
+    to: $$[$0],
+    lineno: this._$.first_line};
+
 break;
-case 26: this.$ = {type: "FOR_EACH", "var": $$[$0-4], list: $$[$0-2], statements: $$[$0]}; 
+case 26: this.$ = {
+    type: "FOR_EACH",
+    "var": $$[$0-4],
+    list: $$[$0-2],
+    statements: $$[$0],
+    lineno: this._$.first_line};
+
 break;
 case 27: this.$["else"] = $$[$0]; 
 break;
 case 28: this.$["else"] = {type: "BLOCK", body: $$[$0]}; 
 break;
-case 30: this.$ = {type: "IF", condition: $$[$0-2], body: $$[$0]}; 
+case 30: this.$ = {type: "IF", condition: $$[$0-2], body: $$[$0], lineno: this._$.first_line}; 
 break;
 case 31: this.$.push($$[$0]); 
 break;
