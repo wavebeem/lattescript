@@ -2,12 +2,21 @@ ls.latte = (function(code) {
 var debug = ls.helpers.debug;
 var main  = ls.dispatch.main;
 var run   = ls.dispatch.run;
-var error = ls.helpers.error;
+
+function error(err, lineno) {
+    var msg = "Error: " + err;
+    latte.print(msg);
+    latte.show_stack_trace([{line: lineno}]);
+    latte.finish();
+    throw new Error(msg);
+}
+
 parser.lexer = ls.lexer;
 parser.yy.parseError = function(err, hash) {
-    debug("err =", err);
-    debug("hash =", hash);
-    error(err);
+    var lineno = hash.line + 1;
+    console.log("err =", err);
+    console.log("lineno =", lineno);
+    error(err, lineno);
 };
 
 var noop = function(){};
