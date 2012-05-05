@@ -167,11 +167,13 @@ function keyword_pattern(type, word) {
 }
 
 function unescape(str) {
-    return (str
-        .replace(/\\n/g,  "\n")
-        .replace(/\\"/g,  "\"")
-        .replace(/\\\\/g, "\\")
-    );
+    return str.replace(/\\./g, function(meta) {
+        ch = meta[1];
+        if (ch === "\\") return "\\";
+        if (ch === "\"") return "\"";
+        if (ch === "n" ) return "\n";
+        return ch;
+    });
 }
 
 function get_loc() {
