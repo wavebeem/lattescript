@@ -37,6 +37,11 @@ Writes <tt>txt</tt> to the output area, followed by a newline.
 Writes <tt>txt</tt> to the output area, and does <em>not</em> add a newline.
 </dd>
 
+<dt><code>procedure clear</code></dt>
+<dd>
+Removes all text from the output window.
+</dd>
+
 <dt><code>procedure append list, item</code></dt>
 <dd>
 Adds <tt>item</tt> to the end of <tt>list</tt>.
@@ -76,6 +81,11 @@ Returns <tt>true</tt> unless <tt>x</tt> is <tt>NaN</tt>.
 <dd>
 Returns the number corresponding to <tt>x</tt>. For example, <tt>number("3.14") = 3.14</tt>.
 Returns <tt>NaN</tt> if the text does not look like a number.
+</dd>
+
+<dt><code>function random(x, y)</code></dt>
+<dd>
+Returns a random number in the between <tt>x</tt> and <tt>y</tt>, inclusive on both ends.
 </dd>
 </dl>
 </div>

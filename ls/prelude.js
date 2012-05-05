@@ -12,13 +12,18 @@ ls.dispatch.define("PROC", "print", ["str"], function(c) {
     do_later(c);
 });
 
-ls.dispatch.define("PROC", "write", ["str"], function (c) {
+ls.dispatch.define("PROC", "write", ["str"], function(c) {
     var str = get_var("str");
     latte.write(helpers.textify(str));
     do_later(c);
 });
 
-ls.dispatch.define("PROC", "append", ["list", "item"], function (c) {
+ls.dispatch.define("PROC", "clear", [], function(c) {
+    latte.clear_output();
+    do_later(c);
+});
+
+ls.dispatch.define("PROC", "append", ["list", "item"], function(c) {
     var list = get_var("list");
     var item = get_var("item");
     debug("APPENDING WITH LIST =", list, "ITEM =", item);
@@ -41,6 +46,21 @@ var func_maker = function(args) {
         }
         else {
             helpers.error("Can't apply", args.name, "to a", x.type);
+        }
+    });
+};
+
+var bin_func_maker = function(args) {
+    ls.dispatch.define("FUNC", args.name, ["x", "y"], function(c) {
+        var x = get_var("x");
+        var y = get_var("y");
+        if (x.type === args.x_type && args.y_type) {
+            var val = {type: args.out_type, value: args.func(x.value, y.value)};
+            var ret = {type: "RETURN", value: val}
+            run(ret, c);
+        }
+        else {
+            helpers.error("Can't apply", args.name, "to a", x.type, "and a", y.type);
         }
     });
 };
@@ -90,6 +110,15 @@ func_maker({name: "numeric",
     out_type: "BOOL",
     func: function(x) {
         return !isNaN(x);
+    }
+});
+
+bin_func_maker({name: "random",
+    x_type: "NUM",
+    y_type: "NUM",
+    out_type: "NUM",
+    func: function(x, y) {
+        return 0 | (Math.random() * y + x);
     }
 });
 });

@@ -236,7 +236,7 @@ patterns = [
 
     spaced_pattern("COMMA", /(,)/),
 
-    {pattern: /^(\s*)"((?:\\\\|\\"|[^\\"\r\n])*?)"/, func: function(matches) {
+    {pattern: /^(\s*)"((?:\\\\|\\"|\\n|[^\\"\r\n])*?)"/, func: function(matches) {
         var ws  = matches[1];
         var str = matches[2];
         emit("TEXT", unescape(str));
