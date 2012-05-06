@@ -145,6 +145,12 @@ ol {
     display: inline-block;
 }
 
+#the_navbar img {
+    padding-bottom: 3px;
+    padding-right:  0.5em;
+    padding-left:   0.5em;
+}
+
 #the_navbar .tab {
     font-weight: bold;
     text-decoration: none;
@@ -238,9 +244,17 @@ h3 * {
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.50);
 }
 
-h1,
-h1 * {
-    color: #888;
+h1 {
+    margin-top: 0.5em;
+    margin-bottom: -12px;
+    vertical-align: middle;
+    font-size: 26px;
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 1.00);
+}
+
+h1 img {
+    vertical-align: middle;
+    margin-bottom: 0.25em;
 }
 
 h3 {
