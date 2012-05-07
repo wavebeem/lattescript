@@ -32,18 +32,8 @@
 For starters, here is a Hello World program.
 </p>
 <pre>
-procedure main
-    print "Hello, World!"
+print "Hello, World!"
 </pre>
-<p>
-A few things are worth noting here:
-<ul>
-    <li><tt>main</tt> takes no arguments.</li>
-    <li><tt>print</tt> automatically appends a newline.</li>
-    <li>Indentation is mandatory.</li>
-    <li>All programs must define a <tt>main</tt> procedure.
-</ul>
-</p>
 
 <h3>Program Structure</h3>
 <p>
@@ -54,7 +44,6 @@ A subroutine definition is either a function definition or a procedure definitio
 
 A procedure definition looks like this:
 <pre>procedure name arg1, arg2, arg3
-with var1, var2, var3
     print "hello procedure"
 </pre>
 </p>
@@ -66,7 +55,6 @@ A procedure definition has the following parts, in order:
     <li><em>the procedure name</em></li>
     <li>(optional) a comma separated list of arguments.</li>
     <li>a newline</li>
-    <li>(optional) the word <tt>with</tt> and a comma separated list of local variables, followed by a newline.</li>
     <li>an indented code block.</tt>
 </ol>
 </p>
@@ -74,7 +62,6 @@ A procedure definition has the following parts, in order:
 <p>
 A function definition looks similar:
 <pre>function name(arg1, arg2, arg3)
-with var1, var2, var3
     print "hello function"
     return 123
 </pre>
@@ -106,14 +93,14 @@ procedure speak
 
 <p>
 A complete LatteScript program is just a list of procedures and functions,
-as seen above, but also including a <tt>main</tt> procedure.
+as seen above, and additionl code statements to execute.
 </p>
 
 <h3>Variables</h3>
 <p>
-Variables are always scoped at the subroutine level.
-Variables must be declared using a <tt>with</tt> clause on its associated
-subroutine before use. Uninitialized variables hold the value <tt>nothing</tt>.
+Variables defined outside subroutines are global, and can be assigned
+from within subroutines. Variables defind inside subroutines are local
+to their subroutines. Parameters cannot be assigned.
 </p>
 
 <h3>Identifiers</h3>
