@@ -26,226 +26,331 @@
     </div>
 <div id="the_text">
 
-<h2>Language Guide</h2>
-<h3>Hello, World!</h3>
-<p>
-For starters, here is a Hello World program.
-</p>
-<pre>
-print "Hello, World!"
-</pre>
+<p>LatteScript does not currently have a tutorial, but the following code samples should be helpful for learning LatteScript if you already know how to program.</p>
 
-<h3>Program Structure</h3>
-<p>
-A LatteScript program is simply a list of subroutine definitions,
-including a definition for the procedure <tt>main</tt>.
-So what constitutes a subroutine definition?
-A subroutine definition is either a function definition or a procedure definition.
+<h2>bst-2xalpha.latte</h2>
+<pre>procedure insert node, item
+  if node = nothing
+    pass
+  else
+    if item &lt; node@1
+      if node@2 = nothing
+        node@2 := [item, nothing, nothing]
+      else
+        insert node@2, item
+    else
+      if node@3 = nothing
+        node@3 := [item, nothing, nothing]
+      else
+        insert node@3, item
 
-A procedure definition looks like this:
-<pre>procedure name arg1, arg2, arg3
-    print "hello procedure"
-</pre>
-</p>
+procedure walk node
+  if node = nothing
+    pass
+  else
+    walk  node@2
+    print node@1
+    walk  node@3
 
-<p>
-A procedure definition has the following parts, in order:
-<ol>
-    <li><tt>procedure</tt></li>
-    <li><em>the procedure name</em></li>
-    <li>(optional) a comma separated list of arguments.</li>
-    <li>a newline</li>
-    <li>an indented code block.</tt>
-</ol>
-</p>
+procedure show node
+  if node = nothing
+    pass
+  else
+    write "("
+    write node@1
+    if node@2 = nothing
+      pass
+    else
+      write " L:"
+      show  node@2
+    if node@3 = nothing
+      pass
+    else
+      write " R:"
+      show  node@3
+    write ")"
 
-<p>
-A function definition looks similar:
-<pre>function name(arg1, arg2, arg3)
-    print "hello function"
-    return 123
-</pre>
-</p>
+root  := ["l", nothing, nothing]
+items := "abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+for item in items
+  insert root, item
+walk  root
+print ""
+print "Tree:"
+print root
+print "TREE:"
+show root</pre>
+<h2>bst-input.latte</h2>
+<pre>procedure insert node, item
+  if node = nothing
+    pass
+  else
+    if item &lt; node@1
+      if node@2 = nothing
+        node@2 := [item, nothing, nothing]
+      else
+        insert node@2, item
+    else
+      if node@3 = nothing
+        node@3 := [item, nothing, nothing]
+      else
+        insert node@3, item
+        
+procedure walk node
+  if node = nothing
+    pass
+  else
+    walk  node@2
+    print node@1
+    walk  node@3
 
-<p>
-Nullary functions still require parentheses. For example:
-<pre>function f()
-    return g()
+procedure show node
+  if node = nothing
+    pass
+  else
+    write "("
+    write node@1
+    if node@2 = nothing
+      pass
+    else
+      write " L:"
+      show  node@2
+    if node@3 = nothing
+      pass
+    else
+      write " R:"
+      show  node@3
+    write ")"
 
-function g()
-    return 4
-</pre>
-</p>
+item := read
+root := ["m", nothing, nothing]
+until item = "quit"
+  insert root, item
+  item := read
+walk  root
+print ""
+print "Tree:"
+print root
+print "TREE:"
+show root</pre>
+<h2>bst.latte</h2>
+<pre>procedure insert node, item
+  if node = nothing
+    pass
+  else
+    if item &lt; node@1
+      if node@2 = nothing
+        node@2 := [item, nothing, nothing]
+      else
+        insert node@2, item
+    else
+      if node@3 = nothing
+        node@3 := [item, nothing, nothing]
+      else
+        insert node@3, item
+        
+procedure walk node
+  if node = nothing
+    pass
+  else
+    walk  node@2
+    print node@1
+    walk  node@3
 
-<p>
-Procedures never use parentheses. For example:
+root  := [30, nothing, nothing]
+items := [4, 78, 2, 3, 56, -1, 3]
+for item in items
+  insert root, item
+walk  root
+print ""
+print "Tree:"
+print root</pre>
+<h2>bst-plus.latte</h2>
+<pre>procedure insert node, item
+  if node = nothing
+    pass
+  else
+    if item &lt; node@1
+      if node@2 = nothing
+        node@2 := [item, nothing, nothing]
+      else
+        insert node@2, item
+    else
+      if node@3 = nothing
+        node@3 := [item, nothing, nothing]
+      else
+        insert node@3, item
+
+procedure walk node
+  if node = nothing
+    pass
+  else
+    walk  node@2
+    print node@1
+    walk  node@3
+
+procedure show node
+  if node = nothing
+    pass
+  else
+    write "("
+    write node@1
+    if node@2 = nothing
+      pass
+    else
+      write " L:"
+      show  node@2
+    if node@3 = nothing
+      pass
+    else
+      write " R:"
+      show  node@3
+    write ")"
+
+root  := ["j", nothing, nothing]
+items := ["a", "z", "x", "c", "b"]
+for item in items
+  insert root, item
+walk  root
+print ""
+print "Tree:"
+print root
+print "TREE:"
+show root</pre>
+<h2>bubble-sort.latte</h2>
+<pre>procedure bubble_sort xs
+  swapped := true
+  while swapped
+    swapped := false
+    for i from 2 to #xs
+      if xs@(i - 1) &gt; xs@i
+        swap xs, i - 1, i
+        swapped := true
+
+procedure swap xs, i, j
+  temp := xs@i
+  xs@i := xs@j
+  xs@j := temp
+
+xs := [3, 4, 5, 1, 2]
+bubble_sort xs
+print xs</pre>
+<h2>deep-stack-trace.latte</h2>
 <pre>procedure p x
-    q "foo", x
+  if x &gt; 200
+    print x + ""
+  print "p " ~ x
+  q x + 1
 
-procedure q a, b
-    print a ~ " " ~ b
-    speak
+procedure q x
+ print "q " ~ x
+ p x + 1
 
-procedure speak
-    print "hello"
-</pre>
-</p>
+for n from 1 to 10
+ print n
+p 1</pre>
+<h2>divmod.latte</h2>
+<pre>print 3/4
+print (3 div 4)
+print 5/4
+print 5 div 4
+print 5 mod 4
+print 720 mod 360
+print -1 mod 5
+print 0.5 mod 0.75</pre>
+<h2>fun-printer.latte</h2>
+<pre>words := ["foobar", "buzz bar", "barz bar"]
+for word in words
+  for char in word
+    write char ~ " "
+    char := read
+write "\n"</pre>
+<h2>infinite-mutual-recursion.latte</h2>
+<pre>procedure p x
+  print "p " ~ x
+  q x + 1
 
-<p>
-A complete LatteScript program is just a list of procedures and functions,
-as seen above, and additionl code statements to execute.
-</p>
+procedure q x
+ print "q " ~ x
+ p x + 1
 
-<h3>Variables</h3>
-<p>
-Variables defined outside subroutines are global, and can be assigned
-from within subroutines. Variables defind inside subroutines are local
-to their subroutines. Parameters cannot be assigned.
-</p>
+p 1</pre>
+<h2>nihon.latte</h2>
+<pre>h := 30
+k := 20
+r := 15
+for y from 1 to k div 4 + r
+  for x from 1 to h + 2*r
+    if ((x - h)^2 + ((2*y) - k)^2) &gt; r^2
+      write "."
+    else
+      write "#"
+  print ""</pre>
+<h2>not.latte</h2>
+<pre>print not(1 &gt; 4)
+print not(false)
+print not(true)
+print not(4)</pre>
+<h2>read-loop.latte</h2>
+<pre>for i from 1 to 4
+  print "#" ~ i ~ ": " ~ read</pre>
+<h2>sierpinski.latte</h2>
+<pre>lines := 40
+cols  := 70
+bg    := "."
+pixel := "#"
+point := [cols div 2, lines div 2]
+steps := 4000
 
-<h3>Identifiers</h3>
-<p>
-Variables, functions, and procedures all have separate namespaces,
-so one single identifier can have three different meanings depending on how it is used.
+; Returns the midpoint of p1 and p2
+function midpoint(p1, p2)
+  x1 := p1@1
+  y1 := p1@2
+  x2 := p2@1
+  y2 := p2@2
 
-All identifiers are case sensitive. Identifiers start with underscore or
-an alphabetic character, and are followed by as many alphanumeric characters
-or underscores as you like.
-</p>
+  xm := (x1 + x2) div 2
+  ym := (y1 + y2) div 2
 
-<h3>Comments</h3>
-<p>
-Any line beginning with zero or more spaces and a semicolon (<tt>;</tt>) is ignored.
-</p>
+  return [xm, ym]
 
-<h3>Blocks</h3>
-<p>
-Blocks are consistently-indented consecutive code statements.
-Any amount of spacing is supported, so long as the indentation is greater than
-its parent indentation. The only legal indentation character is space.
-Literal tab characters are always a syntax error.
-</p>
+vertices := []
+append vertices, [cols div 2, 1]
+append vertices, [1, lines]
+append vertices, [cols, lines]
 
-<h3>Decision Constructs</h3>
-<p>
-Conditional code is implemented using the familiar <tt>if</tt> construct. Example:
-<pre>
-if x &lt; 0
-    print "negative"
-else if x &lt; 10
-    print "single digit"
-else if x &lt; 100
-    print "double digit"
-else
-    print "too big"
-</pre>
-</p>
+print "Initializing screen, please wait..."
+print ""
+screen := []
+for m from 1 to lines
+  line := []
+  for n from 1 to cols
+    append line, bg
+  append screen, line
 
-<p>
-The only mandatory part of an <tt>if</tt> construct is the <tt>if</tt> part.
-All <tt>else if</tt> and <tt>else</tt> branches are optional.
-</p>
+; Printing during this loop makes it slower,
+; but otherwise it might seem like LatteScript froze.
+for n from 1 to steps
+  vertex := vertices@random(1, 3)
+  point  := midpoint(vertex, point)
+  screen@(point@2)@(point@1) := pixel
+  print "Step #" ~ n ~ " of " ~ steps
 
-<h3>Looping Constructs</h3>
-<p>
-There are four looping constructs. First, there are the <tt>while</tt>
-and <tt>until</tt> loops. These loops test their conditions before executing.
-<tt>while</tt> executes its body <em>while</em> the expression is true, and <tt>until</tt>
-executes its expression <em>until</em> the expression is true. For example:
-<pre>
-n := 1
-while n &lt; 10
-    print "Zzz... " ~ n ~ " sheep counted so far."
-    n := n + 1
+clear
 
-n := 10
-until n = 0
-    print n
-    n := n - 1
-
-print "Blast-off!"
-</pre>
-</p>
-
-<p>
-The other two looping constructs are the two <tt>for</tt> loops,
-referred to as <em>for each</em> and <em>for range</em>.
-These loops both take a variable which assumes multiple values
-over the course of the loop. The following is an example of printing
-the numbers 1, 2, 3 in order using both types of <tt>for</tt> loops:
-<pre>
-for n from 1 to 3
-    print n
-
-for n in [1, 2, 3]
-    print n
-</pre>
-</p>
-
-<p>
-The for each version of the loop also works on text objects,
-giving back one character at a time. The for range loop can also use a <tt>by</tt>
-clause to modify the step size, such as in the following example, which prints 10, 20, and 30:
-<pre>
-for n from 10 to 30 by 10
-    print n
-</pre>
-</p>
-
-<h3>Assignment</h3>
-<p>Variables can be assigned using the symbol <tt>:=</tt></p>
-<p>You can also assign to list access, like <tt>items@n := x</tt></p>
-
-<h3>Lists</h3>
-<p>
-Lists are dynamic arrays, like JavaScript's <tt>Array</tt>
-and Java's <tt>ArrayList</tt>. Lists are created using brackets and commas,
-such as <tt>[1, 2, 3]</tt>, <tt>[]</tt>, or <tt>[[1, 2], [3, 4]]</tt>.
-Lists are indexed starting at one and using the <tt>@</tt> symbol.
-The prefix operator <tt>#</tt> returns the length of a list.
-The built-in procedure <tt>append</tt> can be used to append a value to a list.
-Example:
-<pre>
-nums := []
-for n from 7 to 9
-    append nums, n
-; nums = [7, 8, 9]
-
-; prints 7, 8, 9
-for n from 1 to #nums
-    print nums@n
-
-for n from 1 to #nums
-    nums@n := "foo"
-; nums = ["foo", "foo", "foo"]
-
-; prints foo foo foo
-for n in nums
-    print n
-</pre>
-</p>
-
-<h3>Expressions</h3>
-<p>
-The following operators are included:
-<tt>+</tt>
-<tt>-</tt>
-<tt>*</tt>
-<tt>/</tt>
-<tt>^</tt>
-<tt>@</tt>
-<tt>~</tt>
-<tt>&lt;</tt>
-<tt>&gt;</tt>
-<tt>&lt;=</tt>
-<tt>&gt;=</tt>
-<tt>div</tt>
-<tt>mod</tt>
-<tt>and</tt>
-<tt>or</tt>.
-</ul>
-</div>
-</p>
+for line in screen
+  for char in line
+    write char
+  print ""</pre>
+<h2>triangle.latte</h2>
+<pre>size := 30
+for m from 1 to 2 * size by 2
+  q := (2 * size - m) div 2
+  for n from 1 to q
+    write " "
+  for n from 1 to m
+    write "*"
+  print ""</pre>
 
 <div class="footer" id="the_copyright">
     Copyright &copy;
