@@ -1,5 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -e
 rm -rf build
 mkdir build
-cp -r * build
+cp -r *.* build
 s3cmd sync --acl-public --no-progress build/ s3://mockbrian.com/lattescript/
