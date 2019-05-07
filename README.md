@@ -1,1 +1,1 @@
-# Please visit the [LatteScript home page](http://mockbrian.com/lattescript/).
+### <https://lattescript.netlify.com>
