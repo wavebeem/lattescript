@@ -1,1 +1,1 @@
-### <https://lattescript.netlify.com>
+### <https://lattescript.wavebeem.com/>
